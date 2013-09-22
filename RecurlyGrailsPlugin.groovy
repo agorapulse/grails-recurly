@@ -1,7 +1,3 @@
-import org.springframework.context.ApplicationContext
-import org.codehaus.groovy.grails.commons.spring.GrailsApplicationContext
-import org.codehaus.groovy.grails.commons.GrailsApplication
-import org.codehaus.groovy.grails.commons.ConfigurationHolder
 import org.devunited.grails.plugin.recurly.RecurlyWebHookController
 
 class RecurlyGrailsPlugin {
@@ -27,30 +23,13 @@ Recurly Grails API.
     // URL to the plugin's documentation
     def documentation = "http://www.devunited.org/recurly-plugin/grails-recurly-plugin-usage-guide/"
 
-    def doWithWebDescriptor = { xml ->
-    }
-
-    def doWithSpring = {
-    }
-
-    def doWithDynamicMethods = { ctx ->
-    }
-
     def doWithApplicationContext = { applicationContext ->
         application.serviceClasses.each {service ->
             if (service.getStaticPropertyValue("recurlyWebHook", Boolean.class)) {
-                RecurlyWebHookController.handlerBean = applicationContext.getBean(service.getName().replaceFirst(/^\w/, service.getName().charAt(0).toLowerCase().toString()) + "Service")
+                String beanName = service.getName().replaceFirst(/^\w/, service.getName().charAt(0).toLowerCase().toString()) + "Service"
+                RecurlyWebHookController.handlerBean = applicationContext.getBean(beanName)
             }
         }
-        ConfigurationHolder.config.recurly.userName = "api@${ConfigurationHolder.config.recurly.subDomain}.com"
-        ConfigurationHolder.config.recurly.password = ConfigurationHolder.config.recurly.apiKey
     }
 
-    def onChange = { event ->
-    }
-
-    def onConfigChange = { event ->
-        ConfigurationHolder.config.recurly.userName = "api@${ConfigurationHolder.config.recurly.subDomain}.com"
-        ConfigurationHolder.config.recurly.password = ConfigurationHolder.config.recurly.apiKey
-    }
 }

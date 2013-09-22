@@ -2,6 +2,7 @@ package org.devunited.grails.plugin.recurly
 
 class RecurlySubscription {
 
+    String uuid
     String planCode
     String couponCode
     String trialEndsAt
@@ -30,4 +31,9 @@ class RecurlySubscription {
     public Boolean hasPendingChanges() {
         return (this.pendingChanges.planCode != null && this.pendingChanges.planCode != "")
     }
+
+    String toString() {
+        "RecurlySubscription(uuid:'$uuid', planCode:'$planCode', unitAmountInCents:'$unitAmountInCents', account:$account)"
+    }
+
 }

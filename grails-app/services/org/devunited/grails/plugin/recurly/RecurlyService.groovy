@@ -72,6 +72,14 @@ class RecurlyService {
 
     //SUBSCRIPTION RELATED SERVICES
 
+    /*public Response<List<RecurlySubscription>> listAllSubscriptions() {
+        return new RecurlySubscriptionProcessor().listAllSubscriptions()
+    }
+
+    public Response<List<RecurlySubscription>> listAllAccountSubscriptions(String accountCode) {
+        return new RecurlySubscription().listAllAccountSubscriptions(accountCode)
+    }*/
+
     public Response<RecurlySubscription> createSubscription(RecurlySubscription recurlySubscription) {
         return new RecurlySubscriptionProcessor(recurlySubscription).create()
     }
@@ -84,20 +92,24 @@ class RecurlyService {
         return new RecurlySubscriptionProcessor().getSubscriptionDetails(accountCode)
     }
 
-    public Response<String/*accountCode*/> deleteSubscription(String accountCode) {
-        return new RecurlySubscriptionProcessor().delete(accountCode)
+    public Response<String/*accountCode*/> cancelSubscription(String recurlySubscriptionUuid) {
+        return new RecurlySubscriptionProcessor().cancel(recurlySubscriptionUuid)
     }
 
-    public Response<String/*accountCode*/> terminateSubscriptionWithPartialRefund(String accountCode) {
-        new RecurlySubscriptionProcessor().terminateWithPartialRefund(accountCode)
+    public Response<String/*accountCode*/> reactivateSubscription(String recurlySubscriptionUuid) {
+        return new RecurlySubscriptionProcessor().reactivate(recurlySubscriptionUuid)
     }
 
-    public Response<String/*accountCode*/> terminateSubscriptionWithFullRefund(String accountCode) {
-        new RecurlySubscriptionProcessor().terminateWithFullRefund(accountCode)
+    public Response<String/*accountCode*/> terminateSubscriptionWithPartialRefund(String recurlySubscriptionUuid) {
+        new RecurlySubscriptionProcessor().terminateWithPartialRefund(recurlySubscriptionUuid)
     }
 
-    public Response<String/*accountCode*/> terminateSubscriptionWithNoRefund(String accountCode) {
-        new RecurlySubscriptionProcessor().terminateWithNoRefund(accountCode)
+    public Response<String/*accountCode*/> terminateSubscriptionWithFullRefund(String recurlySubscriptionUuid) {
+        new RecurlySubscriptionProcessor().terminateWithFullRefund(recurlySubscriptionUuid)
+    }
+
+    public Response<String/*accountCode*/> terminateSubscriptionWithNoRefund(String recurlySubscriptionUuid) {
+        new RecurlySubscriptionProcessor().terminateWithNoRefund(recurlySubscriptionUuid)
     }
 
     //BILLING DETAILS RELATED SERVICES

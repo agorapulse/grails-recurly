@@ -41,7 +41,7 @@ class RecurlySubscriptionProcessor extends RecurlyProcessor {
         response.entity = recurlySubscription
 
         if (this.validate()) {
-            this.targetUrl = RecurlyURLBuilder.buildURL(RecurlyUrlActionType.CREATE_SUBSCRIPTION, recurlySubscription.account.accountCode)
+            this.targetUrl = RecurlyURLBuilder.buildURL(RecurlyUrlActionType.CREATE_SUBSCRIPTION)
             this.processUsingMethodPOST()
             updateResponse(httpResponse.entity.getData())
             response.entity = recurlySubscription
@@ -56,12 +56,47 @@ class RecurlySubscriptionProcessor extends RecurlyProcessor {
         return response
     }
 
-    public Response<String> delete(String accountCode) {
+    public Response<String> cancel(String subscriptionUuid) {
         Response<String> response = new Response<String>()
-        response.entity = accountCode
+        response.entity = subscriptionUuid
 
-        if (accountCode) {
-            this.targetUrl = RecurlyURLBuilder.buildURL(RecurlyUrlActionType.DELETE_SUBSCRIPTION, accountCode)
+        if (subscriptionUuid) {
+            this.targetUrl = RecurlyURLBuilder.buildURL(RecurlyUrlActionType.CANCEL_SUBSCRIPTION, subscriptionUuid)
+            this.processUsingMethodPUT()
+            response.status = httpResponse?.status
+            response.message = "This Response is Generated Against DELETE Request. " + httpResponse?.message
+            response.errors = httpResponse?.errors
+        } else {
+            response.status = "error"
+            response.errors = ["AccountCode": "Is Null"]
+            response.message = "Validation Of Feilds Failed, See Errors Map For Details"
+        }
+        return response
+    }
+
+    public Response<String> reactivate(String subscriptionUuid) {
+        Response<String> response = new Response<String>()
+        response.entity = subscriptionUuid
+
+        if (subscriptionUuid) {
+            this.targetUrl = RecurlyURLBuilder.buildURL(RecurlyUrlActionType.REACTIVATE_SUBSCRIPTION, subscriptionUuid)
+            this.processUsingMethodPUT()
+            response.status = httpResponse?.status
+            response.message = "This Response is Generated Against DELETE Request. " + httpResponse?.message
+            response.errors = httpResponse?.errors
+        } else {
+            response.status = "error"
+            response.errors = ["AccountCode": "Is Null"]
+            response.message = "Validation Of Feilds Failed, See Errors Map For Details"
+        }
+        return response
+    }
+
+    public Response<String> terminateWithPartialRefund(String subscriptionUuid) {
+        Response<String> response = new Response<String>()
+        response.entity = subscriptionUuid
+        if (subscriptionUuid) {
+            this.targetUrl = RecurlyURLBuilder.buildURL(RecurlyUrlActionType.DELETE_SUBSCRIPTION_INSTANTLY_WITH_PARTIAL_REFUND, subscriptionUuid)
             this.processUsingMethodDELETE()
             response.status = httpResponse?.status
             response.message = "This Response is Generated Against DELETE Request. " + httpResponse?.message
@@ -74,11 +109,11 @@ class RecurlySubscriptionProcessor extends RecurlyProcessor {
         return response
     }
 
-    public Response<String> terminateWithPartialRefund(String accountCode) {
+    public Response<String> terminateWithFullRefund(String subscriptionUuid) {
         Response<String> response = new Response<String>()
-        response.entity = accountCode
-        if (accountCode) {
-            this.targetUrl = RecurlyURLBuilder.buildURL(RecurlyUrlActionType.DELETE_SUBSCRIPTION_INSTANTLY_WITH_PARTIAL_REFUND, accountCode)
+        response.entity = subscriptionUuid
+        if (subscriptionUuid) {
+            this.targetUrl = RecurlyURLBuilder.buildURL(RecurlyUrlActionType.DELETE_SUBSCRIPTION_INSTANTLY_WITH_FULL_REFUND, subscriptionUuid)
             this.processUsingMethodDELETE()
             response.status = httpResponse?.status
             response.message = "This Response is Generated Against DELETE Request. " + httpResponse?.message
@@ -91,28 +126,11 @@ class RecurlySubscriptionProcessor extends RecurlyProcessor {
         return response
     }
 
-    public Response<String> terminateWithFullRefund(String accountCode) {
+    public Response<String> terminateWithNoRefund(String subscriptionUuid) {
         Response<String> response = new Response<String>()
-        response.entity = accountCode
-        if (accountCode) {
-            this.targetUrl = RecurlyURLBuilder.buildURL(RecurlyUrlActionType.DELETE_SUBSCRIPTION_INSTANTLY_WITH_FULL_REFUND, accountCode)
-            this.processUsingMethodDELETE()
-            response.status = httpResponse?.status
-            response.message = "This Response is Generated Against DELETE Request. " + httpResponse?.message
-            response.errors = httpResponse?.errors
-        } else {
-            response.status = "error"
-            response.errors = ["AccountCode": "Is Null"]
-            response.message = "Validation Of Feilds Failed, See Errors Map For Details"
-        }
-        return response
-    }
-
-    public Response<String> terminateWithNoRefund(String accountCode) {
-        Response<String> response = new Response<String>()
-        response.entity = accountCode
-        if (accountCode) {
-            this.targetUrl = RecurlyURLBuilder.buildURL(RecurlyUrlActionType.DELETE_SUBSCRIPTION_INSTANTLY_WITHOUT_REFUND, accountCode)
+        response.entity = subscriptionUuid
+        if (subscriptionUuid) {
+            this.targetUrl = RecurlyURLBuilder.buildURL(RecurlyUrlActionType.DELETE_SUBSCRIPTION_INSTANTLY_WITHOUT_REFUND, subscriptionUuid)
             this.processUsingMethodDELETE()
             response.status = httpResponse?.status
             response.message = "This Response is Generated Against DELETE Request. " + httpResponse?.message
@@ -129,8 +147,8 @@ class RecurlySubscriptionProcessor extends RecurlyProcessor {
         this.recurlySubscriptionChangeTimeFrame = recurlySubscriptionChangeTimeFrame
         Response<RecurlySubscription> response = new Response<RecurlySubscription>()
         response.entity = recurlySubscription
-        if (recurlySubscription.account.accountCode) {
-            this.targetUrl = RecurlyURLBuilder.buildURL(RecurlyUrlActionType.UPGRADE_SUBSCRIPTION, recurlySubscription.account.accountCode)
+        if (recurlySubscription.uuid) {
+            this.targetUrl = RecurlyURLBuilder.buildURL(RecurlyUrlActionType.UPDATE_SUBSCRIPTION, recurlySubscription.uuid)
             this.processUsingMethodPUT()
             updateResponse(httpResponse.entity.getData())
             response.entity = recurlySubscription

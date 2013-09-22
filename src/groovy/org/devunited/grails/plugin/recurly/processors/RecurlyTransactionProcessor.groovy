@@ -118,7 +118,7 @@ class RecurlyTransactionProcessor extends RecurlyProcessor {
     public Response<List<RecurlyTransaction>> listAllTransactions() {
         Response<List<RecurlyTransaction>> response = new Response<List<RecurlyTransaction>>()
         response.entity = []
-        this.targetUrl = RecurlyURLBuilder.buildURL(RecurlyUrlActionType.LIST_TRANSACTIONS)
+        this.targetUrl = RecurlyURLBuilder.buildURL(RecurlyUrlActionType.TRANSACTIONS)
         this.processUsingMethodGET()
         httpResponse.entity.getData()?.transaction?.each {transaction ->
             response.entity.add(getTransactionBeanFromResponse(transaction))

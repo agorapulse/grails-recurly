@@ -1,14 +1,13 @@
 package org.devunited.grails.plugin.recurly.helpers
 
+import grails.util.Holders
 import org.devunited.grails.plugin.recurly.RESTService
-import org.codehaus.groovy.grails.commons.ConfigurationHolder
 import groovyx.net.http.HttpResponseDecorator
 import org.devunited.grails.plugin.recurly.templates.Response
 
 abstract class RecurlyProcessor extends ConstraintsValidator {
 
-    public String password = ConfigurationHolder.config.recurly.password
-    public String userName = ConfigurationHolder.config.recurly.userName
+    public String apiKey = Holders.config.grails.plugin.recurly.apiKey
     public String targetUrl
 
     public RESTService restService = new RESTService()
@@ -18,19 +17,19 @@ abstract class RecurlyProcessor extends ConstraintsValidator {
     public abstract String getDetailsInXML()
 
     public void processUsingMethodPOST() {
-        httpResponse = restService.getResponseUsingMethodPOST(targetUrl, getDetailsInXML(), userName, password)
+        httpResponse = restService.getResponseUsingMethodPOST(targetUrl, getDetailsInXML(), apiKey)
     }
 
     public void processUsingMethodGET() {
-        httpResponse = restService.getResponseUsingMethodGET(targetUrl, userName, password)
+        httpResponse = restService.getResponseUsingMethodGET(targetUrl, apiKey)
     }
 
     public void processUsingMethodPUT() {
-        httpResponse = restService.getResponseUsingMethodPUT(targetUrl, getDetailsInXML(), userName, password)
+        httpResponse = restService.getResponseUsingMethodPUT(targetUrl, getDetailsInXML(), apiKey)
     }
 
     public void processUsingMethodDELETE() {
-        httpResponse = restService.getResponseUsingMethodDELETE(targetUrl, userName, password)
+        httpResponse = restService.getResponseUsingMethodDELETE(targetUrl, apiKey)
     }
 
     public void findErrors() {

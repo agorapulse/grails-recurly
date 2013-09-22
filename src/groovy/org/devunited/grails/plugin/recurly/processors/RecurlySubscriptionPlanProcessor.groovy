@@ -95,7 +95,7 @@ class RecurlySubscriptionPlanProcessor extends RecurlyProcessor {
     public Response<List<RecurlySubscriptionPlan>> listAllSubscriptionPlans() {
         Response<List<RecurlySubscriptionPlan>> response = new Response<List<RecurlySubscriptionPlan>>()
         List<RecurlySubscriptionPlan> recurlySubscriptionPlans = []
-        this.targetUrl = RecurlyURLBuilder.buildURL(RecurlyUrlActionType.LIST_ALL_PLANS)
+        this.targetUrl = RecurlyURLBuilder.buildURL(RecurlyUrlActionType.PLANS)
         this.processUsingMethodGET()
         httpResponse.entity.getData()?.plan?.each {
             recurlySubscriptionPlans.add(new RecurlySubscriptionPlan(

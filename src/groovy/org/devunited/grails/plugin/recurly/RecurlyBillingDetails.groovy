@@ -14,4 +14,9 @@ class RecurlyBillingDetails {
     String phone
 
     RecurlyCreditCard creditCard
+
+    String toString() {
+        "RecurlyBillingDetails(firstName:'$firstName', lastName:'$lastName', address1:'$address1', address2:'$address2', city:'$city', country:'$country')"
+    }
+
 }

@@ -8,15 +8,15 @@ class RESTService {
 
     static transactional = false
 
-    public Response<HttpResponseDecorator> getResponseUsingMethodPOST(String url, String data, String user, String password, String contentType = "application/xml; charset=utf-8", String acceptType = "application/xml") {
+    public Response<HttpResponseDecorator> getResponseUsingMethodPOST(String url, String data, String apiKey, String contentType = "application/xml; charset=utf-8", String acceptType = "application/xml") {
 
         Response<HttpResponseDecorator> httpResponse = new Response<HttpResponseDecorator>()
-        String authenticationDigest = "Basic " + "${user}:${password}".encodeAsBase64()
+        String authenticationDigest = apiKey.bytes.encodeBase64().toString()
 
         try {
             withRest(uri: url) {
                 httpResponse.entity = post(body: data, contentType: contentType, headers: ["Accept": acceptType, "Authorization": authenticationDigest])
-                httpResponse.message = "Responce Generated via URL: ${url}"
+                httpResponse.message = "Response Generated via URL: ${url}"
                 httpResponse.status = httpResponse.entity.status
             }
         } catch (HttpResponseException ex) {
@@ -28,10 +28,10 @@ class RESTService {
         return httpResponse
     }
 
-    public Response<HttpResponseDecorator> getResponseUsingMethodPUT(String url, String data, String user, String password, String contentType = "application/xml; charset=utf-8", String acceptType = "application/xml") {
+    public Response<HttpResponseDecorator> getResponseUsingMethodPUT(String url, String data, String apiKey, String contentType = "application/xml; charset=utf-8", String acceptType = "application/xml") {
 
         Response<HttpResponseDecorator> httpResponse = new Response<HttpResponseDecorator>()
-        String authenticationDigest = "Basic " + "${user}:${password}".encodeAsBase64()
+        String authenticationDigest = apiKey.bytes.encodeBase64().toString()
 
         try {
             withRest(uri: url) {
@@ -48,10 +48,10 @@ class RESTService {
         return httpResponse
     }
 
-    public Response<HttpResponseDecorator> getResponseUsingMethodDELETE(String url, String user, String password, String acceptType = "application/xml") {
+    public Response<HttpResponseDecorator> getResponseUsingMethodDELETE(String url, String apiKey, String acceptType = "application/xml") {
 
         Response<HttpResponseDecorator> httpResponse = new Response<HttpResponseDecorator>()
-        String authenticationDigest = "Basic " + "${user}:${password}".encodeAsBase64()
+        String authenticationDigest = apiKey.bytes.encodeBase64().toString()
 
         try {
             withRest(uri: url) {
@@ -68,10 +68,10 @@ class RESTService {
         return httpResponse
     }
 
-    public Response<HttpResponseDecorator> getResponseUsingMethodGET(String url, String user, String password, String contentType = "application/xml; charset=utf-8", String acceptType = "application/xml") {
+    public Response<HttpResponseDecorator> getResponseUsingMethodGET(String url, String apiKey, String contentType = "application/xml; charset=utf-8", String acceptType = "application/xml") {
 
         Response<HttpResponseDecorator> httpResponse = new Response<HttpResponseDecorator>()
-        String authenticationDigest = "Basic " + "${user}:${password}".encodeAsBase64()
+        String authenticationDigest = apiKey.bytes.encodeBase64().toString()
 
         try {
             withRest(uri: url) {

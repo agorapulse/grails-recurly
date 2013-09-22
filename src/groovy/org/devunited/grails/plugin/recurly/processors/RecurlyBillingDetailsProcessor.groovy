@@ -119,10 +119,16 @@ class RecurlyBillingDetailsProcessor extends RecurlyProcessor {
             if (recurlyBillingDetails.ipAddress) {
                 "ip_address"(recurlyBillingDetails.ipAddress ?: "")
             }
-            "credit_card"() {
+            if (recurlyBillingDetails.creditCard.creditCardNumber) {
                 "number"(recurlyBillingDetails.creditCard.creditCardNumber)
+            }
+            if (recurlyBillingDetails.creditCard.verificationValue) {
                 "verification_value"(recurlyBillingDetails.creditCard.verificationValue)
+            }
+            if (recurlyBillingDetails.creditCard.year) {
                 "year"(recurlyBillingDetails.creditCard.year)
+            }
+            if (recurlyBillingDetails.creditCard.month) {
                 "month"(recurlyBillingDetails.creditCard.month)
             }
         }

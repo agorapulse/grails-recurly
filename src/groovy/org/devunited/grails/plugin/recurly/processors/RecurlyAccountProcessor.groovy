@@ -113,8 +113,6 @@ class RecurlyAccountProcessor extends RecurlyProcessor {
                     email: it.email,
                     companyName: it.company_name,
                     hostedLoginToken: it.hosted_login_token,
-                    balanceInCents: it.balance_in_cents,
-                    closed: it.closed,
                     createdAt: it.created_at
             ))
         }
@@ -140,8 +138,6 @@ class RecurlyAccountProcessor extends RecurlyProcessor {
                     email: it.email,
                     companyName: it.company_name,
                     hostedLoginToken: it.hosted_login_token,
-                    balanceInCents: it.balance_in_cents,
-                    closed: it.closed,
                     createdAt: it.created_at
             ))
         }
@@ -167,8 +163,6 @@ class RecurlyAccountProcessor extends RecurlyProcessor {
                     email: it.email,
                     companyName: it.company_name,
                     hostedLoginToken: it.hosted_login_token,
-                    balanceInCents: it.balance_in_cents,
-                    closed: it.closed,
                     createdAt: it.created_at
             ))
         }
@@ -194,8 +188,6 @@ class RecurlyAccountProcessor extends RecurlyProcessor {
                     email: it.email,
                     companyName: it.company_name,
                     hostedLoginToken: it.hosted_login_token,
-                    balanceInCents: it.balance_in_cents,
-                    closed: it.closed,
                     createdAt: it.created_at
             ))
         }
@@ -245,8 +237,6 @@ class RecurlyAccountProcessor extends RecurlyProcessor {
         this.recurlyAccount.email = responseData.email
         this.recurlyAccount.companyName = responseData.company_name
         this.recurlyAccount.hostedLoginToken = responseData.hosted_login_token
-        this.recurlyAccount.balanceInCents = responseData.balance_in_cents
-        this.recurlyAccount.closed = responseData.closed
         this.recurlyAccount.createdAt = responseData.created_at
     }
 }

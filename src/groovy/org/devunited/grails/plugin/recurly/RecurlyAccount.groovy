@@ -10,11 +10,12 @@ class RecurlyAccount {
     String companyName
     String hostedLoginToken
     String acceptLanguage = "en-us,en;q=0.5"
-    String balanceInCents
-    String closed
     String createdAt
 
     RecurlyAccount() {}
 
+    String toString() {
+        "RecurlyAccount(accountCode:'$accountCode', email:'$email', userName:'$userName', firstName:'$firstName', lastName:'$lastName')"
+    }
 
 }
