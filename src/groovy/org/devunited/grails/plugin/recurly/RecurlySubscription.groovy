@@ -25,7 +25,7 @@ class RecurlySubscription {
     RecurlySubscriptionPendingChanges pendingChanges
 
     //Only Required For Creating Subscription
-    RecurlyBillingDetails billingDetails
+    RecurlyBillingInfo billingInfo
 
 
     public Boolean hasPendingChanges() {

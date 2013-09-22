@@ -29,7 +29,7 @@ class RecurlySubscriptionProcessor extends RecurlyProcessor {
         checkProperty("trialEndsAt", MAX_SIZE_50, OPTIONAL_FIELD, CAN_BE_BLANK)
         checkProperty("unitAmountInCents", MAX_SIZE_50, OPTIONAL_FIELD, CAN_BE_BLANK)
         checkProperty("quantity", MAX_SIZE_50, OPTIONAL_FIELD, CAN_BE_BLANK)
-        propertiesWithErrors.putAll(new RecurlyBillingDetailsProcessor(recurlySubscription.billingDetails).errors())
+        propertiesWithErrors.putAll(new RecurlyBillingInfoProcessor(recurlySubscription.billingInfo).errors())
         propertiesWithErrors.putAll(new RecurlyAccountProcessor(recurlySubscription.account).errors())
         recurlySubscription.addOns.each {addOn ->
             propertiesWithErrors.putAll(new RecurlySubscriptionAddOnProcessor(addOn).errors())
@@ -224,36 +224,36 @@ class RecurlySubscriptionProcessor extends RecurlyProcessor {
                 if (recurlySubscription.account.companyName) {
                     "company"(recurlySubscription.account.companyName ?: "")
                 }
-                if (recurlySubscription.billingDetails) {
+                if (recurlySubscription.billingInfo) {
                     "billing_info"() {
-                        "first_name"(recurlySubscription.billingDetails.firstName)
-                        "last_name"(recurlySubscription.billingDetails.lastName)
-                        if (recurlySubscription.billingDetails.address1) {
-                            "address1"(recurlySubscription.billingDetails.address1 ?: "")
+                        "first_name"(recurlySubscription.billingInfo.firstName)
+                        "last_name"(recurlySubscription.billingInfo.lastName)
+                        if (recurlySubscription.billingInfo.address1) {
+                            "address1"(recurlySubscription.billingInfo.address1 ?: "")
                         }
-                        if (recurlySubscription.billingDetails.address2) {
-                            "address2"(recurlySubscription.billingDetails.address2 ?: "")
+                        if (recurlySubscription.billingInfo.address2) {
+                            "address2"(recurlySubscription.billingInfo.address2 ?: "")
                         }
-                        if (recurlySubscription.billingDetails.city) {
-                            "city"(recurlySubscription.billingDetails.city ?: "")
+                        if (recurlySubscription.billingInfo.city) {
+                            "city"(recurlySubscription.billingInfo.city ?: "")
                         }
-                        if (recurlySubscription.billingDetails.state) {
-                            "state"(recurlySubscription.billingDetails.state ?: "")
+                        if (recurlySubscription.billingInfo.state) {
+                            "state"(recurlySubscription.billingInfo.state ?: "")
                         }
-                        if (recurlySubscription.billingDetails.zip) {
-                            "zip"(recurlySubscription.billingDetails.zip ?: "")
+                        if (recurlySubscription.billingInfo.zip) {
+                            "zip"(recurlySubscription.billingInfo.zip ?: "")
                         }
-                        if (recurlySubscription.billingDetails.country) {
-                            "country"(recurlySubscription.billingDetails.country ?: "")
+                        if (recurlySubscription.billingInfo.country) {
+                            "country"(recurlySubscription.billingInfo.country ?: "")
                         }
-                        if (recurlySubscription.billingDetails.ipAddress) {
-                            "ip_address"(recurlySubscription.billingDetails.ipAddress ?: "")
+                        if (recurlySubscription.billingInfo.ipAddress) {
+                            "ip_address"(recurlySubscription.billingInfo.ipAddress ?: "")
                         }
                         "credit_card"() {
-                            "number"(recurlySubscription.billingDetails.creditCard.creditCardNumber)
-                            "verification_value"(recurlySubscription.billingDetails.creditCard.verificationValue)
-                            "year"(recurlySubscription.billingDetails.creditCard.year)
-                            "month"(recurlySubscription.billingDetails.creditCard.month)
+                            "number"(recurlySubscription.billingInfo.creditCard.creditCardNumber)
+                            "verification_value"(recurlySubscription.billingInfo.creditCard.verificationValue)
+                            "year"(recurlySubscription.billingInfo.creditCard.year)
+                            "month"(recurlySubscription.billingInfo.creditCard.month)
                         }
                     }
                 }

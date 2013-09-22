@@ -27,9 +27,9 @@ public enum RecurlyUrlActionType {
     DELETE_SUBSCRIPTION_INSTANTLY_WITH_FULL_REFUND("subscriptions/[id]?refund=full"),
     DELETE_SUBSCRIPTION_INSTANTLY_WITHOUT_REFUND("subscriptions/[id]?refund=none"),
     // Billing Info
-    GET_BILLING_DETAILS("accounts/[id]/billing_info"),
-    DELETE_BILLING_DETAILS("accounts/[id]/billing_info"),
-    CREATE_OR_UPDATE_BILLING_DETAILS("accounts/[id]/billing_info"),
+    GET_BILLING_INFO("accounts/[id]/billing_info"),
+    DELETE_BILLING_INFO("accounts/[id]/billing_info"),
+    CREATE_OR_UPDATE_BILLING_INFO("accounts/[id]/billing_info"),
     // Transactions
     TRANSACTIONS("transactions"),
     LIST_ACCOUNT_TRANSACTIONS("accounts/[id]/transactions"),

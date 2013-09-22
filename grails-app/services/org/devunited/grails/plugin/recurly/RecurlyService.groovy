@@ -9,7 +9,7 @@ import org.devunited.grails.plugin.recurly.enums.RecurlySubscriptionChangeTimeFr
 import org.devunited.grails.plugin.recurly.helpers.WebHookNotification
 import org.devunited.grails.plugin.recurly.processors.WebHookNotificationProcessor
 import org.devunited.grails.plugin.recurly.processors.RecurlyTransactionProcessor
-import org.devunited.grails.plugin.recurly.processors.RecurlyBillingDetailsProcessor
+import org.devunited.grails.plugin.recurly.processors.RecurlyBillingInfoProcessor
 
 class RecurlyService {
 
@@ -115,16 +115,16 @@ class RecurlyService {
 
     //BILLING DETAILS RELATED SERVICES
 
-    public Response<RecurlyBillingDetails> getBillingDetails(String accountCode) {
-        return new RecurlyBillingDetailsProcessor().getBillingDetails(accountCode)
+    public Response<RecurlyBillingInfo> getBillingDetails(String accountCode) {
+        return new RecurlyBillingInfoProcessor().getBillingDetails(accountCode)
     }
 
-    public Response<RecurlyBillingDetails> createOrUpdateBillingDetails(RecurlyBillingDetails billingDetails, String accountCode) {
-        return new RecurlyBillingDetailsProcessor(billingDetails).createOrUpdate(accountCode)
+    public Response<RecurlyBillingInfo> createOrUpdateBillingDetails(RecurlyBillingInfo billingDetails, String accountCode) {
+        return new RecurlyBillingInfoProcessor(billingDetails).createOrUpdate(accountCode)
     }
 
     public Response<String/*accountCode*/> deleteBillingDetails(String accountCode) {
-        return new RecurlyBillingDetailsProcessor().delete(accountCode)
+        return new RecurlyBillingInfoProcessor().delete(accountCode)
     }
 
     //TRANSACTION RELATED SERVICES

@@ -1,9 +1,9 @@
 package org.devunited.grails.plugin.recurly
 
 import org.devunited.grails.plugin.recurly.helpers.RecurlyRESTResource
-import org.devunited.grails.plugin.recurly.processors.RecurlyBillingDetailsProcessor
+import org.devunited.grails.plugin.recurly.processors.RecurlyBillingInfoProcessor
 
-class RecurlyBillingDetails extends RecurlyRESTResource {
+class RecurlyBillingInfo extends RecurlyRESTResource {
 
     String accountCode
     String firstName
@@ -23,7 +23,7 @@ class RecurlyBillingDetails extends RecurlyRESTResource {
         remove(accountCode)
     }
 
-    RecurlyBillingDetails save() {
+    RecurlyBillingInfo save() {
         createOrUpdate(accountCode, this)
         return this
     }
@@ -34,16 +34,16 @@ class RecurlyBillingDetails extends RecurlyRESTResource {
 
     // STATIC REST METHODS
 
-    static RecurlyBillingDetails createOrUpdate(String accountCode, RecurlyBillingDetails recurlyBillingInfo) {
-        handleResponse(new RecurlyBillingDetailsProcessor(recurlyBillingInfo).createOrUpdate(accountCode))
+    static RecurlyBillingInfo createOrUpdate(String accountCode, RecurlyBillingInfo recurlyBillingInfo) {
+        handleResponse(new RecurlyBillingInfoProcessor(recurlyBillingInfo).createOrUpdate(accountCode))
     }
 
-    static RecurlyBillingDetails fetch(String accountCode) {
-        handleResponse( new RecurlyBillingDetailsProcessor().getBillingDetails(accountCode))
+    static RecurlyBillingInfo fetch(String accountCode) {
+        handleResponse( new RecurlyBillingInfoProcessor().getBillingDetails(accountCode))
     }
 
     static String remove(String accountCode) {
-        handleResponse(new RecurlyBillingDetailsProcessor().delete(accountCode))
+        handleResponse(new RecurlyBillingInfoProcessor().delete(accountCode))
     }
     
 
