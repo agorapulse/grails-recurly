@@ -1,5 +1,6 @@
 package org.devunited.grails.plugin.recurly
 
+import org.devunited.grails.plugin.recurly.enums.RecurlyAccountState
 import org.devunited.grails.plugin.recurly.templates.Response
 import org.devunited.grails.plugin.recurly.processors.RecurlyAccountProcessor
 import org.devunited.grails.plugin.recurly.processors.RecurlySubscriptionPlanProcessor
@@ -32,20 +33,20 @@ class RecurlyService {
         return new RecurlyAccountProcessor().getAccountDetails(accountCode)
     }
 
-    public Response<List<RecurlyAccount>> listAllAccounts() {
-        return new RecurlyAccountProcessor().listAllAccounts()
+    public Response<List<RecurlyAccount>> listAccounts(Map query = [:]) {
+        return new RecurlyAccountProcessor().listAccounts()
     }
 
     public Response<List<RecurlyAccount>> listActiveSubscribers() {
-        return new RecurlyAccountProcessor().listActiveSubscribers()
+        return new RecurlyAccountProcessor().listAccounts(state: RecurlyAccountState.ACTIVE)
     }
 
     public Response<List<RecurlyAccount>> listNonSubscribers() {
-        return new RecurlyAccountProcessor().listNonSubscribers()
+        return new RecurlyAccountProcessor().listAccounts(state: RecurlyAccountState.CLOSED)
     }
 
     public Response<List<RecurlyAccount>> listPastDueSubscribers() {
-        return new RecurlyAccountProcessor().listPastDueSubscribers()
+        return new RecurlyAccountProcessor().listAccounts(state: RecurlyAccountState.PAST_DUE)
     }
 
     //SUBSCRIPTION PLAN RELATED SERVICES
@@ -92,24 +93,24 @@ class RecurlyService {
         return new RecurlySubscriptionProcessor().getSubscriptionDetails(accountCode)
     }
 
-    public Response<String/*accountCode*/> cancelSubscription(String recurlySubscriptionUuid) {
-        return new RecurlySubscriptionProcessor().cancel(recurlySubscriptionUuid)
+    public Response<String/*accountCode*/> cancelSubscription(String subscriptionUuid) {
+        return new RecurlySubscriptionProcessor().cancel(subscriptionUuid)
     }
 
-    public Response<String/*accountCode*/> reactivateSubscription(String recurlySubscriptionUuid) {
-        return new RecurlySubscriptionProcessor().reactivate(recurlySubscriptionUuid)
+    public Response<String/*accountCode*/> reactivateSubscription(String subscriptionUuid) {
+        return new RecurlySubscriptionProcessor().reactivate(subscriptionUuid)
     }
 
-    public Response<String/*accountCode*/> terminateSubscriptionWithPartialRefund(String recurlySubscriptionUuid) {
-        new RecurlySubscriptionProcessor().terminateWithPartialRefund(recurlySubscriptionUuid)
+    public Response<String/*accountCode*/> terminateSubscriptionWithPartialRefund(String subscriptionUuid) {
+        new RecurlySubscriptionProcessor().terminateWithPartialRefund(subscriptionUuid)
     }
 
-    public Response<String/*accountCode*/> terminateSubscriptionWithFullRefund(String recurlySubscriptionUuid) {
-        new RecurlySubscriptionProcessor().terminateWithFullRefund(recurlySubscriptionUuid)
+    public Response<String/*accountCode*/> terminateSubscriptionWithFullRefund(String subscriptionUuid) {
+        new RecurlySubscriptionProcessor().terminateWithFullRefund(subscriptionUuid)
     }
 
-    public Response<String/*accountCode*/> terminateSubscriptionWithNoRefund(String recurlySubscriptionUuid) {
-        new RecurlySubscriptionProcessor().terminateWithNoRefund(recurlySubscriptionUuid)
+    public Response<String/*accountCode*/> terminateSubscriptionWithNoRefund(String subscriptionUuid) {
+        new RecurlySubscriptionProcessor().terminateWithNoRefund(subscriptionUuid)
     }
 
     //BILLING DETAILS RELATED SERVICES
@@ -118,8 +119,8 @@ class RecurlyService {
         return new RecurlyBillingDetailsProcessor().getBillingDetails(accountCode)
     }
 
-    public Response<RecurlyBillingDetails> createOrUpdateBillingDetails(RecurlyBillingDetails recurlyBillingDetails, String accountCode) {
-        return new RecurlyBillingDetailsProcessor(recurlyBillingDetails).createOrUpdate(accountCode)
+    public Response<RecurlyBillingDetails> createOrUpdateBillingDetails(RecurlyBillingDetails billingDetails, String accountCode) {
+        return new RecurlyBillingDetailsProcessor(billingDetails).createOrUpdate(accountCode)
     }
 
     public Response<String/*accountCode*/> deleteBillingDetails(String accountCode) {

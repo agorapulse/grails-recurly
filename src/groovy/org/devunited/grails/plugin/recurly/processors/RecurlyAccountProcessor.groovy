@@ -25,7 +25,7 @@ class RecurlyAccountProcessor extends RecurlyProcessor {
         checkProperty("email", MAX_SIZE_255, OPTIONAL_FIELD, CAN_BE_BLANK)
         checkProperty("companyName", MAX_SIZE_50, OPTIONAL_FIELD, CAN_BE_BLANK)
         checkProperty("hostedLoginToken", MAX_SIZE_32, OPTIONAL_FIELD, CAN_BE_BLANK)
-        checkProperty("acceptLanguage", MAX_SIZE_32, OPTIONAL_FIELD, CAN_BE_BLANK)
+        checkProperty("acceptLanguage", MAX_SIZE_255, OPTIONAL_FIELD, CAN_BE_BLANK)
     }
 
     public Response<RecurlyAccount> create() {
@@ -98,10 +98,10 @@ class RecurlyAccountProcessor extends RecurlyProcessor {
         return response
     }
 
-    public Response<List<RecurlyAccount>> listAllAccounts() {
+    public Response<List<RecurlyAccount>> listAccounts(Map query = [:]) {
         Response<List<RecurlyAccount>> response = new Response<List<RecurlyAccount>>()
         List<RecurlyAccount> recurlyAccounts = []
-        this.targetUrl = RecurlyURLBuilder.buildURL(RecurlyUrlActionType.ACCOUNT)
+        this.targetUrl = RecurlyURLBuilder.buildURL(RecurlyUrlActionType.ACCOUNT, '', query)
         this.processUsingMethodGET()
         httpResponse.entity.getData()?.account?.each {
             recurlyAccounts.add(new RecurlyAccount(
@@ -122,82 +122,6 @@ class RecurlyAccountProcessor extends RecurlyProcessor {
         response.errors = httpResponse?.errors
         return response
     }
-
-    public Response<List<RecurlyAccount>> listActiveSubscribers() {
-        Response<List<RecurlyAccount>> response = new Response<List<RecurlyAccount>>()
-        List<RecurlyAccount> recurlyAccounts = []
-        this.targetUrl = RecurlyURLBuilder.buildURL(RecurlyUrlActionType.LIST_ACTIVE_SUBSCRIBERS)
-        this.processUsingMethodGET()
-        httpResponse.entity.getData()?.account?.each {
-            recurlyAccounts.add(new RecurlyAccount(
-                    userName: it.username,
-                    firstName: it.first_name,
-                    lastName: it.last_name,
-                    accountCode: it.account_code,
-                    acceptLanguage: it.accept_language,
-                    email: it.email,
-                    companyName: it.company_name,
-                    hostedLoginToken: it.hosted_login_token,
-                    createdAt: it.created_at
-            ))
-        }
-        response.entity = recurlyAccounts
-        response.status = httpResponse?.status
-        response.message = "This Response is Generated Against LIST_ALL_ACTIVE_SUBSCRIBERS Request. " + httpResponse?.message
-        response.errors = httpResponse?.errors
-        return response
-    }
-
-    public Response<List<RecurlyAccount>> listNonSubscribers() {
-        Response<List<RecurlyAccount>> response = new Response<List<RecurlyAccount>>()
-        List<RecurlyAccount> recurlyAccounts = []
-        this.targetUrl = RecurlyURLBuilder.buildURL(RecurlyUrlActionType.LIST_NON_SUBSCRIBERS)
-        this.processUsingMethodGET()
-        httpResponse.entity.getData()?.account?.each {
-            recurlyAccounts.add(new RecurlyAccount(
-                    userName: it.username,
-                    firstName: it.first_name,
-                    lastName: it.last_name,
-                    accountCode: it.account_code,
-                    acceptLanguage: it.accept_language,
-                    email: it.email,
-                    companyName: it.company_name,
-                    hostedLoginToken: it.hosted_login_token,
-                    createdAt: it.created_at
-            ))
-        }
-        response.entity = recurlyAccounts
-        response.status = httpResponse?.status
-        response.message = "This Response is Generated Against LIST_NON_SUBSCRIBERS Request. " + httpResponse?.message
-        response.errors = httpResponse?.errors
-        return response
-    }
-
-    public Response<List<RecurlyAccount>> listPastDueSubscribers() {
-        Response<List<RecurlyAccount>> response = new Response<List<RecurlyAccount>>()
-        List<RecurlyAccount> recurlyAccounts = []
-        this.targetUrl = RecurlyURLBuilder.buildURL(RecurlyUrlActionType.LIST_PAST_DUE_SUBSCRIBERS)
-        this.processUsingMethodGET()
-        httpResponse.entity.getData()?.account?.each {
-            recurlyAccounts.add(new RecurlyAccount(
-                    userName: it.username,
-                    firstName: it.first_name,
-                    lastName: it.last_name,
-                    accountCode: it.account_code,
-                    acceptLanguage: it.accept_language,
-                    email: it.email,
-                    companyName: it.company_name,
-                    hostedLoginToken: it.hosted_login_token,
-                    createdAt: it.created_at
-            ))
-        }
-        response.entity = recurlyAccounts
-        response.status = httpResponse?.status
-        response.message = "This Response is Generated Against LIST_PAST_DUE_SUBSCRIBERS Request. " + httpResponse?.message
-        response.errors = httpResponse?.errors
-        return response
-    }
-
 
     public String getDetailsInXML() {
         StringWriter writer = new StringWriter()

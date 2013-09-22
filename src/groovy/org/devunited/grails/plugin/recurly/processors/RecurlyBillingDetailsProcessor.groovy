@@ -28,7 +28,9 @@ class RecurlyBillingDetailsProcessor extends RecurlyProcessor {
         checkProperty("zip", MAX_SIZE_20, OPTIONAL_FIELD, CAN_BE_BLANK)
         checkProperty("country", MAX_SIZE_2, OPTIONAL_FIELD, CAN_BE_BLANK)
         checkProperty("ipAddress", MAX_SIZE_20, OPTIONAL_FIELD, CAN_BE_BLANK)
-        propertiesWithErrors.putAll(new RecurlyCreditCardProcessor(recurlyBillingDetails.creditCard).errors())
+        if (recurlyBillingDetails.creditCard?.creditCardNumber) {
+            propertiesWithErrors.putAll(new RecurlyCreditCardProcessor(recurlyBillingDetails.creditCard).errors())
+        }
     }
 
     public Response<RecurlyBillingDetails> getBillingDetails(String accountCode) {
@@ -36,6 +38,7 @@ class RecurlyBillingDetailsProcessor extends RecurlyProcessor {
         this.targetUrl = RecurlyURLBuilder.buildURL(RecurlyUrlActionType.GET_BILLING_DETAILS, accountCode)
         this.processUsingMethodGET()
         updateResponse(httpResponse.entity.getData())
+        recurlyBillingDetails.accountCode = accountCode
         response.entity = recurlyBillingDetails
         response.status = httpResponse?.status
         response.message = "This Response is Generated Against GET_BILLING_DETAILS Request. " + httpResponse?.message
@@ -51,6 +54,7 @@ class RecurlyBillingDetailsProcessor extends RecurlyProcessor {
             this.targetUrl = RecurlyURLBuilder.buildURL(RecurlyUrlActionType.CREATE_OR_UPDATE_BILLING_DETAILS, accountCode)
             this.processUsingMethodPUT()
             updateResponse(httpResponse.entity.getData())
+            recurlyBillingDetails.accountCode = accountCode
             response.entity = recurlyBillingDetails
             response.status = httpResponse?.status
             response.message = "This Response is Generated Against UPDATE Request. " + httpResponse?.message
