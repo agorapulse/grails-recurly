@@ -1,15 +1,16 @@
 package grails.plugin.recurly
 
-import org.codehaus.groovy.grails.commons.GrailsApplication
-import grails.plugin.recurly.helpers.WebHookNotification
 import grails.plugin.recurly.enums.WebHookResponseType
+import grails.plugin.recurly.helpers.WebHookNotification
+import grails.plugin.recurly.processors.WebHookNotificationProcessor
+import org.codehaus.groovy.grails.commons.GrailsApplication
 
 class RecurlyWebHookController {
 
-    static def handlerBean
+    static handlerBean
+    static defaultAction = 'acceptNotice'
 
     GrailsApplication grailsApplication
-    RecurlyService recurlyService
 
     def beforeInterceptor = {
         if (!handlerBean) {
@@ -30,7 +31,7 @@ class RecurlyWebHookController {
             def encodedPair = authString - 'Basic '
             def decodedPair =  new String(encodedPair.decodeBase64());
             def credentials = decodedPair.tokenize(':')
-            if (credentials && credentials.first() == config.webhook.user && credentials.last() == config.webhook.pass) {
+            if (!credentials || credentials.first() != config.webhook.user || credentials.last() != config.webhook.pass) {
                 response.status = 401
                 render 'Authentication Failure'
                 return false
@@ -52,36 +53,36 @@ class RecurlyWebHookController {
             response.status = 500
             return
         }
-        WebHookNotification webHookNotification = recurlyService.processNotification(xml)
+        WebHookNotification webHookNotification = new WebHookNotificationProcessor(xml).process()
         if (webHookNotification) {
             switch (webHookNotification.webHookResponseType) {
                 case WebHookResponseType.SUCCESSFUL_PAYMENT_NOTIFICATION:
                     handlerBean.successfulPaymentNotificationHandler(webHookNotification as RecurlySuccessfulPaymentWebHookNotification)
-                    break;
+                    break
                 case WebHookResponseType.FAILED_RENEWAL_PAYMENT_NOTIFICATION:
                     handlerBean.failedRenewalPaymentNotificationHandler(webHookNotification as RecurlyFailedRenewalWebHookNotification)
-                    break;
+                    break
                 case WebHookResponseType.CANCELED_SUBSCRIPTION_NOTIFICATION:
                     handlerBean.cancelledSubscriptionNotificationHandler(webHookNotification as RecurlyCanceledSubscriptionWebHookNotification)
-                    break;
+                    break
                 case WebHookResponseType.RENEWED_SUBSCRIPTION_NOTIFICATION:
                     handlerBean.renewedSubscriptionNotificationHandler(webHookNotification as RecurlyRenewedSubscriptionWebHookNotification)
-                    break;
+                    break
                 case WebHookResponseType.NEW_SUBSCRIPTION_NOTIFICATION:
                     handlerBean.newSubscriptionNotificationHandler(webHookNotification as RecurlyNewSubscriptionWebHookNotification)
-                    break;
+                    break
                 case WebHookResponseType.EXPIRED_SUBSCRIPTION_NOTIFICATION:
                     handlerBean.expiredSubscriptionNotificationHandler(webHookNotification as RecurlyExpiredSubscriptionWebHookNotification)
-                    break;
+                    break
                 case WebHookResponseType.SUBSCRIPTION_UPDATED:
                     handlerBean.subscriptionUpdatedNotificationHandler(webHookNotification as RecurlyChangedSubscriptionWebHookNotification)
-                    break;
+                    break
             }
             response.status = 201
-            render "Data parsed and accepted"
+            render 'Data parsed and accepted'
         } else {
             response.status 200
-            render "This notification is not processed by the application, but notification was accepted"
+            render 'This notification is not processed by the application, but notification was accepted'
         }
     }
 

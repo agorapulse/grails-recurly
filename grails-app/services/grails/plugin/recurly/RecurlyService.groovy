@@ -181,9 +181,4 @@ class RecurlyService {
         return new RecurlyTransactionProcessor().listAllTransactionsWhichAreMarkedAsVoided()
     }
 
-    //WEB HOOK RELATED SERVICES
-
-    public WebHookNotification processNotification(String xml) {
-        return new WebHookNotificationProcessor(xml).process()
-    }
 }
