@@ -1,18 +1,18 @@
 package grails.plugin.recurly.processors
 
 import grails.plugin.recurly.helpers.WebHookNotification
-import grails.plugin.recurly.RecurlySuccessfulPaymentWebHookNotification
+import grails.plugin.recurly.notifications.RecurlySuccessfulPaymentWebHookNotification
 import grails.plugin.recurly.enums.WebHookResponseType
 import grails.plugin.recurly.RecurlyAccount
 import grails.plugin.recurly.RecurlyTransaction
 import grails.plugin.recurly.helpers.GenericNodeTypeCaster
-import grails.plugin.recurly.RecurlyFailedRenewalWebHookNotification
-import grails.plugin.recurly.RecurlyExpiredSubscriptionWebHookNotification
-import grails.plugin.recurly.RecurlyChangedSubscriptionWebHookNotification
+import grails.plugin.recurly.notifications.RecurlyFailedRenewalWebHookNotification
+import grails.plugin.recurly.notifications.RecurlyExpiredSubscriptionWebHookNotification
+import grails.plugin.recurly.notifications.RecurlyChangedSubscriptionWebHookNotification
 import grails.plugin.recurly.RecurlySubscription
-import grails.plugin.recurly.RecurlyCanceledSubscriptionWebHookNotification
-import grails.plugin.recurly.RecurlyRenewedSubscriptionWebHookNotification
-import grails.plugin.recurly.RecurlyNewSubscriptionWebHookNotification
+import grails.plugin.recurly.notifications.RecurlyCanceledSubscriptionWebHookNotification
+import grails.plugin.recurly.notifications.RecurlyRenewedSubscriptionWebHookNotification
+import grails.plugin.recurly.notifications.RecurlyNewSubscriptionWebHookNotification
 
 class WebHookNotificationProcessor extends GenericNodeTypeCaster {
     String receivedXml

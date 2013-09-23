@@ -1,20 +1,20 @@
 package grails.plugin.recurly.processors
 
-import grails.plugin.recurly.RecurlySubscriptionPlan
-import groovy.xml.MarkupBuilder
-import grails.plugin.recurly.templates.Response
-import grails.plugin.recurly.helpers.RecurlyURLBuilder
+import grails.plugin.recurly.RecurlyPlan
 import grails.plugin.recurly.enums.RecurlyUrlActionType
 import grails.plugin.recurly.helpers.RecurlyProcessor
+import grails.plugin.recurly.helpers.RecurlyURLBuilder
+import grails.plugin.recurly.templates.Response
+import groovy.xml.MarkupBuilder
 
-class RecurlySubscriptionPlanProcessor extends RecurlyProcessor {
+class RecurlyPlanProcessor extends RecurlyProcessor {
 
-    public RecurlySubscriptionPlanProcessor(RecurlySubscriptionPlan recurlySubscriptionPlan) {
-        this.recurlySubscriptionPlan = recurlySubscriptionPlan
+    public RecurlyPlanProcessor(RecurlyPlan recurlyPlan) {
+        this.recurlyPlan = recurlyPlan
     }
 
-    public RecurlySubscriptionPlanProcessor() {
-        recurlySubscriptionPlan = new RecurlySubscriptionPlan()
+    public RecurlyPlanProcessor() {
+        recurlyPlan = new RecurlyPlan()
     }
 
     void checkConstraints() {
@@ -31,55 +31,54 @@ class RecurlySubscriptionPlanProcessor extends RecurlyProcessor {
         checkProperty("trialIntervalUnit", MAX_SIZE_10, REQUIRED_FIELD, CAN_NOT_BE_BLANK)
     }
 
-    public Response<RecurlySubscriptionPlan> create() {
-        Response<RecurlySubscriptionPlan> response = new Response<RecurlySubscriptionPlan>()
-        response.entity = recurlySubscriptionPlan
+    public Response<RecurlyPlan> create() {
+        Response<RecurlyPlan> response = new Response<RecurlyPlan>()
+        response.entity = recurlyPlan
 
         if (this.validate()) {
             this.targetUrl = RecurlyURLBuilder.buildURL(RecurlyUrlActionType.CREATE_PLAN)
             this.processUsingMethodPOST()
             updateResponse(httpResponse.entity.getData())
-            response.entity = recurlySubscriptionPlan
+            response.entity = recurlyPlan
             response.status = httpResponse.status
             response.message = "This Response is Generated Against CREATE Request. " + httpResponse?.message
             response.errors = httpResponse.errors
         } else {
             response.status = "error"
             response.errors = this.errors()
-            response.message = "Validation Of Feilds Failed, See Errors Map For Details"
+            response.message = "Validation Of Fields Failed, See Errors Map For Details"
         }
         return response
     }
 
-    public Response<RecurlySubscriptionPlan> update() {
-        Response<RecurlySubscriptionPlan> response = new Response<RecurlySubscriptionPlan>()
-        response.entity = recurlySubscriptionPlan
+    public Response<RecurlyPlan> update() {
+        Response<RecurlyPlan> response = new Response<RecurlyPlan>()
+        response.entity = recurlyPlan
 
         if (this.validate()) {
-            this.targetUrl = RecurlyURLBuilder.buildURL(RecurlyUrlActionType.UPDATE_PLAN, recurlySubscriptionPlan.planCode)
+            this.targetUrl = RecurlyURLBuilder.buildURL(RecurlyUrlActionType.UPDATE_PLAN, recurlyPlan.planCode)
             this.processUsingMethodPUT()
             updateResponse(httpResponse.entity.getData())
-            response.entity = recurlySubscriptionPlan
+            response.entity = recurlyPlan
             response.status = httpResponse.status
             response.message = "This Response is Generated Against UPDATE Request. " + httpResponse?.message
             response.errors = httpResponse.errors
         } else {
             response.status = "error"
             response.errors = this.errors()
-            response.message = "Validation Of Feilds Failed, See Errors Map For Details"
+            response.message = "Validation Of Fields Failed, See Errors Map For Details"
         }
         return response
     }
 
-    public Response<RecurlySubscriptionPlan> delete() {
-        Response<RecurlySubscriptionPlan> response = new Response<RecurlySubscriptionPlan>()
-        response.entity = recurlySubscriptionPlan
+    public Response<String> delete(String planCode) {
+        Response<String> response = new Response<String>()
+        response.entity = planCode
 
-        if (this.recurlySubscriptionPlan.planCode) {
-            this.targetUrl = RecurlyURLBuilder.buildURL(RecurlyUrlActionType.DELETE_PLAN, recurlySubscriptionPlan.planCode)
+        if (planCode) {
+            this.targetUrl = RecurlyURLBuilder.buildURL(RecurlyUrlActionType.DELETE_PLAN, planCode)
             this.processUsingMethodDELETE()
             updateResponse(httpResponse.entity.getData())
-            response.entity = recurlySubscriptionPlan
             response.status = httpResponse.status
             response.message = "This Response is Generated Against DELETE Request. " + httpResponse?.message
             response.errors = httpResponse.errors
@@ -87,18 +86,18 @@ class RecurlySubscriptionPlanProcessor extends RecurlyProcessor {
             this.validate()
             response.status = "error"
             response.errors = this.errors()
-            response.message = "PlanCode Feild is required."
+            response.message = "PlanCode Field is required."
         }
         return response
     }
 
-    public Response<List<RecurlySubscriptionPlan>> listAllSubscriptionPlans() {
-        Response<List<RecurlySubscriptionPlan>> response = new Response<List<RecurlySubscriptionPlan>>()
-        List<RecurlySubscriptionPlan> recurlySubscriptionPlans = []
+    public Response<List<RecurlyPlan>> listPlans() {
+        Response<List<RecurlyPlan>> response = new Response<List<RecurlyPlan>>()
+        List<RecurlyPlan> recurlyPlans = []
         this.targetUrl = RecurlyURLBuilder.buildURL(RecurlyUrlActionType.PLANS)
         this.processUsingMethodGET()
         httpResponse.entity.getData()?.plan?.each {
-            recurlySubscriptionPlans.add(new RecurlySubscriptionPlan(
+            recurlyPlans.add(new RecurlyPlan(
                     planCode: it.plan_code,
                     name: it.name,
                     description: it.description,
@@ -113,19 +112,19 @@ class RecurlySubscriptionPlanProcessor extends RecurlyProcessor {
                     trialIntervalUnit: it.trial_interval_unit
             ))
         }
-        response.entity = recurlySubscriptionPlans
+        response.entity = recurlyPlans
         response.status = httpResponse?.status
         response.message = "This Response is Generated Against LIST_ALL_SUBSCRYPTION_PLANS Request. " + httpResponse?.message
         response.errors = httpResponse?.errors
         return response
     }
 
-    public Response<RecurlySubscriptionPlan> getSubscriptionPlanDetails(String planCode) {
-        Response<RecurlySubscriptionPlan> response = new Response<RecurlySubscriptionPlan>()
+    public Response<RecurlyPlan> getPlanDetails(String planCode) {
+        Response<RecurlyPlan> response = new Response<RecurlyPlan>()
         this.targetUrl = RecurlyURLBuilder.buildURL(RecurlyUrlActionType.GET_PLAN_DETAILS, planCode)
         this.processUsingMethodGET()
         updateResponse(httpResponse.entity.getData())
-        response.entity = recurlySubscriptionPlan
+        response.entity = recurlyPlan
         response.status = httpResponse?.status
         response.message = "This Response is Generated Against GET_SUBSCRIPTION_PLAN_DETAILS Request. " + httpResponse?.message
         response.errors = httpResponse?.errors
@@ -138,17 +137,21 @@ class RecurlySubscriptionPlanProcessor extends RecurlyProcessor {
         MarkupBuilder xml = new MarkupBuilder(writer)
 
         xml.plan() {
-            "plan_code"(recurlySubscriptionPlan.planCode)
-            "name"(recurlySubscriptionPlan.name)
-            "description"(recurlySubscriptionPlan.description ?: "")
-            "success_url"(recurlySubscriptionPlan.successUrl ?: "")
-            "cancel_url"(recurlySubscriptionPlan.cancelUrl ?: "")
-            "unit_amount_in_cents"(recurlySubscriptionPlan.unitAmountInCents)
-            "setup_fee_in_cents"(recurlySubscriptionPlan.setupFeeInCents)
-            "plan_interval_length"(recurlySubscriptionPlan.planIntervalLength)
-            "plan_interval_unit"(recurlySubscriptionPlan.planIntervalUnit)
-            "trial_interval_length"(recurlySubscriptionPlan.trialIntervalLength)
-            "trial_interval_unit"(recurlySubscriptionPlan.trialIntervalUnit)
+            "plan_code"(recurlyPlan.planCode)
+            "name"(recurlyPlan.name)
+            "description"(recurlyPlan.description ?: "")
+            "accountingCode"(recurlyPlan.accountingCode ?: "")
+            "plan_interval_length"(recurlyPlan.planIntervalLength)
+            "plan_interval_unit"(recurlyPlan.planIntervalUnit)
+            "trial_interval_length"(recurlyPlan.trialIntervalLength)
+            "trial_interval_unit"(recurlyPlan.trialIntervalUnit)
+            "setup_fee_in_cents"(recurlyPlan.setupFeeInCents)
+            "unit_amount_in_cents"(recurlyPlan.unitAmountInCents)
+            "total_billing_cycles"(recurlyPlan.totalBillingCycles)
+            "unit_name"(recurlyPlan.unitName)
+            "display_quantity"(recurlyPlan.displayQuantity)
+            "success_url"(recurlyPlan.successUrl ?: "")
+            "cancel_url"(recurlyPlan.cancelUrl ?: "")
         }
         return writer.toString()
     }
@@ -157,26 +160,30 @@ class RecurlySubscriptionPlanProcessor extends RecurlyProcessor {
         if (!responseData) {
             return
         }
-        this.recurlySubscriptionPlan.planCode = responseData.plan_code
-        this.recurlySubscriptionPlan.name = responseData.name
-        this.recurlySubscriptionPlan.description = responseData.description
-        this.recurlySubscriptionPlan.successUrl = responseData.success_url
-        this.recurlySubscriptionPlan.cancelUrl = responseData.cancel_url
-        this.recurlySubscriptionPlan.createdAt = responseData.created_at
-        this.recurlySubscriptionPlan.unitAmountInCents = convertNodeToInteger(responseData.unit_amount_in_cents)
-        this.recurlySubscriptionPlan.setupFeeInCents = convertNodeToInteger(responseData.setup_fee_in_cents)
-        this.recurlySubscriptionPlan.planIntervalLength = convertNodeToInteger(responseData.plan_interval_length)
-        this.recurlySubscriptionPlan.planIntervalUnit = responseData.plan_interval_unit
-        this.recurlySubscriptionPlan.trialIntervalLength = convertNodeToInteger(responseData.trial_interval_length)
-        this.recurlySubscriptionPlan.trialIntervalUnit = responseData.trial_interval_unit
+        this.recurlyPlan.planCode = responseData.plan_code
+        this.recurlyPlan.name = responseData.name
+        this.recurlyPlan.description = responseData.description
+        this.recurlyPlan.accountingCode = responseData.accounting_code
+        this.recurlyPlan.planIntervalLength = convertNodeToInteger(responseData.plan_interval_length)
+        this.recurlyPlan.planIntervalUnit = responseData.plan_interval_unit
+        this.recurlyPlan.trialIntervalLength = convertNodeToInteger(responseData.trial_interval_length)
+        this.recurlyPlan.trialIntervalUnit = responseData.trial_interval_unit
+        this.recurlyPlan.setupFeeInCents = convertNodeToInteger(responseData.setup_fee_in_cents)
+        this.recurlyPlan.unitAmountInCents = convertNodeToInteger(responseData.unit_amount_in_cents)
+        this.recurlyPlan.totalBillingCycles = convertNodeToInteger(responseData.total_billing_cycles)
+        this.recurlyPlan.unitName = responseData.unit_name
+        this.recurlyPlan.displayQuantity = responseData.display_quantity as Boolean
+        this.recurlyPlan.successUrl = responseData.success_url
+        this.recurlyPlan.cancelUrl = responseData.cancel_url
+        this.recurlyPlan.createdAt = responseData.created_at
     }
 
-    public void setRecurlySubscriptionPlan(RecurlySubscriptionPlan recurlySubscriptionPlan) {
-        this.beanUnderProcess = recurlySubscriptionPlan
-        beanClass = RecurlySubscriptionPlan.class
+    public void setRecurlyPlan(RecurlyPlan recurlyPlan) {
+        this.beanUnderProcess = recurlyPlan
+        beanClass = RecurlyPlan.class
     }
 
-    public RecurlySubscriptionPlan getRecurlySubscriptionPlan() {
-        return this.beanUnderProcess as RecurlySubscriptionPlan
+    public RecurlyPlan getRecurlyPlan() {
+        return this.beanUnderProcess as RecurlyPlan
     }
 }
