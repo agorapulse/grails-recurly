@@ -1,4 +1,4 @@
-import org.devunited.grails.plugin.recurly.RecurlyWebHookController
+import grails.plugin.recurly.RecurlyWebHookController
 
 class RecurlyGrailsPlugin {
     // the plugin version
