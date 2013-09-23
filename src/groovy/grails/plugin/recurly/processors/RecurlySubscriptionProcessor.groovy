@@ -51,7 +51,7 @@ class RecurlySubscriptionProcessor extends RecurlyProcessor {
         } else {
             response.status = "error"
             response.errors = this.errors()
-            response.message = "Validation Of Feilds Failed, See Errors Map For Details"
+            response.message = "Validation Of Fields Failed, See Errors Map For Details"
         }
         return response
     }
@@ -64,12 +64,12 @@ class RecurlySubscriptionProcessor extends RecurlyProcessor {
             this.targetUrl = RecurlyURLBuilder.buildURL(RecurlyUrlActionType.CANCEL_SUBSCRIPTION, subscriptionUuid)
             this.processUsingMethodPUT()
             response.status = httpResponse?.status
-            response.message = "This Response is Generated Against DELETE Request. " + httpResponse?.message
+            response.message = "This Response is Generated Against PUT Request. " + httpResponse?.message
             response.errors = httpResponse?.errors
         } else {
             response.status = "error"
             response.errors = ["AccountCode": "Is Null"]
-            response.message = "Validation Of Feilds Failed, See Errors Map For Details"
+            response.message = "Validation Of Fields Failed, See Errors Map For Details"
         }
         return response
     }
@@ -82,12 +82,12 @@ class RecurlySubscriptionProcessor extends RecurlyProcessor {
             this.targetUrl = RecurlyURLBuilder.buildURL(RecurlyUrlActionType.REACTIVATE_SUBSCRIPTION, subscriptionUuid)
             this.processUsingMethodPUT()
             response.status = httpResponse?.status
-            response.message = "This Response is Generated Against DELETE Request. " + httpResponse?.message
+            response.message = "This Response is Generated Against PUT Request. " + httpResponse?.message
             response.errors = httpResponse?.errors
         } else {
             response.status = "error"
             response.errors = ["AccountCode": "Is Null"]
-            response.message = "Validation Of Feilds Failed, See Errors Map For Details"
+            response.message = "Validation Of Fields Failed, See Errors Map For Details"
         }
         return response
     }
@@ -104,7 +104,7 @@ class RecurlySubscriptionProcessor extends RecurlyProcessor {
         } else {
             response.status = "error"
             response.errors = ["AccountCode": "Is Null"]
-            response.message = "Validation Of Feilds Failed, See Errors Map For Details"
+            response.message = "Validation Of Fields Failed, See Errors Map For Details"
         }
         return response
     }
@@ -121,7 +121,7 @@ class RecurlySubscriptionProcessor extends RecurlyProcessor {
         } else {
             response.status = "error"
             response.errors = ["AccountCode": "Is Null"]
-            response.message = "Validation Of Feilds Failed, See Errors Map For Details"
+            response.message = "Validation Of Fields Failed, See Errors Map For Details"
         }
         return response
     }
@@ -138,7 +138,7 @@ class RecurlySubscriptionProcessor extends RecurlyProcessor {
         } else {
             response.status = "error"
             response.errors = ["AccountCode": "Is Null"]
-            response.message = "Validation Of Feilds Failed, See Errors Map For Details"
+            response.message = "Validation Of Fields Failed, See Errors Map For Details"
         }
         return response
     }
@@ -158,15 +158,15 @@ class RecurlySubscriptionProcessor extends RecurlyProcessor {
         } else {
             response.status = "error"
             response.errors = ["AccountCode": "Is Null"]
-            response.message = "Validation Of Feilds Failed, See Errors Map For Details"
+            response.message = "Validation Of Fields Failed, See Errors Map For Details"
         }
         this.recurlySubscriptionChangeTimeFrame = null
         return response
     }
 
-    public Response<RecurlySubscription> getSubscriptionDetails(String accountCode) {
+    public Response<RecurlySubscription> getSubscriptionDetails(String subscriptionUuid) {
         Response<RecurlySubscription> response = new Response<RecurlySubscription>()
-        this.targetUrl = RecurlyURLBuilder.buildURL(RecurlyUrlActionType.GET_SUBSCRIPTION_DETAILS, accountCode)
+        this.targetUrl = RecurlyURLBuilder.buildURL(RecurlyUrlActionType.GET_SUBSCRIPTION_DETAILS, subscriptionUuid)
         this.processUsingMethodGET()
         updateResponse(httpResponse.entity.getData())
         response.entity = recurlySubscription
@@ -195,70 +195,12 @@ class RecurlySubscriptionProcessor extends RecurlyProcessor {
                 "timeframe"(recurlySubscriptionChangeTimeFrame.value)
             }
             "plan_code"(recurlySubscription.planCode)
-            if (recurlySubscription.couponCode) {
-                "coupon_code"(recurlySubscription.couponCode ?: "")
+            if (recurlySubscription.quantity) {
+                "quantity"(recurlySubscription.quantity ?: "")
             }
             if (recurlySubscription.unitAmountInCents) {
                 "unit_amount_in_cents"(recurlySubscription.unitAmountInCents ?: "")
             }
-            if (recurlySubscription.quantity) {
-                "quantity"(recurlySubscription.quantity ?: "")
-            }
-            if (recurlySubscription.trialEndsAt) {
-                "trial_ends_at"(recurlySubscription.trialEndsAt ?: "")
-            }
-            "account"() {
-                "account_code"(recurlySubscription.account.accountCode)
-                if (recurlySubscription.account.userName) {
-                    "username"(recurlySubscription.account.userName ?: "")
-                }
-                if (recurlySubscription.account.firstName) {
-                    "first_name"(recurlySubscription.account.firstName ?: "")
-                }
-                if (recurlySubscription.account.lastName) {
-                    "last_name"(recurlySubscription.account.lastName ?: "")
-                }
-                if (recurlySubscription.account.email) {
-                    "email"(recurlySubscription.account.email ?: "")
-                }
-                if (recurlySubscription.account.companyName) {
-                    "company"(recurlySubscription.account.companyName ?: "")
-                }
-                if (recurlySubscription.billingInfo) {
-                    "billing_info"() {
-                        "first_name"(recurlySubscription.billingInfo.firstName)
-                        "last_name"(recurlySubscription.billingInfo.lastName)
-                        if (recurlySubscription.billingInfo.address1) {
-                            "address1"(recurlySubscription.billingInfo.address1 ?: "")
-                        }
-                        if (recurlySubscription.billingInfo.address2) {
-                            "address2"(recurlySubscription.billingInfo.address2 ?: "")
-                        }
-                        if (recurlySubscription.billingInfo.city) {
-                            "city"(recurlySubscription.billingInfo.city ?: "")
-                        }
-                        if (recurlySubscription.billingInfo.state) {
-                            "state"(recurlySubscription.billingInfo.state ?: "")
-                        }
-                        if (recurlySubscription.billingInfo.zip) {
-                            "zip"(recurlySubscription.billingInfo.zip ?: "")
-                        }
-                        if (recurlySubscription.billingInfo.country) {
-                            "country"(recurlySubscription.billingInfo.country ?: "")
-                        }
-                        if (recurlySubscription.billingInfo.ipAddress) {
-                            "ip_address"(recurlySubscription.billingInfo.ipAddress ?: "")
-                        }
-                        "credit_card"() {
-                            "number"(recurlySubscription.billingInfo.creditCard.creditCardNumber)
-                            "verification_value"(recurlySubscription.billingInfo.creditCard.verificationValue)
-                            "year"(recurlySubscription.billingInfo.creditCard.year)
-                            "month"(recurlySubscription.billingInfo.creditCard.month)
-                        }
-                    }
-                }
-            }
-
             if (!recurlySubscription.addOns.isEmpty()) {
                 "add_ons"() {
                     recurlySubscription.addOns.each {addOn ->
@@ -274,7 +216,68 @@ class RecurlySubscriptionProcessor extends RecurlyProcessor {
                     }
                 }
             }
+            if (!recurlySubscription.uuid) {
+                // Only to create subscription
+                if (recurlySubscription.couponCode) {
+                    "coupon_code"(recurlySubscription.couponCode ?: "")
+                }
+                if (recurlySubscription.trialEndsAt) {
+                    "trial_ends_at"(recurlySubscription.trialEndsAt ?: "")
+                }
+                "account"() {
+                    "account_code"(recurlySubscription.account.accountCode)
+                    if (recurlySubscription.account.userName) {
+                        "username"(recurlySubscription.account.userName ?: "")
+                    }
+                    if (recurlySubscription.account.firstName) {
+                        "first_name"(recurlySubscription.account.firstName ?: "")
+                    }
+                    if (recurlySubscription.account.lastName) {
+                        "last_name"(recurlySubscription.account.lastName ?: "")
+                    }
+                    if (recurlySubscription.account.email) {
+                        "email"(recurlySubscription.account.email ?: "")
+                    }
+                    if (recurlySubscription.account.companyName) {
+                        "company"(recurlySubscription.account.companyName ?: "")
+                    }
+                    if (recurlySubscription.billingInfo) {
+                        "billing_info"() {
+                            "first_name"(recurlySubscription.billingInfo.firstName)
+                            "last_name"(recurlySubscription.billingInfo.lastName)
+                            if (recurlySubscription.billingInfo.address1) {
+                                "address1"(recurlySubscription.billingInfo.address1 ?: "")
+                            }
+                            if (recurlySubscription.billingInfo.address2) {
+                                "address2"(recurlySubscription.billingInfo.address2 ?: "")
+                            }
+                            if (recurlySubscription.billingInfo.city) {
+                                "city"(recurlySubscription.billingInfo.city ?: "")
+                            }
+                            if (recurlySubscription.billingInfo.state) {
+                                "state"(recurlySubscription.billingInfo.state ?: "")
+                            }
+                            if (recurlySubscription.billingInfo.zip) {
+                                "zip"(recurlySubscription.billingInfo.zip ?: "")
+                            }
+                            if (recurlySubscription.billingInfo.country) {
+                                "country"(recurlySubscription.billingInfo.country ?: "")
+                            }
+                            if (recurlySubscription.billingInfo.ipAddress) {
+                                "ip_address"(recurlySubscription.billingInfo.ipAddress ?: "")
+                            }
+                            "credit_card"() {
+                                "number"(recurlySubscription.billingInfo.creditCard.creditCardNumber)
+                                "verification_value"(recurlySubscription.billingInfo.creditCard.verificationValue)
+                                "year"(recurlySubscription.billingInfo.creditCard.year)
+                                "month"(recurlySubscription.billingInfo.creditCard.month)
+                            }
+                        }
+                    }
+                }
+            }
         }
+        String result = writer.toString()
         return writer.toString()
     }
 
@@ -297,6 +300,9 @@ class RecurlySubscriptionProcessor extends RecurlyProcessor {
         }
         if (responseData.quantity) {
             recurlySubscription.quantity = convertNodeToInteger(responseData.quantity)
+        }
+        if (responseData.currency) {
+            recurlySubscription.currency = responseData.currency
         }
         if (responseData.account_code) {
             recurlySubscription.account = recurlySubscription.account ?: new RecurlyAccount()

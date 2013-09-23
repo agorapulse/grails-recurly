@@ -1,15 +1,11 @@
 package grails.plugin.recurly
 
 import grails.plugin.recurly.enums.RecurlyAccountState
-import grails.plugin.recurly.templates.Response
-import grails.plugin.recurly.processors.RecurlyAccountProcessor
-import grails.plugin.recurly.processors.RecurlySubscriptionPlanProcessor
-import grails.plugin.recurly.processors.RecurlySubscriptionProcessor
 import grails.plugin.recurly.enums.RecurlySubscriptionChangeTimeFrame
-import grails.plugin.recurly.helpers.WebHookNotification
-import grails.plugin.recurly.processors.WebHookNotificationProcessor
-import grails.plugin.recurly.processors.RecurlyTransactionProcessor
-import grails.plugin.recurly.processors.RecurlyBillingInfoProcessor
+import grails.plugin.recurly.enums.RecurlyTransactionState
+import grails.plugin.recurly.enums.RecurlyTransactionType
+import grails.plugin.recurly.processors.*
+import grails.plugin.recurly.templates.Response
 
 class RecurlyService {
 
@@ -51,24 +47,24 @@ class RecurlyService {
 
     //SUBSCRIPTION PLAN RELATED SERVICES
 
-    public Response<RecurlySubscriptionPlan> createSubscriptionPlan(RecurlySubscriptionPlan recurlySubscriptionPlan) {
-        return new RecurlySubscriptionPlanProcessor(recurlySubscriptionPlan).create()
+    public Response<RecurlyPlan> createSubscriptionPlan(RecurlyPlan recurlySubscriptionPlan) {
+        return new RecurlyPlanProcessor(recurlySubscriptionPlan).create()
     }
 
-    public Response<RecurlySubscriptionPlan> updateSubscriptionPlan(RecurlySubscriptionPlan recurlySubscriptionPlan) {
-        return new RecurlySubscriptionPlanProcessor(recurlySubscriptionPlan).update()
+    public Response<RecurlyPlan> updateSubscriptionPlan(RecurlyPlan recurlySubscriptionPlan) {
+        return new RecurlyPlanProcessor(recurlySubscriptionPlan).update()
     }
 
-    public Response<RecurlySubscriptionPlan> deleteSubscriptionPlan(RecurlySubscriptionPlan recurlySubscriptionPlan) {
-        return new RecurlySubscriptionPlanProcessor(recurlySubscriptionPlan).delete()
+    public Response<RecurlyPlan> deleteSubscriptionPlan(RecurlyPlan recurlySubscriptionPlan) {
+        return new RecurlyPlanProcessor(recurlySubscriptionPlan).delete()
     }
 
-    public Response<List<RecurlySubscriptionPlan>> listAllSubscriptionPlans() {
-        return new RecurlySubscriptionPlanProcessor().listAllSubscriptionPlans()
+    public Response<List<RecurlyPlan>> listAllSubscriptionPlans() {
+        return new RecurlyPlanProcessor().listPlans()
     }
 
-    public Response<RecurlySubscriptionPlan> getSubscriptionPlanDetails(String planCode) {
-        return new RecurlySubscriptionPlanProcessor().getSubscriptionPlanDetails(planCode)
+    public Response<RecurlyPlan> getSubscriptionPlanDetails(String planCode) {
+        return new RecurlyPlanProcessor().getPlanDetails(planCode)
     }
 
     //SUBSCRIPTION RELATED SERVICES
@@ -89,8 +85,8 @@ class RecurlyService {
         return new RecurlySubscriptionProcessor(recurlySubscription).update(recurlySubscriptionChangeTimeFrame)
     }
 
-    public Response<RecurlySubscription> getSubscriptionDetails(String accountCode) {
-        return new RecurlySubscriptionProcessor().getSubscriptionDetails(accountCode)
+    public Response<RecurlySubscription> getSubscriptionDetails(String subscriptionUuid) {
+        return new RecurlySubscriptionProcessor().getSubscriptionDetails(subscriptionUuid)
     }
 
     public Response<String/*accountCode*/> cancelSubscription(String subscriptionUuid) {
@@ -133,52 +129,52 @@ class RecurlyService {
         return new RecurlyTransactionProcessor().getTransactionDetails(transactionId)
     }
 
-    public Response<List<RecurlyTransaction>> listAllAccountTransactions(String accountId) {
-        return new RecurlyTransactionProcessor().listAllAccountTransactions(accountId)
+    public Response<List<RecurlyTransaction>> listAllAccountTransactions(String accountCode) {
+        return new RecurlyTransactionProcessor().listTransactions(accountCode: accountCode)
     }
 
-    public Response<List<RecurlyTransaction>> listAllAccountTransactionsWhichAreMarkedAsSuccessful(String accountId) {
-        return new RecurlyTransactionProcessor().listAllAccountTransactionsWhichAreMarkedAsSuccessful(accountId)
+    public Response<List<RecurlyTransaction>> listAllAccountTransactionsWhichAreMarkedAsSuccessful(String accountCode) {
+        return new RecurlyTransactionProcessor().listTransactions(accountCode: accountCode, state: RecurlyTransactionState.SUCCESSFUL)
     }
 
-    public Response<List<RecurlyTransaction>> listAllAccountTransactionsWhichAreMarkedAsFailed(String accountId) {
-        return new RecurlyTransactionProcessor().listAllAccountTransactionsWhichAreMarkedAsFailed(accountId)
+    public Response<List<RecurlyTransaction>> listAllAccountTransactionsWhichAreMarkedAsFailed(String accountCode) {
+        return new RecurlyTransactionProcessor().listTransactions(accountCode: accountCode, state: RecurlyTransactionState.FAILED)
     }
 
-    public Response<List<RecurlyTransaction>> listAllAccountTransactionsWhichAreMarkedAsPayments(String accountId) {
-        return new RecurlyTransactionProcessor().listAllAccountTransactionsWhichAreMarkedAsPayments(accountId)
+    public Response<List<RecurlyTransaction>> listAllAccountTransactionsWhichAreMarkedAsPayments(String accountCode) {
+        return new RecurlyTransactionProcessor().listTransactions(accountCode: accountCode, state: RecurlyTransactionType.PURCHASE)
     }
 
-    public Response<List<RecurlyTransaction>> listAllAccountTransactionsWhichAreMarkedAsRefunds(String accountId) {
-        return new RecurlyTransactionProcessor().listAllAccountTransactionsWhichAreMarkedAsRefunds(accountId)
+    public Response<List<RecurlyTransaction>> listAllAccountTransactionsWhichAreMarkedAsRefunds(String accountCode) {
+        return new RecurlyTransactionProcessor().listTransactions(accountCode: accountCode, state: RecurlyTransactionType.REFUND)
     }
 
-    public Response<List<RecurlyTransaction>> listAllAccountTransactionsWhichAreMarkedAsVoided(String accountId) {
-        return new RecurlyTransactionProcessor().listAllAccountTransactionsWhichAreMarkedAsVoided(accountId)
+    public Response<List<RecurlyTransaction>> listAllAccountTransactionsWhichAreMarkedAsVoided(String accountCode) {
+        return new RecurlyTransactionProcessor().listTransactions(accountCode: accountCode, state: RecurlyTransactionState.VOIDED)
     }
 
     public Response<List<RecurlyTransaction>> listAllTransactions() {
-        return new RecurlyTransactionProcessor().listAllTransactions()
+        return new RecurlyTransactionProcessor().listTransactions()
     }
 
     public Response<List<RecurlyTransaction>> listAllTransactionsWhichAreMarkedAsSuccessful() {
-        return new RecurlyTransactionProcessor().listAllTransactionsWhichAreMarkedAsSuccessful()
+        return new RecurlyTransactionProcessor().listTransactions(state: RecurlyTransactionState.SUCCESSFUL)
     }
 
     public Response<List<RecurlyTransaction>> listAllTransactionsWhichAreMarkedAsFailed() {
-        return new RecurlyTransactionProcessor().listAllTransactionsWhichAreMarkedAsFailed()
+        return new RecurlyTransactionProcessor().listTransactions(state: RecurlyTransactionState.FAILED)
     }
 
     public Response<List<RecurlyTransaction>> listAllTransactionsWhichAreMarkedAsPayments() {
-        return new RecurlyTransactionProcessor().listAllTransactionsWhichAreMarkedAsPayments()
+        return new RecurlyTransactionProcessor().listTransactions(state: RecurlyTransactionType.PURCHASE)
     }
 
     public Response<List<RecurlyTransaction>> listAllTransactionsWhichAreMarkedAsRefunds() {
-        return new RecurlyTransactionProcessor().listAllTransactionsWhichAreMarkedAsRefunds()
+        return new RecurlyTransactionProcessor().listTransactions(state: RecurlyTransactionType.REFUND)
     }
 
     public Response<List<RecurlyTransaction>> listAllTransactionsWhichAreMarkedAsVoided() {
-        return new RecurlyTransactionProcessor().listAllTransactionsWhichAreMarkedAsVoided()
+        return new RecurlyTransactionProcessor().listTransactions(state: RecurlyTransactionState.VOIDED)
     }
 
 }

@@ -23,19 +23,19 @@ abstract class ConstraintsValidator extends GenericNodeTypeCaster implements Att
 
         if (value || value?.size() == 0) {
             if (value.size() > maxSize) {
-                violations = " ~The Length Of This Feild Can Not Be More Than ${maxSize}~ "
+                violations = " ~The Length Of This Field Can Not Be More Than ${maxSize}~ "
             }
             if (value.size() == 0 && !canBeBlank) {
                 violations = violations ?: ""
-                violations += " ~This Feild Can not Be Blank~ "
+                violations += " ~This Field Can not Be Blank~ "
             }
             if (value.size() < minSize && !canBeBlank) {
                 violations = violations ?: ""
-                violations += " ~The Length Of This Feild Can Not Be Less Than ${minSize}~ "
+                violations += " ~The Length Of This Field Can Not Be Less Than ${minSize}~ "
             }
         } else {
             if (!canBeNull) {
-                violations = " ~This Feild Can Not Be NULL~ "
+                violations = " ~This Field Can Not Be NULL~ "
             }
         }
         return violations

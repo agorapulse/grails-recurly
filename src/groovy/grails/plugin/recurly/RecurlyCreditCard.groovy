@@ -1,6 +1,7 @@
 package grails.plugin.recurly
 
 class RecurlyCreditCard {
+
     String creditCardNumber
     String verificationValue
     String year
@@ -12,4 +13,9 @@ class RecurlyCreditCard {
     String startMonth
     String startYear
     String issueNumber
+
+    String toString() {
+        "RecurlyCreditCard(lastFour:'$lastFour', type:'$type', startMonth:'$startMonth', startYear:'$startYear')"
+    }
+
 }

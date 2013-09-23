@@ -62,7 +62,7 @@ class RecurlyBillingInfoProcessor extends RecurlyProcessor {
         } else {
             response.status = "error"
             response.errors = this.errors()
-            response.message = "Validation Of Feilds Failed, See Errors Map For Details"
+            response.message = "Validation Of Fields Failed, See Errors Map For Details"
         }
         return response
     }
@@ -80,7 +80,7 @@ class RecurlyBillingInfoProcessor extends RecurlyProcessor {
         } else {
             response.status = "error"
             response.errors = ["accountCode": "accountCode is Null"]
-            response.message = "Validation Of Feilds Failed, See Errors Map For Details"
+            response.message = "Validation Of Fields Failed, See Errors Map For Details"
         }
         return response
     }

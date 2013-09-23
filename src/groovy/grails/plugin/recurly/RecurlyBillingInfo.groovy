@@ -25,7 +25,6 @@ class RecurlyBillingInfo extends RecurlyRESTResource {
 
     RecurlyBillingInfo save() {
         createOrUpdate(accountCode, this)
-        return this
     }
 
     String toString() {
@@ -35,11 +34,11 @@ class RecurlyBillingInfo extends RecurlyRESTResource {
     // STATIC REST METHODS
 
     static RecurlyBillingInfo createOrUpdate(String accountCode, RecurlyBillingInfo recurlyBillingInfo) {
-        handleResponse(new RecurlyBillingInfoProcessor(recurlyBillingInfo).createOrUpdate(accountCode))
+        handleResponse(new RecurlyBillingInfoProcessor(recurlyBillingInfo).createOrUpdate(accountCode)) as RecurlyBillingInfo
     }
 
     static RecurlyBillingInfo fetch(String accountCode) {
-        handleResponse( new RecurlyBillingInfoProcessor().getBillingDetails(accountCode))
+        handleResponse( new RecurlyBillingInfoProcessor().getBillingDetails(accountCode)) as RecurlyBillingInfo
     }
 
     static String remove(String accountCode) {

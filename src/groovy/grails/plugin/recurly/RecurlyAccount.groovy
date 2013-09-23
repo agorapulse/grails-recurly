@@ -1,18 +1,20 @@
 package grails.plugin.recurly
 
+import grails.plugin.recurly.enums.RecurlyAccountState
 import grails.plugin.recurly.helpers.RecurlyRESTResource
 import grails.plugin.recurly.processors.RecurlyAccountProcessor
 
 class RecurlyAccount extends RecurlyRESTResource {
 
     String accountCode
+    String state
     String userName
+    String email
     String firstName
     String lastName
-    String email
     String companyName
-    String hostedLoginToken
     String acceptLanguage = "en-us,en;q=0.5"
+    String hostedLoginToken
     String createdAt
 
     String delete() {
@@ -23,13 +25,13 @@ class RecurlyAccount extends RecurlyRESTResource {
         if (!createdAt) {
             create(this)
         } else {
-            accountCode = update(this)
+            update(this)
         }
         return this
     }
 
     String toString() {
-        "RecurlyAccount(accountCode:'$accountCode', email:'$email', userName:'$userName', firstName:'$firstName', lastName:'$lastName')"
+        "RecurlyAccount(accountCode:'$accountCode', state:'$state', email:'$email', userName:'$userName', firstName:'$firstName', lastName:'$lastName')"
     }
 
     // STATIC REST METHODS
@@ -39,17 +41,12 @@ class RecurlyAccount extends RecurlyRESTResource {
     }
 
     static RecurlyAccount fetch(String accountCode) {
-        handleResponse(new RecurlyAccountProcessor().getAccountDetails(accountCode))
-
+        handleResponse(new RecurlyAccountProcessor().getAccountDetails(accountCode)) as RecurlyAccount
     }
 
-    static List query(String state = '', int max = 50, String cursor = '') {
-        def query = [
-                per_page: max,
-                state: state
-        ]
-        if (cursor) query.cursor = cursor
-        handleResponse(new RecurlyAccountProcessor().listAccounts(query))
+    static List query(Map query = [:]) {
+        if (query.max) query.per_page = query.max
+        handleResponse(new RecurlyAccountProcessor().listAccounts(query)) as List
     }
 
     static String remove(String accountCode) {
@@ -57,7 +54,7 @@ class RecurlyAccount extends RecurlyRESTResource {
     }
 
     static RecurlyAccount update(RecurlyAccount recurlyAccount) {
-        handleResponse(new RecurlyAccountProcessor(recurlyAccount).update())
+        handleResponse(new RecurlyAccountProcessor(recurlyAccount).update()) as RecurlyAccount
     }
 
 }

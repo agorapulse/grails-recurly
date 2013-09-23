@@ -153,13 +153,14 @@ class RecurlyAccountProcessor extends RecurlyProcessor {
         if (!responseData) {
             return
         }
+        this.recurlyAccount.accountCode = responseData.account_code
+        this.recurlyAccount.state = responseData.state
         this.recurlyAccount.userName = responseData.username
+        this.recurlyAccount.email = responseData.email
         this.recurlyAccount.firstName = responseData.first_name
         this.recurlyAccount.lastName = responseData.last_name
-        this.recurlyAccount.accountCode = responseData.account_code
-        this.recurlyAccount.acceptLanguage = responseData.accept_language
-        this.recurlyAccount.email = responseData.email
         this.recurlyAccount.companyName = responseData.company_name
+        this.recurlyAccount.acceptLanguage = responseData.accept_language
         this.recurlyAccount.hostedLoginToken = responseData.hosted_login_token
         this.recurlyAccount.createdAt = responseData.created_at
     }
