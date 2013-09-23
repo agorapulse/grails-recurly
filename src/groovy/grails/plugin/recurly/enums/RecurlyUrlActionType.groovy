@@ -30,7 +30,11 @@ public enum RecurlyUrlActionType {
     // Transactions
     TRANSACTIONS("transactions"),
     LIST_ACCOUNT_TRANSACTIONS("accounts/[id]/transactions"),
-    GET_TRANSACTION_DETAILS("transactions/[id]")
+    GET_TRANSACTION_DETAILS("transactions/[id]"),
+    // Invoices
+    INVOICES("invoices"),
+    LIST_ACCOUNT_INVOICES("accounts/[id]/invoices"),
+    GET_INVOICE_DETAILS("invoices/[id]")
 
     String value
 
