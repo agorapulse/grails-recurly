@@ -34,7 +34,9 @@ public enum RecurlyUrlActionType {
     // Invoices
     INVOICES("invoices"),
     LIST_ACCOUNT_INVOICES("accounts/[id]/invoices"),
-    GET_INVOICE_DETAILS("invoices/[id]")
+    GET_INVOICE_DETAILS("invoices/[id]"),
+    // JS
+    GET_JS_RESULT("recurly_js/result/[id]")
 
     String value
 
