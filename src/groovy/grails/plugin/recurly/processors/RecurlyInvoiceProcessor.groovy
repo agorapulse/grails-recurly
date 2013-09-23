@@ -71,7 +71,7 @@ class RecurlyInvoiceProcessor extends RecurlyProcessor {
                 uuid: responseData.uuid,
                 accountCode: responseData.account_code,
                 state: responseData.state,
-                invoiceNumber: convertNodeToInteger(responseData.amount_in_cents),
+                invoiceNumber: convertNodeToInteger(responseData.invoice_number),
                 poNumber: responseData.po_number,
                 vatNumber: responseData.vat_number,
                 subtotalInCents: convertNodeToInteger(responseData.subtotal_in_cents),
