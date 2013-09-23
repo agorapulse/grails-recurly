@@ -180,6 +180,7 @@ class WebHookNotificationProcessor extends GenericNodeTypeCaster {
 
     private RecurlySubscription parseAndGetRecurlySubscription() {
         return new RecurlySubscription(
+                uuid: parsedXml.subscription?.uuid?.text(),
                 planCode: parsedXml.subscription?.plan?.plan_code?.text(),
                 planName: parsedXml.subscription?.plan?.plan_code?.text(),
                 state: parsedXml.subscription?.state?.text(),

@@ -282,6 +282,7 @@ class RecurlySubscriptionProcessor extends RecurlyProcessor {
         if (!responseData) {
             return
         }
+        recurlySubscription.uuid = responseData.uuid
         if (responseData.planCode) {
             recurlySubscription.planCode = responseData.planCode
         }
