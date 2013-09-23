@@ -41,9 +41,6 @@ class RecurlyInvoiceProcessor extends RecurlyProcessor {
         httpResponse.entity.getData()?.invoice?.each { invoice ->
             response.entity.add(getInvoiceBeanFromResponse(invoice))
         }
-        if (query.accountCode) {
-            response.entity*.accountCode = query.accountCode
-        }
         response.status = httpResponse?.status
         response.message = "This Response is Generated Against GET_INVOICE_DETAILS Request. " + httpResponse?.message
         response.errors = httpResponse?.errors
@@ -70,6 +67,7 @@ class RecurlyInvoiceProcessor extends RecurlyProcessor {
         return new RecurlyInvoice(
                 uuid: responseData.uuid,
                 accountCode: responseData.account_code,
+                accountCode: responseData.account ? responseData.account['@href']?.toString().tokenize('/')?.last() : '',
                 state: responseData.state,
                 invoiceNumber: convertNodeToInteger(responseData.invoice_number),
                 poNumber: responseData.po_number,
