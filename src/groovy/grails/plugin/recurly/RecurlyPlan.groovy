@@ -20,7 +20,7 @@ class RecurlyPlan extends RecurlyRESTResource {
     Boolean displayQuantity
     String successUrl
     String cancelUrl
-    String createdAt
+    Date createdAt
 
     String delete() {
         remove(planCode)
@@ -36,7 +36,7 @@ class RecurlyPlan extends RecurlyRESTResource {
     }
 
     String toString() {
-        "RecurlyPlan(planCode:'$planCode', name:'$name', unitAmountInCents:'$unitAmountInCents')"
+        "RecurlyPlan(planCode:'$planCode', name:'$name', unitAmountInCents:'$unitAmountInCents', createdAt:'$createdAt')"
     }
 
     // STATIC REST METHODS
@@ -49,16 +49,13 @@ class RecurlyPlan extends RecurlyRESTResource {
         handleResponse(new RecurlyPlanProcessor().getPlanDetails(planCode)) as RecurlyPlan
     }
 
-    static List query(int max = 50, String cursor = '') {
-        def query = [
-                per_page: max
-        ]
-        if (cursor) query.cursor = cursor
-        handleResponse(new RecurlyPlanProcessor().listAccounts(query)) as List
+    static List query(Map query = [:]) {
+        if (query.max) query.per_page = query.max
+        handleResponse(new RecurlyPlanProcessor().listPlans(query)) as List
     }
 
     static String remove(String planCode) {
-        handleResponse(new RecurlyPlanProcessor().delete())
+        handleResponse(new RecurlyPlanProcessor().delete(planCode))
     }
 
     static RecurlyPlan update(RecurlyPlan recurlyPlan) {

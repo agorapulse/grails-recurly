@@ -21,10 +21,10 @@ class RecurlyTransaction extends RecurlyRESTResource {
     String avsResult
     String avsResultPostal
     String avsResultStreet
-    String createdAt
+    Date createdAt
 
     String toString() {
-        "RecurlyTransaction(uuid:'$uuid', accountCode:'$accountCode', action:'$action', currency:'$currency', amountInCents:$amountInCents, taxInCents:$taxInCents, status:'$status')"
+        "RecurlyTransaction(uuid:'$uuid', accountCode:'$accountCode', action:'$action', currency:'$currency', amountInCents:$amountInCents, taxInCents:$taxInCents, status:'$status', createdAt:'$createdAt')"
     }
 
     // STATIC REST METHODS

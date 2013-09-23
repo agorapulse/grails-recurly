@@ -277,7 +277,6 @@ class RecurlySubscriptionProcessor extends RecurlyProcessor {
                 }
             }
         }
-        String result = writer.toString()
         return writer.toString()
     }
 
@@ -293,7 +292,7 @@ class RecurlySubscriptionProcessor extends RecurlyProcessor {
             recurlySubscription.couponCode = responseData.couponCode
         }
         if (responseData.trialEndsAt) {
-            recurlySubscription.trialEndsAt = responseData.trialEndsAt
+            recurlySubscription.trialEndsAt = convertNodeToDate(responseData.trialEndsAt)
         }
         if (responseData.unitAmountInCents) {
             recurlySubscription.unitAmountInCents = convertNodeToInteger(responseData.unitAmountInCents)
@@ -324,22 +323,22 @@ class RecurlySubscriptionProcessor extends RecurlyProcessor {
             recurlySubscription.totalAmountInCents = convertNodeToInteger(responseData.total_amount_in_cents)
         }
         if (responseData.activated_at) {
-            recurlySubscription.activatedAt = responseData.activated_at
+            recurlySubscription.activatedAt = convertNodeToDate(responseData.activated_at)
         }
         if (responseData.canceled_at) {
-            recurlySubscription.cancelledAt = responseData.canceled_at
+            recurlySubscription.cancelledAt = convertNodeToDate(responseData.canceled_at)
         }
         if (responseData.expires_at) {
-            recurlySubscription.expiresAt = responseData.expires_at
+            recurlySubscription.expiresAt = convertNodeToDate(responseData.expires_at)
         }
         if (responseData.current_period_started_at) {
-            recurlySubscription.currentPeriodStartedAt = responseData.current_period_started_at
+            recurlySubscription.currentPeriodStartedAt = convertNodeToDate(responseData.current_period_started_at)
         }
         if (responseData.current_period_ends_at) {
-            recurlySubscription.currentPeriodEndsAt = responseData.current_period_ends_at
+            recurlySubscription.currentPeriodEndsAt = convertNodeToDate(responseData.current_period_ends_at)
         }
         if (responseData.trial_started_at) {
-            recurlySubscription.trialStartedAt = responseData.trial_started_at
+            recurlySubscription.trialStartedAt = convertNodeToDate(responseData.trial_started_at)
         }
         if (responseData.pending_subscription) {
             recurlySubscription.pendingChanges = recurlySubscription.pendingChanges ?: new RecurlySubscriptionPendingChanges()
@@ -350,7 +349,7 @@ class RecurlySubscriptionProcessor extends RecurlyProcessor {
                 recurlySubscription.pendingChanges.quantity = convertNodeToInteger(responseData.pending_subscription.quantity)
             }
             if (responseData.pending_subscription.activates_at) {
-                recurlySubscription.pendingChanges.activatesAt = responseData.pending_subscription.activates_at
+                recurlySubscription.pendingChanges.activatesAt = convertNodeToDate(responseData.pending_subscription.activates_at)
             }
         }
         responseData.add_ons?.each {addOn ->

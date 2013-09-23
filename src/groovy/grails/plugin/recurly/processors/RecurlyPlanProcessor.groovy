@@ -103,7 +103,7 @@ class RecurlyPlanProcessor extends RecurlyProcessor {
                     description: it.description,
                     successUrl: it.success_url,
                     cancelUrl: it.cancel_url,
-                    createdAt: it.created_at,
+                    createdAt: convertNodeToDate(it.created_at),
                     unitAmountInCents: convertNodeToInteger(it.unit_amount_in_cents),
                     setupFeeInCents: convertNodeToInteger(it.setup_fee_in_cents),
                     planIntervalLength: convertNodeToInteger(it.plan_interval_length),

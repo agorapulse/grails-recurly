@@ -33,15 +33,17 @@ class RecurlyTransactionProcessor extends RecurlyProcessor {
         Response<List<RecurlyTransaction>> response = new Response<List<RecurlyTransaction>>()
         response.entity = []
         if (query.accountCode) {
-            this.targetUrl = RecurlyURLBuilder.buildURL(RecurlyUrlActionType.LIST_ACCOUNT_TRANSACTIONS, query.accountCode, query)
+            this.targetUrl = RecurlyURLBuilder.buildURL(RecurlyUrlActionType.LIST_ACCOUNT_TRANSACTIONS, query.accountCode.toString(), query)
         } else {
             this.targetUrl = RecurlyURLBuilder.buildURL(RecurlyUrlActionType.TRANSACTIONS, '', query)
         }
 
         this.processUsingMethodGET()
         httpResponse.entity.getData()?.transaction?.each { transaction ->
-            if (query.accountCode) transaction.account_code = query.accountCode
             response.entity.add(getTransactionBeanFromResponse(transaction))
+        }
+        if (query.accountCode) {
+            response.entity*.accountCode = query.accountCode
         }
         response.status = httpResponse?.status
         response.message = "This Response is Generated Against GET_TRANSACTION_DETAILS Request. " + httpResponse?.message
@@ -83,7 +85,7 @@ class RecurlyTransactionProcessor extends RecurlyProcessor {
                 avsResult: responseData.avs_result,
                 avsResultStreet: responseData.avs_result_street,
                 avsResultPostal: responseData.avs_result_postal,
-                createdAt: responseData.createdAt
+                createdAt: convertNodeToDate(responseData.created_at)
         )
     }
 }

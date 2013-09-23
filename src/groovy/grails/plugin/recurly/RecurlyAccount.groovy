@@ -15,7 +15,7 @@ class RecurlyAccount extends RecurlyRESTResource {
     String companyName
     String acceptLanguage = "en-us,en;q=0.5"
     String hostedLoginToken
-    String createdAt
+    Date createdAt
 
     String delete() {
         remove(accountCode)
@@ -31,7 +31,7 @@ class RecurlyAccount extends RecurlyRESTResource {
     }
 
     String toString() {
-        "RecurlyAccount(accountCode:'$accountCode', state:'$state', email:'$email', userName:'$userName', firstName:'$firstName', lastName:'$lastName')"
+        "RecurlyAccount(accountCode:'$accountCode', state:'$state', email:'$email', userName:'$userName', firstName:'$firstName', lastName:'$lastName', createdAt:'$createdAt')"
     }
 
     // STATIC REST METHODS

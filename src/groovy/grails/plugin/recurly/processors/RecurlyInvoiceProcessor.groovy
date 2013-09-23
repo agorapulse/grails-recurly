@@ -8,7 +8,6 @@ import grails.plugin.recurly.helpers.RecurlyURLBuilder
 
 class RecurlyInvoiceProcessor extends RecurlyProcessor {
 
-
     public RecurlyInvoiceProcessor() {
         this.recurlyInvoice = new RecurlyInvoice()
     }

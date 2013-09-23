@@ -113,7 +113,7 @@ class RecurlyAccountProcessor extends RecurlyProcessor {
                     email: it.email,
                     companyName: it.company_name,
                     hostedLoginToken: it.hosted_login_token,
-                    createdAt: it.created_at
+                    createdAt: convertNodeToDate(it.created_at)
             ))
         }
         response.entity = recurlyAccounts

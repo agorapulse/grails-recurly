@@ -10,7 +10,7 @@ class RecurlySubscription extends RecurlyRESTResource {
     String uuid
     String planCode
     String couponCode
-    String trialEndsAt
+    Date trialEndsAt
     Integer unitAmountInCents
     Integer quantity
     String currency
@@ -22,12 +22,12 @@ class RecurlySubscription extends RecurlyRESTResource {
     Integer planVersion
     String state
     Integer totalAmountInCents
-    String activatedAt
-    String cancelledAt
-    String expiresAt
-    String currentPeriodStartedAt
-    String currentPeriodEndsAt
-    String trialStartedAt
+    Date activatedAt
+    Date cancelledAt
+    Date expiresAt
+    Date currentPeriodStartedAt
+    Date currentPeriodEndsAt
+    Date trialStartedAt
     RecurlySubscriptionPendingChanges pendingChanges
 
     //Only Required For Creating Subscription

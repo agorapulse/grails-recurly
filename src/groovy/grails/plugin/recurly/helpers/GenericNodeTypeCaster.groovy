@@ -4,10 +4,26 @@ class GenericNodeTypeCaster{
 
     public String convertToCompatibleString(Object delegate) {
         String convertedString = null
-        if (delegate != null) {
+        if (delegate) {
             convertedString = delegate as String
         }
         return convertedString
+    }
+
+    public Date convertNodeToDate(Object node) {
+        if (node == null) {
+            return null
+        }
+        String nodeString = node
+        Date convertedDate
+        if (nodeString) {
+            try {
+                convertedDate = Date.parse("yyyy-MM-dd'T'hh:mm:ss'Z'", nodeString)
+            } catch (Exception e) {
+                convertedDate = null
+            }
+        }
+        return convertedDate
     }
 
     public Integer convertNodeToInteger(Object node) {
@@ -16,7 +32,7 @@ class GenericNodeTypeCaster{
         }
         String nodeString = node
         Integer convertedInt
-        if (nodeString == "") {
+        if (!nodeString) {
             convertedInt = 0
         } else {
             try {
