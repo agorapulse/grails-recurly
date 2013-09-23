@@ -42,9 +42,6 @@ class RecurlyTransactionProcessor extends RecurlyProcessor {
         httpResponse.entity.getData()?.transaction?.each { transaction ->
             response.entity.add(getTransactionBeanFromResponse(transaction))
         }
-        if (query.accountCode) {
-            response.entity*.accountCode = query.accountCode
-        }
         response.status = httpResponse?.status
         response.message = "This Response is Generated Against GET_TRANSACTION_DETAILS Request. " + httpResponse?.message
         response.errors = httpResponse?.errors
@@ -70,7 +67,7 @@ class RecurlyTransactionProcessor extends RecurlyProcessor {
         }
         return new RecurlyTransaction(
                 uuid: responseData.uuid,
-                accountCode: responseData.account_code,
+                accountCode: responseData.account['@href']?.toString().tokenize('/')?.last(),
                 action: responseData.action,
                 currency: responseData.currency,
                 amountInCents: convertNodeToInteger(responseData.amount_in_cents),
