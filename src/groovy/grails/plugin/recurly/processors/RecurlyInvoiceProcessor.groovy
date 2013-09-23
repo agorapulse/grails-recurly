@@ -5,6 +5,9 @@ import grails.plugin.recurly.helpers.RecurlyProcessor
 import grails.plugin.recurly.RecurlyInvoice
 import grails.plugin.recurly.templates.Response
 import grails.plugin.recurly.helpers.RecurlyURLBuilder
+import groovyx.net.http.ContentType
+import groovyx.net.http.HTTPBuilder
+import groovyx.net.http.Method
 
 class RecurlyInvoiceProcessor extends RecurlyProcessor {
 
@@ -16,9 +19,9 @@ class RecurlyInvoiceProcessor extends RecurlyProcessor {
         this.recurlyInvoice = recurlyInvoice
     }
 
-    public Response<RecurlyInvoice> getInvoiceDetails(String invoiceUuid) {
+    public Response<RecurlyInvoice> getInvoiceDetails(Integer invoiceNumber) {
         Response<RecurlyInvoice> response = new Response<RecurlyInvoice>()
-        this.targetUrl = RecurlyURLBuilder.buildURL(RecurlyUrlActionType.GET_INVOICE_DETAILS, invoiceUuid)
+        this.targetUrl = RecurlyURLBuilder.buildURL(RecurlyUrlActionType.GET_INVOICE_DETAILS, invoiceNumber.toString())
         this.processUsingMethodGET()
         recurlyInvoice = getInvoiceBeanFromResponse(httpResponse.entity.getData())
         response.entity = recurlyInvoice
@@ -26,6 +29,26 @@ class RecurlyInvoiceProcessor extends RecurlyProcessor {
         response.message = "This Response is Generated Against GET_INVOICE_DETAILS Request. " + httpResponse?.message
         response.errors = httpResponse?.errors
         return response
+    }
+
+    public byte[] getInvoicePdfStream(Integer invoiceNumber, Locale locale) {
+        def resp
+        this.targetUrl = RecurlyURLBuilder.buildURL(RecurlyUrlActionType.GET_INVOICE_DETAILS, invoiceNumber.toString())
+        HTTPBuilder http = new HTTPBuilder(this.targetUrl)
+        http.request(Method.GET, ContentType.BINARY) {
+            headers = [
+                    'Accept': 'application/pdf',
+                    'Accept-Language': locale.toString().replace('_', '-'),
+                    'Authorization': apiKey.bytes.encodeBase64().toString()
+            ]
+            response.success = { response, InputStream inputStream  ->
+                resp = inputStream.bytes
+            }
+            response.failure = { response, xml ->
+                throw new Exception(xml.error.toString())
+            }
+        }
+        return resp
     }
 
     public Response<List<RecurlyInvoice>> listInvoices(Map query = [:]) {
@@ -66,7 +89,6 @@ class RecurlyInvoiceProcessor extends RecurlyProcessor {
         }
         return new RecurlyInvoice(
                 uuid: responseData.uuid,
-                accountCode: responseData.account_code,
                 accountCode: responseData.account ? responseData.account['@href']?.toString().tokenize('/')?.last() : '',
                 state: responseData.state,
                 invoiceNumber: convertNodeToInteger(responseData.invoice_number),

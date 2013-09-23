@@ -18,14 +18,22 @@ class RecurlyInvoice extends  RecurlyRESTResource {
     Date createdAt
 
     String toString() {
-        "RecurlyInvoice(uuid:'$uuid', state:'$state', invoiceNumber:'$invoiceNumber', totalInCents:'$totalInCents', currency:'$currency', createdAt:'$createdAt')"
+        "RecurlyInvoice(invoiceNumber:$invoiceNumber, accountCode:'$accountCode', uuid:'$uuid', state:'$state', totalInCents:'$totalInCents', currency:'$currency', createdAt:'$createdAt')"
     }
 
     // STATIC REST METHODS
 
+    static RecurlyInvoice fetch(Integer invoiceNumber) {
+        handleResponse(new RecurlyInvoiceProcessor().getInvoiceDetails(invoiceNumber)) as RecurlyInvoice
+    }
+
     static List query(Map query = [:]) {
         if (query.max) query.per_page = query.max
         handleResponse(new RecurlyInvoiceProcessor().listInvoices(query)) as List
+    }
+
+    static byte[] streamPdf(Integer invoiceNumber, Locale locale) {
+        new RecurlyInvoiceProcessor().getInvoicePdfStream(invoiceNumber, locale)
     }
 
 }
