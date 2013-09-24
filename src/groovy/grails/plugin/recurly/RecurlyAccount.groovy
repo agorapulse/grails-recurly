@@ -7,7 +7,7 @@ import grails.plugin.recurly.processors.RecurlyAccountProcessor
 class RecurlyAccount extends RecurlyRESTResource {
 
     String accountCode
-    String state
+    RecurlyAccountState state
     String userName
     String email
     String firstName

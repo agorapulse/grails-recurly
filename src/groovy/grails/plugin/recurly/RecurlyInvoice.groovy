@@ -1,5 +1,6 @@
 package grails.plugin.recurly
 
+import grails.plugin.recurly.enums.RecurlyInvoiceState
 import grails.plugin.recurly.helpers.RecurlyRESTResource
 import grails.plugin.recurly.processors.RecurlyInvoiceProcessor
 
@@ -7,7 +8,7 @@ class RecurlyInvoice extends  RecurlyRESTResource {
 
     String uuid
     String accountCode
-    String state
+    RecurlyInvoiceState state
     Integer invoiceNumber
     String poNumber
     String vatNumber

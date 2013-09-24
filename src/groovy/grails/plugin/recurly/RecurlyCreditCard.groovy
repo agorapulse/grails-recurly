@@ -8,14 +8,12 @@ class RecurlyCreditCard {
     String month
 
     //Read only properties
+    String firstSix
     String lastFour
     String type
-    String startMonth
-    String startYear
-    String issueNumber
 
     String toString() {
-        "RecurlyCreditCard(lastFour:'$lastFour', type:'$type', startMonth:'$startMonth', startYear:'$startYear')"
+        "RecurlyCreditCard(type:'$type', firstSix:'$firstSix', lastFour:'$lastFour')"
     }
 
 }

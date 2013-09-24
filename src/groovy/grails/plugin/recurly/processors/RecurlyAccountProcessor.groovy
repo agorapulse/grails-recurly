@@ -1,11 +1,12 @@
 package grails.plugin.recurly.processors
 
 import grails.plugin.recurly.RecurlyAccount
+import grails.plugin.recurly.enums.RecurlyAccountState
+import grails.plugin.recurly.enums.RecurlyUrlActionType
+import grails.plugin.recurly.helpers.RecurlyProcessor
+import grails.plugin.recurly.helpers.RecurlyURLBuilder
 import grails.plugin.recurly.templates.Response
 import groovy.xml.MarkupBuilder
-import grails.plugin.recurly.enums.RecurlyUrlActionType
-import grails.plugin.recurly.helpers.RecurlyURLBuilder
-import grails.plugin.recurly.helpers.RecurlyProcessor
 
 class RecurlyAccountProcessor extends RecurlyProcessor {
 
@@ -154,7 +155,11 @@ class RecurlyAccountProcessor extends RecurlyProcessor {
             return
         }
         this.recurlyAccount.accountCode = responseData.account_code
-        this.recurlyAccount.state = responseData.state
+        try {
+            this.recurlyAccount.state = responseData.state.toString().toUpperCase() as RecurlyAccountState
+        } catch (Exception e) {
+            this.recurlyAccount.state = responseData.state
+        }
         this.recurlyAccount.userName = responseData.username
         this.recurlyAccount.email = responseData.email
         this.recurlyAccount.firstName = responseData.first_name

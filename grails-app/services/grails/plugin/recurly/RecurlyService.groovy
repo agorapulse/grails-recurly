@@ -2,6 +2,7 @@ package grails.plugin.recurly
 
 import grails.plugin.recurly.enums.RecurlyAccountState
 import grails.plugin.recurly.enums.RecurlySubscriptionChangeTimeFrame
+import grails.plugin.recurly.enums.RecurlySubscriptionRefund
 import grails.plugin.recurly.enums.RecurlyTransactionState
 import grails.plugin.recurly.enums.RecurlyTransactionType
 import grails.plugin.recurly.processors.*
@@ -98,15 +99,15 @@ class RecurlyService {
     }
 
     public Response<String/*accountCode*/> terminateSubscriptionWithPartialRefund(String subscriptionUuid) {
-        new RecurlySubscriptionProcessor().terminateWithPartialRefund(subscriptionUuid)
+        new RecurlySubscriptionProcessor().terminate(subscriptionUuid, RecurlySubscriptionRefund.PARTIAL)
     }
 
     public Response<String/*accountCode*/> terminateSubscriptionWithFullRefund(String subscriptionUuid) {
-        new RecurlySubscriptionProcessor().terminateWithFullRefund(subscriptionUuid)
+        new RecurlySubscriptionProcessor().terminate(subscriptionUuid, RecurlySubscriptionRefund.FULL)
     }
 
     public Response<String/*accountCode*/> terminateSubscriptionWithNoRefund(String subscriptionUuid) {
-        new RecurlySubscriptionProcessor().terminateWithNoRefund(subscriptionUuid)
+        new RecurlySubscriptionProcessor().terminate(subscriptionUuid, RecurlySubscriptionRefund.NONE)
     }
 
     //BILLING DETAILS RELATED SERVICES

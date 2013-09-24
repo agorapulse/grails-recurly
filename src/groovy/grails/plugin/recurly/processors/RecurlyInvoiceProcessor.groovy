@@ -1,5 +1,6 @@
 package grails.plugin.recurly.processors
 
+import grails.plugin.recurly.enums.RecurlyInvoiceState
 import grails.plugin.recurly.enums.RecurlyUrlActionType
 import grails.plugin.recurly.helpers.RecurlyProcessor
 import grails.plugin.recurly.RecurlyInvoice
@@ -87,10 +88,16 @@ class RecurlyInvoiceProcessor extends RecurlyProcessor {
         if (!responseData) {
             return null
         }
+        def state = responseData.state
+        try {
+            state = state.toString().toUpperCase() as RecurlyInvoiceState
+        } catch (Exception e) {
+            // Ignore
+        }
         return new RecurlyInvoice(
                 uuid: responseData.uuid,
                 accountCode: responseData.account ? responseData.account['@href']?.toString().tokenize('/')?.last() : '',
-                state: responseData.state,
+                state: state,
                 invoiceNumber: convertNodeToInteger(responseData.invoice_number),
                 poNumber: responseData.po_number,
                 vatNumber: responseData.vat_number,

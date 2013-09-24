@@ -24,8 +24,12 @@ abstract class RecurlyProcessor extends ConstraintsValidator {
         httpResponse = restService.getResponseUsingMethodGET(targetUrl, apiKey)
     }
 
-    public void processUsingMethodPUT() {
-        httpResponse = restService.getResponseUsingMethodPUT(targetUrl, getDetailsInXML(), apiKey)
+    public void processUsingMethodPUT(boolean detailsInXMLSent = true) {
+        if (detailsInXMLSent) {
+            httpResponse = restService.getResponseUsingMethodPUT(targetUrl, getDetailsInXML(), apiKey)
+        } else {
+            httpResponse = restService.getResponseUsingMethodPUT(targetUrl, '', apiKey)
+        }
     }
 
     public void processUsingMethodDELETE() {

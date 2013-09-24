@@ -2,6 +2,7 @@ package grails.plugin.recurly
 
 import grails.plugin.recurly.enums.RecurlySubscriptionChangeTimeFrame
 import grails.plugin.recurly.enums.RecurlySubscriptionRefund
+import grails.plugin.recurly.enums.RecurlySubscriptionState
 import grails.plugin.recurly.helpers.RecurlyRESTResource
 import grails.plugin.recurly.processors.RecurlySubscriptionProcessor
 
@@ -20,7 +21,7 @@ class RecurlySubscription extends RecurlyRESTResource {
     //Read Only Properties
     String planName
     Integer planVersion
-    String state
+    RecurlySubscriptionState state
     Integer totalAmountInCents
     Date activatedAt
     Date cancelledAt
@@ -72,17 +73,7 @@ class RecurlySubscription extends RecurlyRESTResource {
     }
 
     static String terminate(String uuid, RecurlySubscriptionRefund refund = RecurlySubscriptionRefund.NONE) {
-        switch(refund) {
-            case RecurlySubscriptionRefund.NONE:
-                handleResponse(new RecurlySubscriptionProcessor().terminateWithNoRefund(uuid))
-                break
-            case RecurlySubscriptionRefund.FULL:
-                handleResponse(new RecurlySubscriptionProcessor().terminateWithFullRefund(uuid))
-                break
-            case RecurlySubscriptionRefund.PARTIAL:
-                handleResponse(new RecurlySubscriptionProcessor().terminateWithPartialRefund(uuid))
-                break
-        }
+        handleResponse(new RecurlySubscriptionProcessor().terminate(uuid, refund))
     }
 
     static RecurlySubscription update(RecurlySubscription recurlySubscription, RecurlySubscriptionChangeTimeFrame recurlySubscriptionChangeTimeFrame = RecurlySubscriptionChangeTimeFrame.NOW) {

@@ -2,7 +2,7 @@ package grails.plugin.recurly.enums
 
 enum RecurlySubscriptionState {
 
-    SUCCESSFUL('active'),
+    ACTIVE('active'),
     CANCELED('canceled'),
     EXPIRED('expired'),
     FUTURE('future'),

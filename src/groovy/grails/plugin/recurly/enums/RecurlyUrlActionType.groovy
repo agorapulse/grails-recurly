@@ -20,9 +20,9 @@ public enum RecurlyUrlActionType {
     REACTIVATE_SUBSCRIPTION("subscriptions/[id]/reactivate"),
     UPDATE_SUBSCRIPTION("subscriptions/[id]"),
     GET_SUBSCRIPTION_DETAILS("subscriptions/[id]"),
-    DELETE_SUBSCRIPTION_INSTANTLY_WITH_PARTIAL_REFUND("subscriptions/[id]?refund=partial"),
-    DELETE_SUBSCRIPTION_INSTANTLY_WITH_FULL_REFUND("subscriptions/[id]?refund=full"),
-    DELETE_SUBSCRIPTION_INSTANTLY_WITHOUT_REFUND("subscriptions/[id]?refund=none"),
+    DELETE_SUBSCRIPTION_INSTANTLY_WITH_PARTIAL_REFUND("subscriptions/[id]/terminate?refund=partial"),
+    DELETE_SUBSCRIPTION_INSTANTLY_WITH_FULL_REFUND("subscriptions/[id]/terminate?refund=full"),
+    DELETE_SUBSCRIPTION_INSTANTLY_WITHOUT_REFUND("subscriptions/[id]/terminate?refund=none"),
     // Billing Info
     GET_BILLING_INFO("accounts/[id]/billing_info"),
     DELETE_BILLING_INFO("accounts/[id]/billing_info"),

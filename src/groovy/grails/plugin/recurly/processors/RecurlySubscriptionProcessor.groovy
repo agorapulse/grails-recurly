@@ -1,15 +1,17 @@
 package grails.plugin.recurly.processors
 
-import grails.plugin.recurly.RecurlySubscription
-import grails.plugin.recurly.helpers.RecurlyProcessor
-import groovy.xml.MarkupBuilder
-import grails.plugin.recurly.templates.Response
-import grails.plugin.recurly.helpers.RecurlyURLBuilder
-import grails.plugin.recurly.enums.RecurlyUrlActionType
-import grails.plugin.recurly.enums.RecurlySubscriptionChangeTimeFrame
 import grails.plugin.recurly.RecurlyAccount
-import grails.plugin.recurly.RecurlySubscriptionPendingChanges
+import grails.plugin.recurly.RecurlySubscription
 import grails.plugin.recurly.RecurlySubscriptionAddOn
+import grails.plugin.recurly.RecurlySubscriptionPendingChanges
+import grails.plugin.recurly.enums.RecurlySubscriptionChangeTimeFrame
+import grails.plugin.recurly.enums.RecurlySubscriptionRefund
+import grails.plugin.recurly.enums.RecurlySubscriptionState
+import grails.plugin.recurly.enums.RecurlyUrlActionType
+import grails.plugin.recurly.helpers.RecurlyProcessor
+import grails.plugin.recurly.helpers.RecurlyURLBuilder
+import grails.plugin.recurly.templates.Response
+import groovy.xml.MarkupBuilder
 
 class RecurlySubscriptionProcessor extends RecurlyProcessor {
 
@@ -62,7 +64,7 @@ class RecurlySubscriptionProcessor extends RecurlyProcessor {
 
         if (subscriptionUuid) {
             this.targetUrl = RecurlyURLBuilder.buildURL(RecurlyUrlActionType.CANCEL_SUBSCRIPTION, subscriptionUuid)
-            this.processUsingMethodPUT()
+            this.processUsingMethodPUT(false)
             response.status = httpResponse?.status
             response.message = "This Response is Generated Against PUT Request. " + httpResponse?.message
             response.errors = httpResponse?.errors
@@ -80,7 +82,7 @@ class RecurlySubscriptionProcessor extends RecurlyProcessor {
 
         if (subscriptionUuid) {
             this.targetUrl = RecurlyURLBuilder.buildURL(RecurlyUrlActionType.REACTIVATE_SUBSCRIPTION, subscriptionUuid)
-            this.processUsingMethodPUT()
+            this.processUsingMethodPUT(false)
             response.status = httpResponse?.status
             response.message = "This Response is Generated Against PUT Request. " + httpResponse?.message
             response.errors = httpResponse?.errors
@@ -92,48 +94,26 @@ class RecurlySubscriptionProcessor extends RecurlyProcessor {
         return response
     }
 
-    public Response<String> terminateWithPartialRefund(String subscriptionUuid) {
+    public Response<String> terminate(String subscriptionUuid, RecurlySubscriptionRefund refund) {
         Response<String> response = new Response<String>()
         response.entity = subscriptionUuid
-        if (subscriptionUuid) {
-            this.targetUrl = RecurlyURLBuilder.buildURL(RecurlyUrlActionType.DELETE_SUBSCRIPTION_INSTANTLY_WITH_PARTIAL_REFUND, subscriptionUuid)
-            this.processUsingMethodDELETE()
-            response.status = httpResponse?.status
-            response.message = "This Response is Generated Against DELETE Request. " + httpResponse?.message
-            response.errors = httpResponse?.errors
-        } else {
-            response.status = "error"
-            response.errors = ["AccountCode": "Is Null"]
-            response.message = "Validation Of Fields Failed, See Errors Map For Details"
+        RecurlyUrlActionType recurlyUrlActionType
+        switch(refund) {
+            case RecurlySubscriptionRefund.NONE:
+                recurlyUrlActionType = RecurlyUrlActionType.DELETE_SUBSCRIPTION_INSTANTLY_WITHOUT_REFUND
+                break
+            case RecurlySubscriptionRefund.FULL:
+                recurlyUrlActionType = RecurlyUrlActionType.DELETE_SUBSCRIPTION_INSTANTLY_WITH_FULL_REFUND
+                break
+            case RecurlySubscriptionRefund.PARTIAL:
+                recurlyUrlActionType = RecurlyUrlActionType.DELETE_SUBSCRIPTION_INSTANTLY_WITH_PARTIAL_REFUND
+                break
         }
-        return response
-    }
-
-    public Response<String> terminateWithFullRefund(String subscriptionUuid) {
-        Response<String> response = new Response<String>()
-        response.entity = subscriptionUuid
         if (subscriptionUuid) {
-            this.targetUrl = RecurlyURLBuilder.buildURL(RecurlyUrlActionType.DELETE_SUBSCRIPTION_INSTANTLY_WITH_FULL_REFUND, subscriptionUuid)
-            this.processUsingMethodDELETE()
+            this.targetUrl = RecurlyURLBuilder.buildURL(recurlyUrlActionType, subscriptionUuid)
+            this.processUsingMethodPUT(false)
             response.status = httpResponse?.status
-            response.message = "This Response is Generated Against DELETE Request. " + httpResponse?.message
-            response.errors = httpResponse?.errors
-        } else {
-            response.status = "error"
-            response.errors = ["AccountCode": "Is Null"]
-            response.message = "Validation Of Fields Failed, See Errors Map For Details"
-        }
-        return response
-    }
-
-    public Response<String> terminateWithNoRefund(String subscriptionUuid) {
-        Response<String> response = new Response<String>()
-        response.entity = subscriptionUuid
-        if (subscriptionUuid) {
-            this.targetUrl = RecurlyURLBuilder.buildURL(RecurlyUrlActionType.DELETE_SUBSCRIPTION_INSTANTLY_WITHOUT_REFUND, subscriptionUuid)
-            this.processUsingMethodDELETE()
-            response.status = httpResponse?.status
-            response.message = "This Response is Generated Against DELETE Request. " + httpResponse?.message
+            response.message = "This Response is Generated Against PUT Request. " + httpResponse?.message
             response.errors = httpResponse?.errors
         } else {
             response.status = "error"
@@ -317,7 +297,11 @@ class RecurlySubscriptionProcessor extends RecurlyProcessor {
             recurlySubscription.planVersion = convertNodeToInteger(responseData.plan.version)
         }
         if (responseData.state) {
-            recurlySubscription.state = responseData.state
+            try {
+                recurlySubscription.state = responseData.state.toString().toUpperCase() as RecurlySubscriptionState
+            } catch (Exception e) {
+                recurlySubscription.state = responseData.state
+            }
         }
         if (responseData.total_amount_in_cents) {
             recurlySubscription.totalAmountInCents = convertNodeToInteger(responseData.total_amount_in_cents)

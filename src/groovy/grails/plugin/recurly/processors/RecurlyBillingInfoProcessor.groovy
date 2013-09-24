@@ -1,12 +1,12 @@
 package grails.plugin.recurly.processors
 
 import grails.plugin.recurly.RecurlyBillingInfo
-import grails.plugin.recurly.helpers.RecurlyProcessor
-import grails.plugin.recurly.templates.Response
 import grails.plugin.recurly.RecurlyCreditCard
-import groovy.xml.MarkupBuilder
-import grails.plugin.recurly.helpers.RecurlyURLBuilder
 import grails.plugin.recurly.enums.RecurlyUrlActionType
+import grails.plugin.recurly.helpers.RecurlyProcessor
+import grails.plugin.recurly.helpers.RecurlyURLBuilder
+import grails.plugin.recurly.templates.Response
+import groovy.xml.MarkupBuilder
 
 class RecurlyBillingInfoProcessor extends RecurlyProcessor {
 
@@ -173,26 +173,20 @@ class RecurlyBillingInfoProcessor extends RecurlyProcessor {
         if (responseData.ip_address) {
             recurlyBillingInfo.ipAddress = responseData.ip_address
         }
-        if (responseData.credit_card.number) {
-            recurlyBillingInfo.creditCard.creditCardNumber = responseData.credit_card.number
+        if (responseData.card_type) {
+            recurlyBillingInfo.creditCard.type = responseData.card_type
         }
-        if (responseData.credit_card.verification_value) {
-            recurlyBillingInfo.creditCard.verificationValue = responseData.credit_card.verification_value
+        if (responseData.month) {
+            recurlyBillingInfo.creditCard.month = responseData.month
         }
-        if (responseData.credit_card.month) {
-            recurlyBillingInfo.creditCard.month = responseData.credit_card.month
+        if (responseData.year) {
+            recurlyBillingInfo.creditCard.year = responseData.year
         }
-        if (responseData.credit_card.year) {
-            recurlyBillingInfo.creditCard.year = responseData.credit_card.year
+        if (responseData.first_six) {
+            recurlyBillingInfo.creditCard.firstSix = responseData.first_six
         }
-        if (responseData.credit_card.start_month) {
-            recurlyBillingInfo.creditCard.startMonth = responseData.credit_card.start_month
-        }
-        if (responseData.credit_card.start_year) {
-            recurlyBillingInfo.creditCard.startYear = responseData.credit_card.start_year
-        }
-        if (responseData.credit_card.issue_number) {
-            recurlyBillingInfo.creditCard.issueNumber = responseData.credit_card.issue_number
+        if (responseData.last_four) {
+            recurlyBillingInfo.creditCard.lastFour = responseData.last_four
         }
     }
 }
