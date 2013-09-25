@@ -24,7 +24,9 @@ class RecurlyInvoiceProcessor extends RecurlyProcessor {
         Response<RecurlyInvoice> response = new Response<RecurlyInvoice>()
         this.targetUrl = RecurlyURLBuilder.buildURL(RecurlyUrlActionType.GET_INVOICE_DETAILS, invoiceNumber.toString())
         this.processUsingMethodGET()
-        recurlyInvoice = getInvoiceBeanFromResponse(httpResponse.entity.getData())
+        if (httpResponse.status == '200') {
+            recurlyInvoice = getInvoiceBeanFromResponse(httpResponse.entity.getData())
+        }
         response.entity = recurlyInvoice
         response.status = httpResponse?.status
         response.message = "This Response is Generated Against GET_INVOICE_DETAILS Request. " + httpResponse?.message

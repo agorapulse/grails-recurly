@@ -91,7 +91,9 @@ class RecurlyAccountProcessor extends RecurlyProcessor {
         Response<RecurlyAccount> response = new Response<RecurlyAccount>()
         this.targetUrl = RecurlyURLBuilder.buildURL(RecurlyUrlActionType.GET_ACCOUNT_DETAILS, accountCode)
         this.processUsingMethodGET()
-        updateResponse(httpResponse.entity.getData())
+        if (httpResponse.status == '200') {
+            updateResponse(httpResponse.entity.getData())
+        }
         response.entity = recurlyAccount
         response.status = httpResponse?.status
         response.message = "This Response is Generated Against GET_ACCOUNT_DETAILS Request. " + httpResponse?.message
@@ -167,6 +169,6 @@ class RecurlyAccountProcessor extends RecurlyProcessor {
         this.recurlyAccount.companyName = responseData.company_name
         this.recurlyAccount.acceptLanguage = responseData.accept_language
         this.recurlyAccount.hostedLoginToken = responseData.hosted_login_token
-        this.recurlyAccount.createdAt = responseData.created_at
+        this.recurlyAccount.createdAt = convertNodeToDate(responseData.created_at)
     }
 }

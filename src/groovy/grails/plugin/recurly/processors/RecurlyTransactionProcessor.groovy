@@ -21,7 +21,9 @@ class RecurlyTransactionProcessor extends RecurlyProcessor {
         Response<RecurlyTransaction> response = new Response<RecurlyTransaction>()
         this.targetUrl = RecurlyURLBuilder.buildURL(RecurlyUrlActionType.GET_TRANSACTION_DETAILS, transactionUuid)
         this.processUsingMethodGET()
-        recurlyTransaction = getTransactionBeanFromResponse(httpResponse.entity.getData())
+        if (httpResponse.status == '200') {
+            recurlyTransaction = getTransactionBeanFromResponse(httpResponse.entity.getData())
+        }
         response.entity = recurlyTransaction
         response.status = httpResponse?.status
         response.message = "This Response is Generated Against GET_TRANSACTION_DETAILS Request. " + httpResponse?.message

@@ -148,7 +148,9 @@ class RecurlySubscriptionProcessor extends RecurlyProcessor {
         Response<RecurlySubscription> response = new Response<RecurlySubscription>()
         this.targetUrl = RecurlyURLBuilder.buildURL(RecurlyUrlActionType.GET_SUBSCRIPTION_DETAILS, subscriptionUuid)
         this.processUsingMethodGET()
-        updateResponse(httpResponse.entity.getData())
+        if (httpResponse.status == '200') {
+            updateResponse(httpResponse.entity.getData())
+        }
         response.entity = recurlySubscription
         response.status = httpResponse?.status
         response.message = "This Response is Generated Against GET_SUBSCRIPTION_DETAILS Request. " + httpResponse?.message

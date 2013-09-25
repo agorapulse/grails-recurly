@@ -37,8 +37,10 @@ class RecurlyBillingInfoProcessor extends RecurlyProcessor {
         Response<RecurlyBillingInfo> response = new Response<RecurlyBillingInfo>()
         this.targetUrl = RecurlyURLBuilder.buildURL(RecurlyUrlActionType.GET_BILLING_INFO, accountCode)
         this.processUsingMethodGET()
-        updateResponse(httpResponse.entity.getData())
-        recurlyBillingInfo.accountCode = accountCode
+        if (httpResponse.status == '200') {
+            updateResponse(httpResponse.entity.getData())
+            recurlyBillingInfo.accountCode = accountCode
+        }
         response.entity = recurlyBillingInfo
         response.status = httpResponse?.status
         response.message = "This Response is Generated Against GET_BILLING_DETAILS Request. " + httpResponse?.message
