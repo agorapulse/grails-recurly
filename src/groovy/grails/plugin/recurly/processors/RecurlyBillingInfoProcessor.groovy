@@ -140,9 +140,10 @@ class RecurlyBillingInfoProcessor extends RecurlyProcessor {
     }
 
     private void updateResponse(Object responseData) {
-        if(!responseData){
+        if (!responseData){
             return
         }
+        recurlyBillingInfo.accountCode = responseData.account['@href']?.toString().tokenize('/')?.last()
         if (responseData.first_name) {
             recurlyBillingInfo.firstName = responseData.first_name
         }

@@ -9,26 +9,23 @@ import grails.plugin.recurly.processors.RecurlySubscriptionProcessor
 class RecurlySubscription extends RecurlyRESTResource {
 
     String uuid
+    String accountCode
     String planCode
-    String couponCode
-    Date trialEndsAt
-    Integer unitAmountInCents
-    Integer quantity
-    String currency
-    List<RecurlySubscriptionAddOn> addOns = []
-    RecurlyAccount account
-
-    //Read Only Properties
     String planName
-    Integer planVersion
     RecurlySubscriptionState state
-    Integer totalAmountInCents
+    Integer unitAmountInCents
+    String currency
+    Integer quantity
+    String couponCode
     Date activatedAt
     Date cancelledAt
     Date expiresAt
     Date currentPeriodStartedAt
     Date currentPeriodEndsAt
     Date trialStartedAt
+    Date trialEndsAt
+    List<RecurlySubscriptionAddOn> addOns = []
+
     RecurlySubscriptionPendingChanges pendingChanges
 
     //Only Required For Creating Subscription
@@ -51,7 +48,7 @@ class RecurlySubscription extends RecurlyRESTResource {
     }
 
     String toString() {
-        "RecurlySubscription(uuid:'$uuid', planCode:'$planCode', state:'$state', unitAmountInCents:'$unitAmountInCents', currency:'$currency')"
+        "RecurlySubscription(uuid:'$uuid', accountCode:'$accountCode', planCode:'$planCode', state:'$state', unitAmountInCents:'$unitAmountInCents', currency:'$currency')"
     }
 
     // STATIC REST METHODS

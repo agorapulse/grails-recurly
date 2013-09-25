@@ -68,6 +68,8 @@ class RecurlyTransactionProcessor extends RecurlyProcessor {
         return new RecurlyTransaction(
                 uuid: responseData.uuid,
                 accountCode: responseData.account['@href']?.toString().tokenize('/')?.last(),
+                invoiceUuid: responseData.account['@href']?.toString().tokenize('/')?.last(),
+                subscriptionUuid: responseData.account['@href']?.toString().tokenize('/')?.last(),
                 action: responseData.action,
                 currency: responseData.currency,
                 amountInCents: convertNodeToInteger(responseData.amount_in_cents),

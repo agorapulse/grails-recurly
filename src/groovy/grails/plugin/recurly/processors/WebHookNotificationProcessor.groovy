@@ -125,14 +125,17 @@ class WebHookNotificationProcessor extends GenericNodeTypeCaster {
     }
 
     private RecurlyTransaction parseAndGetRecurlyTransaction() {
-
         return new RecurlyTransaction(
-                id: parsedXml.transaction?.id?.text(),
+                accountCode: parsedXml.account?.account_code?.text(),
+                uuid: parsedXml.transaction?.id?.text(),
+                invoiceUuid: parsedXml.transaction?.invoice_id?.text(),
+                subscriptionUuid: parsedXml.transaction?.subscription_id?.text(),
                 action: parsedXml.transaction?.action?.text(),
                 amountInCents: convertNodeToInteger(parsedXml.transaction?.amount_in_cents?.text()),
                 status: parsedXml.transaction?.status?.text(),
                 message: parsedXml.transaction?.message?.text(),
                 reference: parsedXml.transaction?.reference?.text(),
+                source: parsedXml.transaction?.source?.text(),
                 cvvResult: parsedXml.transaction?.cvv_result?.text(),
                 avsResult: parsedXml.transaction?.avs_result?.text(),
                 avsResultStreet: parsedXml.transaction?.avs_result_street?.text(),
@@ -152,12 +155,13 @@ class WebHookNotificationProcessor extends GenericNodeTypeCaster {
             // Ignore
         }
         return new RecurlySubscription(
+                accountCode: parsedXml.account?.account_code?.text(),
                 uuid: parsedXml.subscription?.uuid?.text(),
                 planCode: parsedXml.subscription?.plan?.plan_code?.text(),
-                planName: parsedXml.subscription?.plan?.plan_code?.text(),
+                planName: parsedXml.subscription?.plan?.name?.text(),
                 state: state,
                 quantity: convertNodeToInteger(parsedXml.subscription?.quantity?.text()),
-                totalAmountInCents: convertNodeToInteger(parsedXml.subscription?.total_amount_in_cents?.text()),
+                unitAmountInCents: convertNodeToInteger(parsedXml.subscription?.total_amount_in_cents?.text()),
                 activatedAt: convertNodeToDate(parsedXml.subscription?.activated_at?.text()),
                 cancelledAt: convertNodeToDate(parsedXml.subscription?.canceled_at?.text()),
                 expiresAt: convertNodeToDate(parsedXml.subscription?.expires_at?.text()),

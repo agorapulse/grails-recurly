@@ -28,7 +28,7 @@ class RecurlyBillingInfo extends RecurlyRESTResource {
     }
 
     String toString() {
-        "RecurlyBillingInfo(firstName:'$firstName', lastName:'$lastName', address1:'$address1', address2:'$address2', city:'$city', country:'$country')"
+        "RecurlyBillingInfo(accountCode:'$accountCode', firstName:'$firstName', lastName:'$lastName', address1:'$address1', address2:'$address2', city:'$city', country:'$country')"
     }
 
     // STATIC REST METHODS

@@ -7,11 +7,14 @@ class RecurlyTransaction extends RecurlyRESTResource {
 
     String uuid
     String accountCode
+    String invoiceUuid
+    String subscriptionUuid
     String action
     String currency
     Integer amountInCents
     Integer taxInCents
     String status
+    String message
     String reference
     String source
     Boolean test

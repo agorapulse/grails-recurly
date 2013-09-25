@@ -265,17 +265,15 @@ class RecurlySubscriptionProcessor extends RecurlyProcessor {
             return
         }
         recurlySubscription.uuid = responseData.uuid
-        if (responseData.planCode) {
-            recurlySubscription.planCode = responseData.planCode
+        recurlySubscription.accountCode = responseData.account['@href']?.toString().tokenize('/')?.last()
+        if (responseData.coupon_code) {
+            recurlySubscription.couponCode = responseData.coupon_code
         }
-        if (responseData.couponCode) {
-            recurlySubscription.couponCode = responseData.couponCode
+        if (responseData.trial_ends_at) {
+            recurlySubscription.trialEndsAt = convertNodeToDate(responseData.trial_ends_at)
         }
-        if (responseData.trialEndsAt) {
-            recurlySubscription.trialEndsAt = convertNodeToDate(responseData.trialEndsAt)
-        }
-        if (responseData.unitAmountInCents) {
-            recurlySubscription.unitAmountInCents = convertNodeToInteger(responseData.unitAmountInCents)
+        if (responseData.unit_amount_in_cents) {
+            recurlySubscription.unitAmountInCents = convertNodeToInteger(responseData.unit_amount_in_cents)
         }
         if (responseData.quantity) {
             recurlySubscription.quantity = convertNodeToInteger(responseData.quantity)
@@ -283,18 +281,11 @@ class RecurlySubscriptionProcessor extends RecurlyProcessor {
         if (responseData.currency) {
             recurlySubscription.currency = responseData.currency
         }
-        if (responseData.account_code) {
-            recurlySubscription.account = recurlySubscription.account ?: new RecurlyAccount()
-            recurlySubscription.account.accountCode = responseData.account_code
-        }
         if (responseData.plan.name) {
             recurlySubscription.planName = responseData.plan.name
         }
         if (responseData.plan.plan_code) {
             recurlySubscription.planCode = responseData.plan.plan_code
-        }
-        if (responseData.plan.version) {
-            recurlySubscription.planVersion = convertNodeToInteger(responseData.plan.version)
         }
         if (responseData.state) {
             try {
@@ -302,9 +293,6 @@ class RecurlySubscriptionProcessor extends RecurlyProcessor {
             } catch (Exception e) {
                 recurlySubscription.state = responseData.state
             }
-        }
-        if (responseData.total_amount_in_cents) {
-            recurlySubscription.totalAmountInCents = convertNodeToInteger(responseData.total_amount_in_cents)
         }
         if (responseData.activated_at) {
             recurlySubscription.activatedAt = convertNodeToDate(responseData.activated_at)
