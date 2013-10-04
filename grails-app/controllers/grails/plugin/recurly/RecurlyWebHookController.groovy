@@ -88,7 +88,7 @@ class RecurlyWebHookController {
             response.status = 201
             render 'Data parsed and accepted'
         } else {
-            response.status 200
+            response.status = 200
             render 'This notification is not processed by the application, but notification was accepted'
         }
     }
