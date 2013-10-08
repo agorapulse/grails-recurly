@@ -13,7 +13,7 @@ class RecurlyJsProcessor extends RecurlyProcessor {
     public Response<RecurlyJs> fetch(String recurlyToken) {
         Response<RecurlyJs> response = new Response<RecurlyJs>()
         this.targetUrl = RecurlyURLBuilder.buildURL(RecurlyUrlActionType.GET_JS_RESULT, recurlyToken)
-        this.processUsingMethodPOST()
+        this.processUsingMethodGET()
         response.entity = getJsBeanFromResponse(httpResponse.entity.getData())
         response.status = httpResponse?.status
         response.message = "This Response is Generated Against GET_JS_RESULT Request. " + httpResponse?.message
