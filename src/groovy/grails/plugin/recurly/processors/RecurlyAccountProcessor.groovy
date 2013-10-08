@@ -34,7 +34,7 @@ class RecurlyAccountProcessor extends RecurlyProcessor {
         response.entity = recurlyAccount
 
         if (this.validate()) {
-            this.targetUrl = RecurlyURLBuilder.buildURL(RecurlyUrlActionType.ACCOUNT)
+            this.targetUrl = RecurlyURLBuilder.buildURL(RecurlyUrlActionType.ACCOUNTS)
             this.processUsingMethodPOST()
             updateResponse(httpResponse.entity.getData())
             response.entity = recurlyAccount
@@ -104,7 +104,7 @@ class RecurlyAccountProcessor extends RecurlyProcessor {
     public Response<List<RecurlyAccount>> listAccounts(Map query = [:]) {
         Response<List<RecurlyAccount>> response = new Response<List<RecurlyAccount>>()
         List<RecurlyAccount> recurlyAccounts = []
-        this.targetUrl = RecurlyURLBuilder.buildURL(RecurlyUrlActionType.ACCOUNT, '', query)
+        this.targetUrl = RecurlyURLBuilder.buildURL(RecurlyUrlActionType.ACCOUNTS, '', query)
         this.processUsingMethodGET()
         httpResponse.entity.getData()?.account?.each {
             recurlyAccounts.add(new RecurlyAccount(

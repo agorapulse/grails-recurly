@@ -65,6 +65,11 @@ class RecurlySubscription extends RecurlyRESTResource {
         handleResponse(new RecurlySubscriptionProcessor().getSubscriptionDetails(uuid)) as RecurlySubscription
     }
 
+    static List query(Map query = [:]) {
+        if (query.max) query.per_page = query.max
+        handleResponse(new RecurlySubscriptionProcessor().listSubscriptions(query)) as List
+    }
+
     static String reactivate(RecurlySubscription recurlySubscription) {
         handleResponse(new RecurlySubscriptionProcessor(recurlySubscription).reactivate())
     }

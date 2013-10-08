@@ -2,7 +2,7 @@ package grails.plugin.recurly.enums
 
 public enum RecurlyUrlActionType {
     // Accounts
-    ACCOUNT("accounts"),
+    ACCOUNTS("accounts"),
     UPDATE_ACCOUNT("accounts/[id]"),
     DELETE_ACCOUNT("accounts/[id]"),
     GET_ACCOUNT_DETAILS("accounts/[id]"),
@@ -13,7 +13,7 @@ public enum RecurlyUrlActionType {
     DELETE_PLAN("plans/[id]"),
     GET_PLAN_DETAILS("plans/[id]"),
     // Subscriptions
-    SUBSCRIPTION("subscriptions"),
+    SUBSCRIPTIONS("subscriptions"),
     LIST_ACCOUNT_SUBSCRIPTIONS("accounts/[id]/subscriptions"),
     CREATE_SUBSCRIPTION("subscriptions"),
     CANCEL_SUBSCRIPTION("subscriptions/[id]/cancel"),

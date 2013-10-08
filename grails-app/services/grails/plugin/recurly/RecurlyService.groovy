@@ -94,6 +94,10 @@ class RecurlyService {
         return new RecurlySubscriptionProcessor().cancel(subscriptionUuid)
     }
 
+    public Response<List<RecurlySubscription>> listAllAccountSubscriptions(String accountCode) {
+        return new RecurlySubscriptionProcessor().listSubscriptions(accountCode: accountCode)
+    }
+
     public Response<String/*accountCode*/> reactivateSubscription(String subscriptionUuid) {
         return new RecurlySubscriptionProcessor().reactivate(subscriptionUuid)
     }

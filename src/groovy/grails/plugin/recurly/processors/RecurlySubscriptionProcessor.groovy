@@ -158,6 +158,25 @@ class RecurlySubscriptionProcessor extends RecurlyProcessor {
         return response
     }
 
+    public Response<List<RecurlySubscription>> listSubscriptions(Map query = [:]) {
+        Response<List<RecurlySubscription>> response = new Response<List<RecurlySubscription>>()
+        response.entity = []
+        if (query.accountCode) {
+            this.targetUrl = RecurlyURLBuilder.buildURL(RecurlyUrlActionType.LIST_ACCOUNT_SUBSCRIPTIONS, query.accountCode.toString(), query)
+        } else {
+            this.targetUrl = RecurlyURLBuilder.buildURL(RecurlyUrlActionType.SUBSCRIPTIONS, '', query)
+        }
+
+        this.processUsingMethodGET()
+        httpResponse.entity.getData()?.transaction?.each { transaction ->
+            response.entity.add(getTransactionBeanFromResponse(transaction))
+        }
+        response.status = httpResponse?.status
+        response.message = "This Response is Generated Against GET_TRANSACTION_DETAILS Request. " + httpResponse?.message
+        response.errors = httpResponse?.errors
+        return response
+    }
+
     public void setRecurlySubscription(RecurlySubscription recurlySubscription) {
         this.beanUnderProcess = recurlySubscription
         beanClass = RecurlySubscription.class
