@@ -1,5 +1,6 @@
 package grails.plugin.recurly.interfaces
 
+import grails.plugin.recurly.notifications.RecurlyReactivatedAccountWebHookNotification
 import grails.plugin.recurly.notifications.RecurlySuccessfulPaymentWebHookNotification
 import grails.plugin.recurly.notifications.RecurlyFailedRenewalWebHookNotification
 import grails.plugin.recurly.notifications.RecurlyCanceledSubscriptionWebHookNotification
@@ -32,5 +33,7 @@ public interface RecurlyWebHookListener {
     public void expiredSubscriptionNotificationHandler(RecurlyExpiredSubscriptionWebHookNotification notification)
 
     public void subscriptionUpdatedNotificationHandler(RecurlyChangedSubscriptionWebHookNotification notification)
+
+    public void reactivatedAccountNotificationHandler(RecurlyReactivatedAccountWebHookNotification notification)
 
 }

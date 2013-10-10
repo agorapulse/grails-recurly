@@ -7,6 +7,7 @@ import grails.plugin.recurly.notifications.RecurlyChangedSubscriptionWebHookNoti
 import grails.plugin.recurly.notifications.RecurlyExpiredSubscriptionWebHookNotification
 import grails.plugin.recurly.notifications.RecurlyFailedRenewalWebHookNotification
 import grails.plugin.recurly.notifications.RecurlyNewSubscriptionWebHookNotification
+import grails.plugin.recurly.notifications.RecurlyReactivatedAccountWebHookNotification
 import grails.plugin.recurly.notifications.RecurlyRenewedSubscriptionWebHookNotification
 import grails.plugin.recurly.notifications.RecurlySuccessfulPaymentWebHookNotification
 import grails.plugin.recurly.processors.WebHookNotificationProcessor
@@ -84,6 +85,8 @@ class RecurlyWebHookController {
                 case WebHookResponseType.SUBSCRIPTION_UPDATED:
                     handlerBean.subscriptionUpdatedNotificationHandler(webHookNotification as RecurlyChangedSubscriptionWebHookNotification)
                     break
+                case WebHookResponseType.REACTIVATED_ACCOUNT_NOTIFICATION:
+                    handlerBean.reactivatedAccountNotificationHandler(webHookNotification as RecurlyReactivatedAccountWebHookNotification)
             }
             response.status = 201
             render 'Data parsed and accepted'

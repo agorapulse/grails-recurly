@@ -2,6 +2,7 @@ package grails.plugin.recurly.processors
 
 import grails.plugin.recurly.enums.RecurlySubscriptionState
 import grails.plugin.recurly.helpers.WebHookNotification
+import grails.plugin.recurly.notifications.RecurlyReactivatedAccountWebHookNotification
 import grails.plugin.recurly.notifications.RecurlySuccessfulPaymentWebHookNotification
 import grails.plugin.recurly.enums.WebHookResponseType
 import grails.plugin.recurly.RecurlyAccount
@@ -47,6 +48,9 @@ class WebHookNotificationProcessor extends GenericNodeTypeCaster {
                 break
             case "new_subscription_notification":
                 webHookNotification = processNewSubscriptionNotification()
+                break
+            case "reactivated_account_notification":
+                webHookNotification = processReactivatedAccountNotification()
                 break
         }
         return webHookNotification
@@ -111,6 +115,14 @@ class WebHookNotificationProcessor extends GenericNodeTypeCaster {
         recurlyCanceledSubscriptionWebHookNotification.recurlySubscription = parseAndGetRecurlySubscription()
         return recurlyCanceledSubscriptionWebHookNotification
 
+    }
+
+    private RecurlyReactivatedAccountWebHookNotification processReactivatedAccountNotification() {
+        RecurlyReactivatedAccountWebHookNotification recurlyReactivatedAccountWebHookNotification = new RecurlyReactivatedAccountWebHookNotification()
+        recurlyReactivatedAccountWebHookNotification.webHookResponseType = WebHookResponseType.REACTIVATED_ACCOUNT_NOTIFICATION
+        recurlyReactivatedAccountWebHookNotification.recurlyAccount = parseAndGetRecurlyAccount()
+        recurlyReactivatedAccountWebHookNotification.recurlySubscription = parseAndGetRecurlySubscription()
+        return recurlyReactivatedAccountWebHookNotification
     }
 
     private RecurlyAccount parseAndGetRecurlyAccount() {
