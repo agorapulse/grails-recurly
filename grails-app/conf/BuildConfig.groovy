@@ -12,12 +12,11 @@ grails.project.dependency.resolution = {
     dependencies {
     }
     plugins {
-        build ":tomcat:$grailsVersion"
-        build ':release:2.2.1', ':rest-client-builder:1.0.3', {
+        build ':release:3.0.1', ':rest-client-builder:1.0.3', {
             export = false
         }
 
-        compile ':rest:0.7'
+        compile ':rest:0.8'
 
         // To debug
         compile(':console:1.2') {
