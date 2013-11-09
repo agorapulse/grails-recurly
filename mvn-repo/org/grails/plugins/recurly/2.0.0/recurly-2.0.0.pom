@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<project xmlns='http://maven.apache.org/POM/4.0.0' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd'>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.grails.plugins</groupId>
+  <artifactId>recurly</artifactId>
+  <packaging>zip</packaging>
+  <version>2.0.0</version>
+  <name>Recurly Plugin</name>
+  <description>\
+Recurly Grails API.
+</description>
+  <url>https://github.com/agorapulse/grails-recurly</url>
+  <licenses>
+    <license>
+      <name>Apache License 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+    </license>
+  </licenses>
+  <developers>
+    <developer>
+      <name>Kushal Likhi</name>
+      <email>kushal.likhi@gmail.com</email>
+    </developer>
+    <developer>
+      <name>Kushal Likhi</name>
+      <email>kushal.likhi@gmail.com</email>
+    </developer>
+    <developer>
+      <name>Benoit Hediard</name>
+      <email>ben@benorama.com</email>
+    </developer>
+  </developers>
+  <issueManagement>
+    <system>github</system>
+    <url>https://github.com/agorapulse/grails-recurly/issues</url>
+  </issueManagement>
+  <scm>
+    <url>https://github.com/agorapulse/grails-recurly</url>
+  </scm>
+  <dependencies>
+    <dependency>
+      <groupId>org.grails.plugins</groupId>
+      <artifactId>rest</artifactId>
+      <version>0.8</version>
+      <type>zip</type>
+      <scope>compile</scope>
+    </dependency>
+  </dependencies>
+</project>

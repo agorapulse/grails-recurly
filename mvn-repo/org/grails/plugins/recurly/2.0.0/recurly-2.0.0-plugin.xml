@@ -1,0 +1,15 @@
+<plugin name='recurly' version='2.0.0' grailsVersion='1.3.5 &gt; *'>
+  <author>Kushal Likhi</author>
+  <authorEmail>kushal.likhi@gmail.com</authorEmail>
+  <title>Recurly Plugin</title>
+  <description>\
+Recurly Grails API.
+</description>
+  <documentation>https://github.com/agorapulse/grails-recurly</documentation>
+  <type>RecurlyGrailsPlugin</type>
+  <resources>
+    <resource>grails.plugin.recurly.RecurlyWebHookController</resource>
+    <resource>grails.plugin.recurly.RESTService</resource>
+    <resource>grails.plugin.recurly.RecurlyService</resource>
+  </resources>
+</plugin>
