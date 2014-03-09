@@ -35,9 +35,9 @@ grails.project.dependency.resolution = {
 
 # Config
 
-Create a [Recurly](https://recurly.com) account, in order to get your own _apiKey_ and _privateKey_.
+Create a [Recurly](https://recurly.com) account, in order to get your own credentials.
 
-Add your Segment.io site _apiKey_  and _privateKey_ to your _grails-app/conf/Config.groovy_:
+Add your _apiKey_  and _privateKey_ to your _grails-app/conf/Config.groovy_:
 
 ```groovy
 grails {
