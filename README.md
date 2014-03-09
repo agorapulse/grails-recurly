@@ -9,7 +9,7 @@ Recurly offers enterprise-class subscription billing and recurring billing manag
 
 **Recurly Plugin** provides the following Grails artefacts:
 * **RecurlyService** - A service client to call [Recurly APIs v2](https://docs.recurly.com/api).
-* **RecurlyWebHook** -  Web hook end point to support [Recurly Push Notifications](http://docs.recurly.com/api/push-notifications).
+* **RecurlyWebHook** -  Web hook end point for [Recurly Push Notifications](http://docs.recurly.com/api/push-notifications).
 
 # Installation
 
@@ -150,7 +150,7 @@ class RecurlyWebHookService implements RecurlyWebHookListener {
 # Latest releases
 
 * 2014-03-10 **V2.0.0** : plugin refactored to support [Recurly APIs v2](https://docs.recurly.com/api).
-* 2011-09-19 **V0.99** : initial release by [Kushal Likhi](https://github.com/kushal-likhi), based on Recurly APIs v1 (deprecated)
+* 2011-09-19 **V0.99** : initial release by [Kushal Likhi](https://github.com/kushal-likhi), based on [Recurly APIs v1](http://docs.recurly.com/api/v1) (deprecated)
 
 # Bugs
 
