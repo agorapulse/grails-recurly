@@ -1,5 +1,5 @@
 Recurly Grails Plugin
-=========================
+=====================
 
 # Introduction
 
@@ -7,9 +7,9 @@ The **Recurly Plugin** allows you to integrate [Recurly](https://recurly.com) su
 
 Recurly offers enterprise-class subscription billing and recurring billing management for thousands of companies worldwide.
 
-It provides the following Grails artefacts:
+**Recurly Plugin** provides the following Grails artefacts:
 * **RecurlyService** - A service client to call [Recurly APIs v2](https://docs.recurly.com/api).
-* **RecurlyWebHookListener** - WebHook end point to support [Recurly Push Notifications](http://docs.recurly.com/api/push-notifications).
+* **RecurlyWebHook** -  Web hook end point to support [Recurly Push Notifications](http://docs.recurly.com/api/push-notifications).
 
 # Installation
 
@@ -70,6 +70,9 @@ def accounts = recurlyService.listAccounts()
 // TODO give more usage examples
 ```
 
+For more details, check [RecurlyService Groovy docs](http://agorapulse.github.io/grails-recurly/gapi/grails/plugin/recurly/RecurlyService.html)
+
+
 ## RecurlyWebHook (push notifications)
 
 Recurly can send [push notifications](http://docs.recurly.com/push-notifications) to any publicly accessible server.
@@ -77,13 +80,13 @@ When an event in Recurly triggers a push notification (e.g., an account is opene
 
 This Plugin has built-in mechanism to accept, parse and process the notification and call the desired handler in the application.
 
-Implementing handler is a **VERY SIMPLE** Process. All You have to do is:
+Implementing handler is a **VERY SIMPLE** process. All you have to do is:
 
 1. Create a service, ex. _RecurlyWebHookService_
 
-2. Implement the interface _RecurlyWebHookListener_ by adding all the interface methods(Your IDE Will Do that For you :) )
+2. Implement the interface _RecurlyWebHookListener_ by adding all the interface methods (your IDE will do that for you :) )
 
-3. In Recurly web app > Push Notifications > configuration, enter your public push notification URL (`http://your.domain.com/recurlyWebHook`) and web hook HTTP Auth credentials (if you have defined them in your _grails-app/conf/Config.groovy_).
+3. In Recurly web app > Push Notifications > Configuration, enter your public push notification URL (`http://your.domain.com/recurlyWebHook`) and HTTP Auth credentials (if defined in your _grails-app/conf/Config.groovy_).
 
 Hurray... Now this service will be automatically registered as the handler for webHookEvents.
 And the implemented methods will act as the handler to a particular event.
@@ -147,7 +150,7 @@ class RecurlyWebHookService implements RecurlyWebHookListener {
 # Latest releases
 
 * 2014-03-10 **V2.0.0** : plugin refactored to support [Recurly APIs v2](https://docs.recurly.com/api).
-
+* 2011-09-19 **V0.99** : initial release by [Kushal Likhi](https://github.com/kushal-likhi), based on Recurly APIs v1 (deprecated)
 
 # Bugs
 
