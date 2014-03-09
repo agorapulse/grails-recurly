@@ -1,0 +1,9 @@
+DefaultPackage
+grails.plugin.recurly
+grails.plugin.recurly.enums
+grails.plugin.recurly.exceptions
+grails.plugin.recurly.helpers
+grails.plugin.recurly.interfaces
+grails.plugin.recurly.notifications
+grails.plugin.recurly.processors
+grails.plugin.recurly.templates
