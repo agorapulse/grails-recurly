@@ -9,7 +9,7 @@ Recurly offers enterprise-class subscription billing and recurring billing manag
 
 **Recurly Plugin** provides the following Grails artefacts:
 * **RecurlyService** - A service client to call [Recurly APIs v2](https://docs.recurly.com/api).
-* **RecurlyAccount**, **RecurlyPlan**, **RecurlySubscription**, etc - API/domain clients to call [Recurly APIs v2](https://docs.recurly.com/api).
+* **RecurlyAccount**, **RecurlyPlan**, **RecurlySubscription**, etc - REST resource clients to call [Recurly APIs v2](https://docs.recurly.com/api).
 * **RecurlyWebHook** -  Web hook end point for [Recurly Push Notifications](http://docs.recurly.com/api/push-notifications).
 
 # Installation
@@ -58,7 +58,12 @@ grails {
 
 # Usage
 
-## RecurlyService (APIs)
+## Recurly APIs
+
+To use Recurly APIs, you can use _recurlyService_ (easier to mock in tests) or _Recurly*_ REST resource clients (easier to use).
+
+
+### RecurlyService
 
 You can inject _recurlyService_ in any of your Grails artefacts (controllers, services...) in order to call [Recurly APIs](https://docs.recurly.com/api).
 
@@ -106,7 +111,10 @@ billingInfo = recurlyService.createOrUpdateBillingDetails(details, '1').entity
 
 For more details, check [RecurlyService Groovy docs](http://agorapulse.github.io/grails-recurly/gapi/grails/plugin/recurly/RecurlyService.html)
 
-Or you can use a friendlier static methods added to domain objects.
+
+### Recurly REST resource clients
+
+Or you can use a friendlier static methods added to domain/REST objects in order to call [Recurly APIs](https://docs.recurly.com/api).
 
 ```groovy
 import grails.plugin.recurly.*
@@ -143,6 +151,15 @@ billingInfo.save()
 
 // Etc
 ```
+For more details, check:
+
+- [RecurlyAccount Groovy docs](http://agorapulse.github.io/grails-recurly/gapi/grails/plugin/recurly/RecurlyAccount.html)
+- [RecurlyBillingInfo Groovy docs](http://agorapulse.github.io/grails-recurly/gapi/grails/plugin/recurly/RecurlyBillingInfo.html)
+- [RecurlyCreditCard Groovy docs](http://agorapulse.github.io/grails-recurly/gapi/grails/plugin/recurly/RecurlyCreditCard.html)
+- [RecurlyInvoice Groovy docs](http://agorapulse.github.io/grails-recurly/gapi/grails/plugin/recurly/RecurlyInvoice.html)
+- [RecurlyPlan Groovy docs](http://agorapulse.github.io/grails-recurly/gapi/grails/plugin/recurly/RecurlyPlan.html)
+- [RecurlySubscription Groovy docs](http://agorapulse.github.io/grails-recurly/gapi/grails/plugin/recurly/RecurlySubscription.html)
+- [RecurlyTransaction Groovy docs](http://agorapulse.github.io/grails-recurly/gapi/grails/plugin/recurly/RecurlyTransaction.html)
 
 
 ## RecurlyWebHook (push notifications)
