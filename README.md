@@ -221,7 +221,8 @@ class RecurlyWebHookService implements RecurlyWebHookListener {
 
 # Latest releases
 
-* 2014-03-10 **V2.0.0** : plugin refactored to support [Recurly APIs v2](https://docs.recurly.com/api).
+* 2014-03-13 **V2.0.1** : release on grails.org
+* 2013-11-09 **V2.0.0** : plugin refactored to support [Recurly APIs v2](https://docs.recurly.com/api).
 * 2011-09-19 **V0.99** : initial release by [Kushal Likhi](https://github.com/kushal-likhi), based on [Recurly APIs v1](http://docs.recurly.com/api/v1) (deprecated)
 
 # Bugs
