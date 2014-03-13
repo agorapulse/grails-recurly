@@ -9,6 +9,7 @@ Recurly offers enterprise-class subscription billing and recurring billing manag
 
 **Recurly Plugin** provides the following Grails artefacts:
 * **RecurlyService** - A service client to call [Recurly APIs v2](https://docs.recurly.com/api).
+* **RecurlyAccount**, **RecurlyPlan**, **RecurlySubscription**, etc - API/domain clients to call [Recurly APIs v2](https://docs.recurly.com/api).
 * **RecurlyWebHook** -  Web hook end point for [Recurly Push Notifications](http://docs.recurly.com/api/push-notifications).
 
 # Installation
@@ -62,15 +63,86 @@ grails {
 You can inject _recurlyService_ in any of your Grails artefacts (controllers, services...) in order to call [Recurly APIs](https://docs.recurly.com/api).
 
 ```groovy
-def recurlyService
+import grails.plugin.recurly.*
 
-// Get all account
+recurlyService = ctx.getBean('recurlyService')
+
+// Account - GET
+def existingAccount = recurlyService.getAccountDetails('1').entity
+
+// Account - CREATE
+def account = new RecurlyAccount(
+  userName: '',
+  firstName: 'Verena',
+  lastName: 'Example',
+  accountCode: '4',
+  email: 'some@example.com',
+  companyName: 'ACME'
+)
+account = recurlyService.createAccount(newAccount)
+
+// Account - UPDATE
+account.userName = 'verena'
+account = recurlyService.updateAccount(account).entity
+
+// Account - DELETE (it will close the account)
+recurlyService.deleteAccount('4')
+
+// Account - LIST
 def accounts = recurlyService.listAccounts()
 
-// TODO give more usage examples
+// Plan - LIST
+def plans = recurlyService.listAllSubscriptionPlans().entity
+
+// Billing info - GET
+def billingInfo = recurlyService.getBillingDetails('1').entity
+
+// Billing info - UPDATE
+billingInfo.firstName = 'Benoit'
+billingInfo = recurlyService.createOrUpdateBillingDetails(details, '1').entity
+
+// Etc
 ```
 
 For more details, check [RecurlyService Groovy docs](http://agorapulse.github.io/grails-recurly/gapi/grails/plugin/recurly/RecurlyService.html)
+
+Or you can use a friendlier static methods added to domain objects.
+
+```groovy
+import grails.plugin.recurly.*
+
+// Account - GET
+def existingAccount= RecurlyAccount.fetch('1')
+
+// Account - CREATE
+def account = new RecurlyAccount(
+  userName: '',
+  firstName: 'Verena',
+  lastName: 'Example',
+  accountCode: '5',
+  email: 'verena@example.com',
+  companyName: 'ACME'
+).save()
+
+// Account - UPDATE
+account.userName = 'verena'
+account.save()
+
+// Account - DELETE (it will close the account)
+account.delete()
+
+// Account - LIST
+def accounts = RecurlyAccount.query(state: 'active', max: 10)
+
+// Billing info - GET
+def billingInfo = RecurlyBillingInfo.fetch('1')
+
+// Billing info - UPDATE
+billingInfo.firstName = 'Benoit'
+billingInfo.save()
+
+// Etc
+```
 
 
 ## RecurlyWebHook (push notifications)
