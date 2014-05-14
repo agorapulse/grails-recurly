@@ -1,13 +1,6 @@
 package grails.plugin.recurly.interfaces
 
-import grails.plugin.recurly.notifications.RecurlyReactivatedAccountWebHookNotification
-import grails.plugin.recurly.notifications.RecurlySuccessfulPaymentWebHookNotification
-import grails.plugin.recurly.notifications.RecurlyFailedRenewalWebHookNotification
-import grails.plugin.recurly.notifications.RecurlyCanceledSubscriptionWebHookNotification
-import grails.plugin.recurly.notifications.RecurlyRenewedSubscriptionWebHookNotification
-import grails.plugin.recurly.notifications.RecurlyNewSubscriptionWebHookNotification
-import grails.plugin.recurly.notifications.RecurlyExpiredSubscriptionWebHookNotification
-import grails.plugin.recurly.notifications.RecurlyChangedSubscriptionWebHookNotification
+import grails.plugin.recurly.notifications.*
 
 /**
  * Created by IntelliJ IDEA.
@@ -20,10 +13,25 @@ public interface RecurlyWebHookListener {
 
     public static recurlyWebHook = true
 
+    // Account notifications
+    public void newAccountNotificationHandler(RecurlyNewAccountWebHookNotification notification)
+
+    public void canceledAccountNotificationHandler(RecurlyCanceledAccountWebHookNotification notification)
+
+    public void billingInfoUpdatedNotificationHandler(RecurlyBillingInfoUpdatedWebHookNotification notification)
+
+    public void reactivatedAccountNotificationHandler(RecurlyReactivatedAccountWebHookNotification notification)
+
+    // Payment notifications
     public void successfulPaymentNotificationHandler(RecurlySuccessfulPaymentWebHookNotification notification)
 
-    public void failedRenewalPaymentNotificationHandler(RecurlyFailedRenewalWebHookNotification notification)
+    public void successfulRefundNotificationHandler(RecurlySuccessfulRefundWebHookNotification notification)
 
+    public void voidPaymentNotificationHandler(RecurlyVoidPaymentWebHookNotification notification)
+
+    public void failedRenewalNotificationHandler(RecurlyFailedRenewalWebHookNotification notification)
+
+    // Subscription notifications
     public void cancelledSubscriptionNotificationHandler(RecurlyCanceledSubscriptionWebHookNotification notification)
 
     public void renewedSubscriptionNotificationHandler(RecurlyRenewedSubscriptionWebHookNotification notification)
@@ -32,8 +40,6 @@ public interface RecurlyWebHookListener {
 
     public void expiredSubscriptionNotificationHandler(RecurlyExpiredSubscriptionWebHookNotification notification)
 
-    public void subscriptionUpdatedNotificationHandler(RecurlyChangedSubscriptionWebHookNotification notification)
-
-    public void reactivatedAccountNotificationHandler(RecurlyReactivatedAccountWebHookNotification notification)
+    public void updatedSubscriptionNotificationHandler(RecurlyUpdatedSubscriptionWebHookNotification notification)
 
 }

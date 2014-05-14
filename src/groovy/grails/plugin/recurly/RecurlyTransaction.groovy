@@ -32,8 +32,8 @@ class RecurlyTransaction extends RecurlyRESTResource {
 
     // STATIC REST METHODS
 
-    static RecurlyPlan fetch(String uuid) {
-        handleResponse(new RecurlyTransactionProcessor().getTransactionDetails(uuid)) as RecurlyPlan
+    static RecurlyTransaction fetch(String uuid) {
+        handleResponse(new RecurlyTransactionProcessor().getTransactionDetails(uuid)) as RecurlyTransaction
     }
 
     static List query(Map query = [:]) {

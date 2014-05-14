@@ -1,20 +1,13 @@
 package grails.plugin.recurly.processors
 
-import grails.plugin.recurly.enums.RecurlySubscriptionState
-import grails.plugin.recurly.helpers.WebHookNotification
-import grails.plugin.recurly.notifications.RecurlyReactivatedAccountWebHookNotification
-import grails.plugin.recurly.notifications.RecurlySuccessfulPaymentWebHookNotification
-import grails.plugin.recurly.enums.WebHookResponseType
 import grails.plugin.recurly.RecurlyAccount
-import grails.plugin.recurly.RecurlyTransaction
-import grails.plugin.recurly.helpers.GenericNodeTypeCaster
-import grails.plugin.recurly.notifications.RecurlyFailedRenewalWebHookNotification
-import grails.plugin.recurly.notifications.RecurlyExpiredSubscriptionWebHookNotification
-import grails.plugin.recurly.notifications.RecurlyChangedSubscriptionWebHookNotification
 import grails.plugin.recurly.RecurlySubscription
-import grails.plugin.recurly.notifications.RecurlyCanceledSubscriptionWebHookNotification
-import grails.plugin.recurly.notifications.RecurlyRenewedSubscriptionWebHookNotification
-import grails.plugin.recurly.notifications.RecurlyNewSubscriptionWebHookNotification
+import grails.plugin.recurly.RecurlyTransaction
+import grails.plugin.recurly.enums.RecurlySubscriptionState
+import grails.plugin.recurly.enums.WebHookResponseType
+import grails.plugin.recurly.helpers.GenericNodeTypeCaster
+import grails.plugin.recurly.helpers.WebHookNotification
+import grails.plugin.recurly.notifications.*
 
 class WebHookNotificationProcessor extends GenericNodeTypeCaster {
     String receivedXml
@@ -28,12 +21,33 @@ class WebHookNotificationProcessor extends GenericNodeTypeCaster {
         WebHookNotification webHookNotification
         parsedXml = new XmlParser().parseText(receivedXml)
         switch(parsedXml.name()) {
+            // Account notifications
+            case "new_account_notification":
+                webHookNotification = processNewAccountNotification()
+                break
+            case "canceled_account_notification":
+                webHookNotification = processCanceledAccountNotification()
+                break
+            case "billing_info_updated_notification":
+                webHookNotification = processBillingInfoUpdatedNotification()
+                break
+            case "reactivated_account_notification":
+                webHookNotification = processReactivatedAccountNotification()
+                break
+            // Payment notifications
             case "successful_payment_notification":
-                webHookNotification = processSuccessfulNotification()
+                webHookNotification = processSuccessfulPaymentNotification()
+                break
+            case "successful_refund_notification":
+                webHookNotification = processSuccessfulRefundNotification()
                 break
             case "failed_payment_notification":
                 webHookNotification = processFailedNotification()
                 break
+            case "void_payment_notification":
+                webHookNotification = processVoidPaymentNotification()
+                break
+            // Subscription notifications
             case "expired_subscription_notification":
                 webHookNotification = processExpiredSubscriptionNotification()
                 break
@@ -49,28 +63,76 @@ class WebHookNotificationProcessor extends GenericNodeTypeCaster {
             case "new_subscription_notification":
                 webHookNotification = processNewSubscriptionNotification()
                 break
-            case "reactivated_account_notification":
-                webHookNotification = processReactivatedAccountNotification()
-                break
         }
         return webHookNotification
     }
 
+    // Account notifications
+
+    private RecurlyNewAccountWebHookNotification processNewAccountNotification() {
+        RecurlyNewAccountWebHookNotification recurlyNewAccountWebHookNotification = new RecurlyNewAccountWebHookNotification()
+        recurlyNewAccountWebHookNotification.webHookResponseType = WebHookResponseType.REACTIVATED_ACCOUNT_NOTIFICATION
+        recurlyNewAccountWebHookNotification.recurlyAccount = parseAndGetRecurlyAccount()
+        return recurlyNewAccountWebHookNotification
+    }
+
+    private RecurlyCanceledAccountWebHookNotification processCanceledAccountNotification() {
+        RecurlyCanceledAccountWebHookNotification recurlyCanceledAccountWebHookNotification = new RecurlyCanceledAccountWebHookNotification()
+        recurlyCanceledAccountWebHookNotification.webHookResponseType = WebHookResponseType.CANCELED_ACCOUNT_NOTIFICATION
+        recurlyCanceledAccountWebHookNotification.recurlyAccount = parseAndGetRecurlyAccount()
+        return recurlyCanceledAccountWebHookNotification
+    }
+
+    private RecurlyBillingInfoUpdatedWebHookNotification processBillingInfoUpdatedNotification() {
+        RecurlyBillingInfoUpdatedWebHookNotification recurlyBillingInfoUpdatedWebHookNotification = new RecurlyBillingInfoUpdatedWebHookNotification()
+        recurlyBillingInfoUpdatedWebHookNotification.webHookResponseType = WebHookResponseType.BILLING_INFO_UPDATED_NOTIFICATION
+        recurlyBillingInfoUpdatedWebHookNotification.recurlyAccount = parseAndGetRecurlyAccount()
+        return recurlyBillingInfoUpdatedWebHookNotification
+    }
+
+    private RecurlyReactivatedAccountWebHookNotification processReactivatedAccountNotification() {
+        RecurlyReactivatedAccountWebHookNotification recurlyReactivatedAccountWebHookNotification = new RecurlyReactivatedAccountWebHookNotification()
+        recurlyReactivatedAccountWebHookNotification.webHookResponseType = WebHookResponseType.REACTIVATED_ACCOUNT_NOTIFICATION
+        recurlyReactivatedAccountWebHookNotification.recurlyAccount = parseAndGetRecurlyAccount()
+        recurlyReactivatedAccountWebHookNotification.recurlySubscription = parseAndGetRecurlySubscription()
+        return recurlyReactivatedAccountWebHookNotification
+    }
+
+    // Payment notifications
+
     private RecurlyFailedRenewalWebHookNotification processFailedNotification() {
         RecurlyFailedRenewalWebHookNotification recurlyFailedRenewalWebHookNotification = new RecurlyFailedRenewalWebHookNotification()
-        recurlyFailedRenewalWebHookNotification.webHookResponseType = WebHookResponseType.FAILED_RENEWAL_PAYMENT_NOTIFICATION
+        recurlyFailedRenewalWebHookNotification.webHookResponseType = WebHookResponseType.FAILED_RENEWAL_NOTIFICATION
         recurlyFailedRenewalWebHookNotification.recurlyAccount = this.parseAndGetRecurlyAccount()
         recurlyFailedRenewalWebHookNotification.recurlyTransaction = this.parseAndGetRecurlyTransaction()
         return recurlyFailedRenewalWebHookNotification
     }
 
-    private RecurlySuccessfulPaymentWebHookNotification processSuccessfulNotification() {
+    private RecurlySuccessfulPaymentWebHookNotification processSuccessfulPaymentNotification() {
         RecurlySuccessfulPaymentWebHookNotification recurlySuccessfulPaymentWebHookNotification = new RecurlySuccessfulPaymentWebHookNotification()
         recurlySuccessfulPaymentWebHookNotification.webHookResponseType = WebHookResponseType.SUCCESSFUL_PAYMENT_NOTIFICATION
         recurlySuccessfulPaymentWebHookNotification.recurlyAccount = parseAndGetRecurlyAccount()
         recurlySuccessfulPaymentWebHookNotification.recurlyTransaction = parseAndGetRecurlyTransaction()
         return recurlySuccessfulPaymentWebHookNotification
     }
+
+    private RecurlySuccessfulRefundWebHookNotification processSuccessfulRefundNotification() {
+        RecurlySuccessfulRefundWebHookNotification recurlySuccessfulRefundWebHookNotification = new RecurlySuccessfulRefundWebHookNotification()
+        recurlySuccessfulRefundWebHookNotification.webHookResponseType = WebHookResponseType.SUCCESSFUL_REFUND_NOTIFICATION
+        recurlySuccessfulRefundWebHookNotification.recurlyAccount = parseAndGetRecurlyAccount()
+        recurlySuccessfulRefundWebHookNotification.recurlyTransaction = parseAndGetRecurlyTransaction()
+        return recurlySuccessfulRefundWebHookNotification
+    }
+
+    private RecurlyVoidPaymentWebHookNotification processVoidPaymentNotification() {
+        RecurlyVoidPaymentWebHookNotification recurlyVoidPaymentWebHookNotification = new RecurlyVoidPaymentWebHookNotification()
+        recurlyVoidPaymentWebHookNotification.webHookResponseType = WebHookResponseType.VOID_PAYMENT_NOTIFICATION
+        recurlyVoidPaymentWebHookNotification.recurlyAccount = parseAndGetRecurlyAccount()
+        recurlyVoidPaymentWebHookNotification.recurlyTransaction = parseAndGetRecurlyTransaction()
+        return recurlyVoidPaymentWebHookNotification
+    }
+
+    // Subscription notifications
 
     private RecurlyExpiredSubscriptionWebHookNotification processExpiredSubscriptionNotification() {
         RecurlyExpiredSubscriptionWebHookNotification recurlyExpiredSubscriptionWebHookNotification = new RecurlyExpiredSubscriptionWebHookNotification()
@@ -80,12 +142,12 @@ class WebHookNotificationProcessor extends GenericNodeTypeCaster {
         return recurlyExpiredSubscriptionWebHookNotification
     }
 
-    private RecurlyChangedSubscriptionWebHookNotification processSubscriptionChangeNotification() {
-        RecurlyChangedSubscriptionWebHookNotification recurlyChangedSubscriptionWebHookNotification = new RecurlyChangedSubscriptionWebHookNotification()
-        recurlyChangedSubscriptionWebHookNotification.webHookResponseType = WebHookResponseType.SUBSCRIPTION_UPDATED
-        recurlyChangedSubscriptionWebHookNotification.recurlyAccount = parseAndGetRecurlyAccount()
-        recurlyChangedSubscriptionWebHookNotification.recurlySubscription = parseAndGetRecurlySubscription()
-        return recurlyChangedSubscriptionWebHookNotification
+    private RecurlyUpdatedSubscriptionWebHookNotification processSubscriptionChangeNotification() {
+        RecurlyUpdatedSubscriptionWebHookNotification recurlyUpdatedSubscriptionWebHookNotification = new RecurlyUpdatedSubscriptionWebHookNotification()
+        recurlyUpdatedSubscriptionWebHookNotification.webHookResponseType = WebHookResponseType.UPDATED_SUBSCRIPTION_NOTIFICATION
+        recurlyUpdatedSubscriptionWebHookNotification.recurlyAccount = parseAndGetRecurlyAccount()
+        recurlyUpdatedSubscriptionWebHookNotification.recurlySubscription = parseAndGetRecurlySubscription()
+        return recurlyUpdatedSubscriptionWebHookNotification
 
     }
 
@@ -115,14 +177,6 @@ class WebHookNotificationProcessor extends GenericNodeTypeCaster {
         recurlyCanceledSubscriptionWebHookNotification.recurlySubscription = parseAndGetRecurlySubscription()
         return recurlyCanceledSubscriptionWebHookNotification
 
-    }
-
-    private RecurlyReactivatedAccountWebHookNotification processReactivatedAccountNotification() {
-        RecurlyReactivatedAccountWebHookNotification recurlyReactivatedAccountWebHookNotification = new RecurlyReactivatedAccountWebHookNotification()
-        recurlyReactivatedAccountWebHookNotification.webHookResponseType = WebHookResponseType.REACTIVATED_ACCOUNT_NOTIFICATION
-        recurlyReactivatedAccountWebHookNotification.recurlyAccount = parseAndGetRecurlyAccount()
-        recurlyReactivatedAccountWebHookNotification.recurlySubscription = parseAndGetRecurlySubscription()
-        return recurlyReactivatedAccountWebHookNotification
     }
 
     private RecurlyAccount parseAndGetRecurlyAccount() {

@@ -2,14 +2,7 @@ package grails.plugin.recurly
 
 import grails.plugin.recurly.enums.WebHookResponseType
 import grails.plugin.recurly.helpers.WebHookNotification
-import grails.plugin.recurly.notifications.RecurlyCanceledSubscriptionWebHookNotification
-import grails.plugin.recurly.notifications.RecurlyChangedSubscriptionWebHookNotification
-import grails.plugin.recurly.notifications.RecurlyExpiredSubscriptionWebHookNotification
-import grails.plugin.recurly.notifications.RecurlyFailedRenewalWebHookNotification
-import grails.plugin.recurly.notifications.RecurlyNewSubscriptionWebHookNotification
-import grails.plugin.recurly.notifications.RecurlyReactivatedAccountWebHookNotification
-import grails.plugin.recurly.notifications.RecurlyRenewedSubscriptionWebHookNotification
-import grails.plugin.recurly.notifications.RecurlySuccessfulPaymentWebHookNotification
+import grails.plugin.recurly.notifications.*
 import grails.plugin.recurly.processors.WebHookNotificationProcessor
 import org.codehaus.groovy.grails.commons.GrailsApplication
 
@@ -67,7 +60,13 @@ class RecurlyWebHookController {
                 case WebHookResponseType.SUCCESSFUL_PAYMENT_NOTIFICATION:
                     handlerBean.successfulPaymentNotificationHandler(webHookNotification as RecurlySuccessfulPaymentWebHookNotification)
                     break
-                case WebHookResponseType.FAILED_RENEWAL_PAYMENT_NOTIFICATION:
+                case WebHookResponseType.SUCCESSFUL_REFUND_NOTIFICATION:
+                    handlerBean.successfulRefundNotificationHandler(webHookNotification as RecurlySuccessfulRefundWebHookNotification)
+                    break
+                case WebHookResponseType.VOID_PAYMENT_NOTIFICATION:
+                    handlerBean.voidPaymentNotificationHandler(webHookNotification as RecurlyVoidPaymentWebHookNotification)
+                    break
+                case WebHookResponseType.FAILED_RENEWAL_NOTIFICATION:
                     handlerBean.failedRenewalPaymentNotificationHandler(webHookNotification as RecurlyFailedRenewalWebHookNotification)
                     break
                 case WebHookResponseType.CANCELED_SUBSCRIPTION_NOTIFICATION:
@@ -82,8 +81,8 @@ class RecurlyWebHookController {
                 case WebHookResponseType.EXPIRED_SUBSCRIPTION_NOTIFICATION:
                     handlerBean.expiredSubscriptionNotificationHandler(webHookNotification as RecurlyExpiredSubscriptionWebHookNotification)
                     break
-                case WebHookResponseType.SUBSCRIPTION_UPDATED:
-                    handlerBean.subscriptionUpdatedNotificationHandler(webHookNotification as RecurlyChangedSubscriptionWebHookNotification)
+                case WebHookResponseType.UPDATED_SUBSCRIPTION_NOTIFICATION:
+                    handlerBean.updatedSubscriptionNotificationHandler(webHookNotification as RecurlyUpdatedSubscriptionWebHookNotification)
                     break
                 case WebHookResponseType.REACTIVATED_ACCOUNT_NOTIFICATION:
                     handlerBean.reactivatedAccountNotificationHandler(webHookNotification as RecurlyReactivatedAccountWebHookNotification)

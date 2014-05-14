@@ -4,9 +4,9 @@ import grails.plugin.recurly.RecurlyAccount
 import grails.plugin.recurly.RecurlyTransaction
 import grails.plugin.recurly.helpers.WebHookNotification
 
-class RecurlyFailedRenewalWebHookNotification extends WebHookNotification {
+class RecurlyVoidPaymentWebHookNotification extends WebHookNotification {
 
-    RecurlyAccount recurlyAccount
-    RecurlyTransaction recurlyTransaction
+    public RecurlyAccount recurlyAccount
+    public RecurlyTransaction recurlyTransaction
 
 }

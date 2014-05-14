@@ -75,7 +75,7 @@ class RecurlyTransactionProcessor extends RecurlyProcessor {
                 action: responseData.action,
                 currency: responseData.currency,
                 amountInCents: convertNodeToInteger(responseData.amount_in_cents),
-                taxInCents: convertNodeToInteger(responseData.taxInCents),
+                taxInCents: convertNodeToInteger(responseData.tax_in_cents),
                 status: responseData.status,
                 reference: responseData.reference,
                 source: responseData.source,
