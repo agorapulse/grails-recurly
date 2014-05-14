@@ -28,7 +28,7 @@ grails.project.dependency.resolution = {
 		}
 		plugins {
 				//here go your plugin dependencies
-				runtime ':recurly:2.0.0'
+				runtime ':recurly:2.1.0'
 		}
 }
 ```
@@ -192,6 +192,57 @@ class RecurlyWebHookService implements RecurlyWebHookListener {
 
     static transactional = true
 
+    // Account notifications
+
+    void newAccountNotificationHandler(RecurlyNewAccountWebHookNotification notification) {
+        log.debug "Processing new account notification..."
+        //Handler code here
+    }
+
+    void canceledAccountNotificationHandler(RecurlyCanceledAccountWebHookNotification notification) {
+        log.debug "Processing canceled account notification..."
+        //Handler code here
+    }
+
+    void billingInfoUpdatedNotificationHandler(RecurlyBillingInfoUpdatedWebHookNotification notification) {
+        log.debug "Processing billing info updated notification..."
+        //Handler code here
+    }
+
+    void reactivatedAccountNotificationHandler(RecurlyReactivatedAccountWebHookNotification notification) {
+        log.debug "Processing reactivated account notification..."
+        //Handler code here
+    }
+
+    // Payment notifications
+
+    void successfulPaymentNotificationHandler(RecurlySuccessfulPaymentWebHookNotification notification) {
+        log.debug "Processing successful payment notification..."
+        //Handler code here
+    }
+
+    void successfulRefundNotificationHandler(RecurlySuccessfulRefundWebHookNotification notification) {
+        log.debug "Processing successful refund notification..."
+        //Handler code here
+    }
+
+    void failedRenewalNotificationHandler(RecurlyFailedRenewalWebHookNotification notification) {
+        log.debug "Processing failed renewal notification..."
+        //Handler code here
+    }
+
+    void voidPaymentNotificationHandler(RecurlyVoidPaymentWebHookNotification notification) {
+        log.debug "Processing void payment notification..."
+        //Handler code here
+    }
+
+    // Subscription notifications
+
+    void newSubscriptionNotificationHandler(RecurlyNewSubscriptionWebHookNotification notification) {
+        log.debug "Processing new subscription notification..."
+        //Handler code here
+    }
+
     void cancelledSubscriptionNotificationHandler(RecurlyCanceledSubscriptionWebHookNotification notification) {
         log.debug "Processing cancelled subscription notification..."
         // Handler Code Here
@@ -202,33 +253,13 @@ class RecurlyWebHookService implements RecurlyWebHookListener {
         //Handler code here
     }
 
-    void failedRenewalPaymentNotificationHandler(RecurlyFailedRenewalWebHookNotification notification) {
-        log.debug "Processing failed renewal notification..."
-        //Handler code here
-    }
-
-    void newSubscriptionNotificationHandler(RecurlyNewSubscriptionWebHookNotification notification) {
-        log.debug "Processing new subscription notification..."
-        //Handler code here
-    }
-
-    void reactivatedAccountNotificationHandler(RecurlyReactivatedAccountWebHookNotification notification) {
-        log.debug "Processing reactivated account notification..."
-        //Handler code here
-    }
-
     void renewedSubscriptionNotificationHandler(RecurlyRenewedSubscriptionWebHookNotification notification) {
         log.debug "Processing renewed subscription notification..."
         //Handler code here
     }
 
-    void subscriptionUpdatedNotificationHandler(RecurlyChangedSubscriptionWebHookNotification notification) {
-        log.debug "Processing subscription update notification..."
-        //Handler code here
-    }
-
-    void successfulPaymentNotificationHandler(RecurlySuccessfulPaymentWebHookNotification notification) {
-        log.debug "Processing successful payment notification..."
+    void updatedSubscriptionNotificationHandler(RecurlyUpdatedSubscriptionWebHookNotification notification) {
+        log.debug "Processing updated subscription notification..."
         //Handler code here
     }
 
@@ -238,6 +269,9 @@ class RecurlyWebHookService implements RecurlyWebHookListener {
 
 # Latest releases
 
+* 2014-05-14 **V2.1.0** : updated notification handlers (WARNING: breaking change! Please update your `RecurlyWebHookService`)
+  - new handlers `newAccount`, `canceledAccount`, `billingInfoUpdated`, `successfulRefund`, `voidPayment`
+  - updated handlers `subscriptionUpdated` renamed to `updatedSubscription` and `failedRenewalPayment` renamed to `failedRenewal` (to match recurly naming)
 * 2014-03-13 **V2.0.1** : release on grails.org
 * 2013-11-09 **V2.0.0** : plugin refactored to support [Recurly APIs v2](https://docs.recurly.com/api).
 * 2011-09-19 **V0.99** : initial release by [Kushal Likhi](https://github.com/kushal-likhi), based on [Recurly APIs v1](http://docs.recurly.com/api/v1) (deprecated)
