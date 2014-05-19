@@ -28,7 +28,7 @@ grails.project.dependency.resolution = {
 		}
 		plugins {
 				//here go your plugin dependencies
-				runtime ':recurly:2.1.0'
+				runtime ':recurly:2.1.1'
 		}
 }
 ```
