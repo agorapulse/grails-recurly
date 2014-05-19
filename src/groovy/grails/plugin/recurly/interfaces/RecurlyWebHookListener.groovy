@@ -29,7 +29,7 @@ public interface RecurlyWebHookListener {
 
     public void voidPaymentNotificationHandler(RecurlyVoidPaymentWebHookNotification notification)
 
-    public void failedRenewalNotificationHandler(RecurlyFailedRenewalWebHookNotification notification)
+    public void failedPaymentNotificationHandler(RecurlyFailedPaymentWebHookNotification notification)
 
     // Subscription notifications
     public void cancelledSubscriptionNotificationHandler(RecurlyCanceledSubscriptionWebHookNotification notification)

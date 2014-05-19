@@ -66,8 +66,8 @@ class RecurlyWebHookController {
                 case WebHookResponseType.VOID_PAYMENT_NOTIFICATION:
                     handlerBean.voidPaymentNotificationHandler(webHookNotification as RecurlyVoidPaymentWebHookNotification)
                     break
-                case WebHookResponseType.FAILED_RENEWAL_NOTIFICATION:
-                    handlerBean.failedRenewalPaymentNotificationHandler(webHookNotification as RecurlyFailedRenewalWebHookNotification)
+                case WebHookResponseType.FAILED_PAYMENT_NOTIFICATION:
+                    handlerBean.failedPaymentNotificationHandler(webHookNotification as RecurlyFailedPaymentWebHookNotification)
                     break
                 case WebHookResponseType.CANCELED_SUBSCRIPTION_NOTIFICATION:
                     handlerBean.cancelledSubscriptionNotificationHandler(webHookNotification as RecurlyCanceledSubscriptionWebHookNotification)

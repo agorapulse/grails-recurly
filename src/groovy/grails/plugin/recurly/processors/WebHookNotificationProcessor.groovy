@@ -42,7 +42,7 @@ class WebHookNotificationProcessor extends GenericNodeTypeCaster {
                 webHookNotification = processSuccessfulRefundNotification()
                 break
             case "failed_payment_notification":
-                webHookNotification = processFailedNotification()
+                webHookNotification = processFailedPaymentNotification()
                 break
             case "void_payment_notification":
                 webHookNotification = processVoidPaymentNotification()
@@ -100,12 +100,12 @@ class WebHookNotificationProcessor extends GenericNodeTypeCaster {
 
     // Payment notifications
 
-    private RecurlyFailedRenewalWebHookNotification processFailedNotification() {
-        RecurlyFailedRenewalWebHookNotification recurlyFailedRenewalWebHookNotification = new RecurlyFailedRenewalWebHookNotification()
-        recurlyFailedRenewalWebHookNotification.webHookResponseType = WebHookResponseType.FAILED_RENEWAL_NOTIFICATION
-        recurlyFailedRenewalWebHookNotification.recurlyAccount = this.parseAndGetRecurlyAccount()
-        recurlyFailedRenewalWebHookNotification.recurlyTransaction = this.parseAndGetRecurlyTransaction()
-        return recurlyFailedRenewalWebHookNotification
+    private RecurlyFailedPaymentWebHookNotification processFailedPaymentNotification() {
+        RecurlyFailedPaymentWebHookNotification recurlyFailedPaymentWebHookNotification = new RecurlyFailedPaymentWebHookNotification()
+        recurlyFailedPaymentWebHookNotification.webHookResponseType = WebHookResponseType.FAILED_PAYMENT_NOTIFICATION
+        recurlyFailedPaymentWebHookNotification.recurlyAccount = this.parseAndGetRecurlyAccount()
+        recurlyFailedPaymentWebHookNotification.recurlyTransaction = this.parseAndGetRecurlyTransaction()
+        return recurlyFailedPaymentWebHookNotification
     }
 
     private RecurlySuccessfulPaymentWebHookNotification processSuccessfulPaymentNotification() {

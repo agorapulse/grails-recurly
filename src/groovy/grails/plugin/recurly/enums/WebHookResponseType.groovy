@@ -11,7 +11,7 @@ public enum WebHookResponseType {
     SUCCESSFUL_PAYMENT_NOTIFICATION("Successful Payment"),
     SUCCESSFUL_REFUND_NOTIFICATION("Successful Refund"),
     VOID_PAYMENT_NOTIFICATION("Void Payment"),
-    FAILED_RENEWAL_NOTIFICATION("Failed Renewal"),
+    FAILED_PAYMENT_NOTIFICATION("Failed Payment"),
     // Subscription notifications
     NEW_SUBSCRIPTION_NOTIFICATION("New Subscription"),
     CANCELED_SUBSCRIPTION_NOTIFICATION("Canceled Subscription"),
