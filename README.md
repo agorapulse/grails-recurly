@@ -28,7 +28,7 @@ grails.project.dependency.resolution = {
 		}
 		plugins {
 				//here go your plugin dependencies
-				runtime ':recurly:2.1.1'
+				runtime ':recurly:2.1.2'
 		}
 }
 ```
@@ -226,8 +226,8 @@ class RecurlyWebHookService implements RecurlyWebHookListener {
         //Handler code here
     }
 
-    void failedRenewalNotificationHandler(RecurlyFailedRenewalWebHookNotification notification) {
-        log.debug "Processing failed renewal notification..."
+    void failedPaymentNotificationHandler(RecurlyFailedPaymentWebHookNotification notification) {
+        log.debug "Processing failed payment notification..."
         //Handler code here
     }
 
@@ -269,10 +269,11 @@ class RecurlyWebHookService implements RecurlyWebHookListener {
 
 # Latest releases
 
+* 2014-05-19 **V2.1.2** : fix new account notification web hook bug
 * 2014-05-19 **V2.1.1** : fix new account notification web hook bug
 * 2014-05-14 **V2.1.0** : updated notification handlers (WARNING: breaking change! Please update your `RecurlyWebHookService`)
   - new handlers `newAccount`, `canceledAccount`, `billingInfoUpdated`, `successfulRefund`, `voidPayment`
-  - updated handlers `subscriptionUpdated` renamed to `updatedSubscription` and `failedRenewalPayment` renamed to `failedRenewal` (to match recurly naming)
+  - updated handlers `subscriptionUpdated` renamed to `updatedSubscription` and `failedRenewalPayment` renamed to `failedPayment` (to match recurly naming)
 * 2014-03-13 **V2.0.1** : release on grails.org
 * 2013-11-09 **V2.0.0** : plugin refactored to support [Recurly APIs v2](https://docs.recurly.com/api).
 * 2011-09-19 **V0.99** : initial release by [Kushal Likhi](https://github.com/kushal-likhi), based on [Recurly APIs v1](http://docs.recurly.com/api/v1) (deprecated)
