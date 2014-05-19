@@ -269,7 +269,7 @@ class RecurlyWebHookService implements RecurlyWebHookListener {
 
 # Latest releases
 
-* 2014-05-19 **V2.1.2** : fix new account notification web hook bug
+* 2014-05-19 **V2.1.2** : fix failed payment notification web hook bug
 * 2014-05-19 **V2.1.1** : fix new account notification web hook bug
 * 2014-05-14 **V2.1.0** : updated notification handlers (WARNING: breaking change! Please update your `RecurlyWebHookService`)
   - new handlers `newAccount`, `canceledAccount`, `billingInfoUpdated`, `successfulRefund`, `voidPayment`
