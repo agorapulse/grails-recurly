@@ -71,7 +71,7 @@ class WebHookNotificationProcessor extends GenericNodeTypeCaster {
 
     private RecurlyNewAccountWebHookNotification processNewAccountNotification() {
         RecurlyNewAccountWebHookNotification recurlyNewAccountWebHookNotification = new RecurlyNewAccountWebHookNotification()
-        recurlyNewAccountWebHookNotification.webHookResponseType = WebHookResponseType.REACTIVATED_ACCOUNT_NOTIFICATION
+        recurlyNewAccountWebHookNotification.webHookResponseType = WebHookResponseType.NEW_ACCOUNT_NOTIFICATION
         recurlyNewAccountWebHookNotification.recurlyAccount = parseAndGetRecurlyAccount()
         return recurlyNewAccountWebHookNotification
     }
