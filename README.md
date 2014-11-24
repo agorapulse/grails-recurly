@@ -28,7 +28,7 @@ grails.project.dependency.resolution = {
 		}
 		plugins {
 				//here go your plugin dependencies
-				runtime ':recurly:2.1.2'
+				runtime ':recurly:2.1.3'
 		}
 }
 ```
@@ -269,6 +269,7 @@ class RecurlyWebHookService implements RecurlyWebHookListener {
 
 # Latest releases
 
+* 2014-11-24 **V2.1.3** : Grails 2.4 compatibility
 * 2014-05-19 **V2.1.2** : fix failed payment notification web hook bug
 * 2014-05-19 **V2.1.1** : fix new account notification web hook bug
 * 2014-05-14 **V2.1.0** : updated notification handlers (WARNING: breaking change! Please update your `RecurlyWebHookService`)
