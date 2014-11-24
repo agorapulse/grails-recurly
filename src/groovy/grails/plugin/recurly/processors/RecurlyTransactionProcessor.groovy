@@ -52,7 +52,7 @@ class RecurlyTransactionProcessor extends RecurlyProcessor {
 
     public void setRecurlyTransaction(RecurlyTransaction recurlyTransaction) {
         this.beanUnderProcess = recurlyTransaction
-        this.beanClass = RecurlyTransaction.class
+        this.beanClass = RecurlyTransaction.class.toString()
     }
 
     public RecurlyTransaction getRecurlyTransaction() {

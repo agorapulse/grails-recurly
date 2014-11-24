@@ -145,7 +145,7 @@ class RecurlyAccountProcessor extends RecurlyProcessor {
 
     public void setRecurlyAccount(RecurlyAccount recurlyAccount) {
         this.beanUnderProcess = recurlyAccount
-        beanClass = RecurlyAccount.class
+        beanClass = RecurlyAccount.class.toString()
     }
 
     public RecurlyAccount getRecurlyAccount() {

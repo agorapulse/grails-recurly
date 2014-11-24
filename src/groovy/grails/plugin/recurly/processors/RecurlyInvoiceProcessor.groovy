@@ -75,7 +75,7 @@ class RecurlyInvoiceProcessor extends RecurlyProcessor {
 
     public void setRecurlyInvoice(RecurlyInvoice recurlyInvoice) {
         this.beanUnderProcess = recurlyInvoice
-        this.beanClass = RecurlyInvoice.class
+        this.beanClass = RecurlyInvoice.class.toString()
     }
 
     public RecurlyInvoice getRecurlyInvoice() {

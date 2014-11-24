@@ -18,7 +18,7 @@ class RecurlyCreditCardProcessor extends RecurlyProcessor {
 
     public void setRecurlyCreditCard(RecurlyCreditCard recurlyCreditCard) {
         this.beanUnderProcess = recurlyCreditCard
-        beanClass = RecurlyCreditCard.class
+        beanClass = RecurlyCreditCard.class.toString()
     }
 
     public RecurlyCreditCard getRecurlyCreditCard() {

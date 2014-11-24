@@ -160,7 +160,7 @@ class RecurlySubscriptionProcessor extends RecurlyProcessor {
 
     public void setRecurlySubscription(RecurlySubscription recurlySubscription) {
         this.beanUnderProcess = recurlySubscription
-        beanClass = RecurlySubscription.class
+        beanClass = RecurlySubscription.class.toString()
     }
 
     public RecurlySubscription getRecurlySubscription() {

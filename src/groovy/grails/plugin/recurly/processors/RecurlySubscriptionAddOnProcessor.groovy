@@ -17,7 +17,7 @@ class RecurlySubscriptionAddOnProcessor extends RecurlyProcessor {
 
     public void setRecurlySubscriptionAddOn(RecurlySubscriptionAddOn recurlySubscriptionAddOn){
         this.beanUnderProcess = recurlySubscriptionAddOn
-        beanClass = RecurlySubscriptionAddOn.class
+        beanClass = RecurlySubscriptionAddOn.class.toString()
     }
 
     public RecurlySubscriptionAddOn getRecurlySubscriptionAddOn(){

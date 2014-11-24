@@ -89,7 +89,7 @@ class RecurlyBillingInfoProcessor extends RecurlyProcessor {
 
     public void setRecurlyBillingInfo(RecurlyBillingInfo recurlyBillingDetails) {
         this.beanUnderProcess = recurlyBillingDetails
-        beanClass = RecurlyBillingInfo.class
+        beanClass = RecurlyBillingInfo.class.toString()
     }
 
     public RecurlyBillingInfo getRecurlyBillingInfo() {

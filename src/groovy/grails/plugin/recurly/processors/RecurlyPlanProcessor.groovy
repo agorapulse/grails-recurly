@@ -180,7 +180,7 @@ class RecurlyPlanProcessor extends RecurlyProcessor {
 
     public void setRecurlyPlan(RecurlyPlan recurlyPlan) {
         this.beanUnderProcess = recurlyPlan
-        beanClass = RecurlyPlan.class
+        beanClass = RecurlyPlan.class.toString()
     }
 
     public RecurlyPlan getRecurlyPlan() {
