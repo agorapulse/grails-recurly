@@ -25,10 +25,10 @@ grails {
                 plugins {
                     build(':release:3.0.1',
                             ':rest-client-builder:1.0.3',
-                            ':coveralls:0.1') {
+                            ':coveralls:0.1.3') {
                         export = false
                     }
-                    test(':code-coverage:1.2.7') {
+                    test(':code-coverage:2.0.3-3') {
                         export = false
                     }
                     compile ':rest:0.8'
