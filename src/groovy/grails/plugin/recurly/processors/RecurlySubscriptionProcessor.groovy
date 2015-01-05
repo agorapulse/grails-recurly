@@ -32,7 +32,6 @@ class RecurlySubscriptionProcessor extends RecurlyProcessor {
         checkProperty("unitAmountInCents", MAX_SIZE_50, OPTIONAL_FIELD, CAN_BE_BLANK)
         checkProperty("quantity", MAX_SIZE_50, OPTIONAL_FIELD, CAN_BE_BLANK)
         propertiesWithErrors.putAll(new RecurlyBillingInfoProcessor(recurlySubscription.billingInfo).errors())
-        propertiesWithErrors.putAll(new RecurlyAccountProcessor(recurlySubscription.account).errors())
         recurlySubscription.addOns.each {addOn ->
             propertiesWithErrors.putAll(new RecurlySubscriptionAddOnProcessor(addOn).errors())
         }
@@ -207,22 +206,7 @@ class RecurlySubscriptionProcessor extends RecurlyProcessor {
                     "trial_ends_at"(recurlySubscription.trialEndsAt ?: "")
                 }
                 "account"() {
-                    "account_code"(recurlySubscription.account.accountCode)
-                    if (recurlySubscription.account.userName) {
-                        "username"(recurlySubscription.account.userName ?: "")
-                    }
-                    if (recurlySubscription.account.firstName) {
-                        "first_name"(recurlySubscription.account.firstName ?: "")
-                    }
-                    if (recurlySubscription.account.lastName) {
-                        "last_name"(recurlySubscription.account.lastName ?: "")
-                    }
-                    if (recurlySubscription.account.email) {
-                        "email"(recurlySubscription.account.email ?: "")
-                    }
-                    if (recurlySubscription.account.companyName) {
-                        "company"(recurlySubscription.account.companyName ?: "")
-                    }
+                    "account_code"(recurlySubscription.accountCode)
                     if (recurlySubscription.billingInfo) {
                         "billing_info"() {
                             "first_name"(recurlySubscription.billingInfo.firstName)
