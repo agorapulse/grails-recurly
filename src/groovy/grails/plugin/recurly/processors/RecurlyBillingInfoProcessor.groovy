@@ -19,8 +19,8 @@ class RecurlyBillingInfoProcessor extends RecurlyProcessor {
     }
 
     void checkConstraints() {
-        checkProperty("firstName", MAX_SIZE_50, REQUIRED_FIELD, CAN_NOT_BE_BLANK)
-        checkProperty("lastName", MAX_SIZE_50, REQUIRED_FIELD, CAN_NOT_BE_BLANK)
+        checkProperty("firstName", MAX_SIZE_50, OPTIONAL_FIELD, CAN_BE_BLANK)
+        checkProperty("lastName", MAX_SIZE_50, OPTIONAL_FIELD, CAN_BE_BLANK)
         checkProperty("address1", MAX_SIZE_50, OPTIONAL_FIELD, CAN_BE_BLANK)
         checkProperty("address2", MAX_SIZE_50, OPTIONAL_FIELD, CAN_BE_BLANK)
         checkProperty("city", MAX_SIZE_50, OPTIONAL_FIELD, CAN_BE_BLANK)
@@ -98,44 +98,48 @@ class RecurlyBillingInfoProcessor extends RecurlyProcessor {
 
     public String getDetailsInXML() {
         StringWriter writer = new StringWriter()
-        writer.write '<?xml version="1.0"?>\n'
+        writer.write '<?xml version="1.0" encoding="UTF-8"?>\n'
         MarkupBuilder xml = new MarkupBuilder(writer)
 
         xml.billing_info() {
-            "first_name"(recurlyBillingInfo.firstName)
-            "last_name"(recurlyBillingInfo.lastName)
-            if (recurlyBillingInfo.address1) {
-                "address1"(recurlyBillingInfo.address1 ?: "")
-            }
-            if (recurlyBillingInfo.address2) {
-                "address2"(recurlyBillingInfo.address2 ?: "")
-            }
-            if (recurlyBillingInfo.city) {
-                "city"(recurlyBillingInfo.city ?: "")
-            }
-            if (recurlyBillingInfo.state) {
-                "state"(recurlyBillingInfo.state ?: "")
-            }
-            if (recurlyBillingInfo.zip) {
-                "zip"(recurlyBillingInfo.zip ?: "")
-            }
-            if (recurlyBillingInfo.country) {
-                "country"(recurlyBillingInfo.country ?: "")
-            }
-            if (recurlyBillingInfo.ipAddress) {
-                "ip_address"(recurlyBillingInfo.ipAddress ?: "")
-            }
-            if (recurlyBillingInfo.creditCard.creditCardNumber) {
-                "number"(recurlyBillingInfo.creditCard.creditCardNumber)
-            }
-            if (recurlyBillingInfo.creditCard.verificationValue) {
-                "verification_value"(recurlyBillingInfo.creditCard.verificationValue)
-            }
-            if (recurlyBillingInfo.creditCard.year) {
-                "year"(recurlyBillingInfo.creditCard.year)
-            }
-            if (recurlyBillingInfo.creditCard.month) {
-                "month"(recurlyBillingInfo.creditCard.month)
+            if (recurlyBillingInfo.tokenId) {
+                "token_id"(recurlyBillingInfo.tokenId ?: "")
+            } else {
+                "first_name"(recurlyBillingInfo.firstName)
+                "last_name"(recurlyBillingInfo.lastName)
+                if (recurlyBillingInfo.address1) {
+                    "address1"(recurlyBillingInfo.address1 ?: "")
+                }
+                if (recurlyBillingInfo.address2) {
+                    "address2"(recurlyBillingInfo.address2 ?: "")
+                }
+                if (recurlyBillingInfo.city) {
+                    "city"(recurlyBillingInfo.city ?: "")
+                }
+                if (recurlyBillingInfo.state) {
+                    "state"(recurlyBillingInfo.state ?: "")
+                }
+                if (recurlyBillingInfo.zip) {
+                    "zip"(recurlyBillingInfo.zip ?: "")
+                }
+                if (recurlyBillingInfo.country) {
+                    "country"(recurlyBillingInfo.country ?: "")
+                }
+                if (recurlyBillingInfo.ipAddress) {
+                    "ip_address"(recurlyBillingInfo.ipAddress ?: "")
+                }
+                if (recurlyBillingInfo.creditCard.creditCardNumber) {
+                    "number"(recurlyBillingInfo.creditCard.creditCardNumber)
+                }
+                if (recurlyBillingInfo.creditCard.verificationValue) {
+                    "verification_value"(recurlyBillingInfo.creditCard.verificationValue)
+                }
+                if (recurlyBillingInfo.creditCard.year) {
+                    "year"(recurlyBillingInfo.creditCard.year)
+                }
+                if (recurlyBillingInfo.creditCard.month) {
+                    "month"(recurlyBillingInfo.creditCard.month)
+                }
             }
         }
         return writer.toString()
@@ -175,6 +179,9 @@ class RecurlyBillingInfoProcessor extends RecurlyProcessor {
         }
         if (responseData.ip_address) {
             recurlyBillingInfo.ipAddress = responseData.ip_address
+        }
+        if (!recurlyBillingInfo.creditCard) {
+            recurlyBillingInfo.creditCard = new RecurlyCreditCard()
         }
         if (responseData.card_type) {
             recurlyBillingInfo.creditCard.type = responseData.card_type

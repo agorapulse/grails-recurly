@@ -29,6 +29,7 @@ class RecurlySubscription extends RecurlyRESTResource {
     RecurlySubscriptionPendingChanges pendingChanges
 
     //Only Required For Creating Subscription
+    RecurlyAccount account
     RecurlyBillingInfo billingInfo
 
     public Boolean hasPendingChanges() {

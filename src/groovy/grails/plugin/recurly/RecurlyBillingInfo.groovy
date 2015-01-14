@@ -17,6 +17,8 @@ class RecurlyBillingInfo extends RecurlyRESTResource {
     String ipAddress
     String phone
 
+    String tokenId
+
     RecurlyCreditCard creditCard
 
     String delete() {

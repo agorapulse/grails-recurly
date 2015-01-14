@@ -168,7 +168,7 @@ class RecurlySubscriptionProcessor extends RecurlyProcessor {
 
     public String getDetailsInXML() {
         StringWriter writer = new StringWriter()
-        writer.write '<?xml version="1.0"?>\n'
+        writer.write '<?xml version="1.0" encoding="UTF-8"?>\n'
         MarkupBuilder xml = new MarkupBuilder(writer)
 
         xml.subscription() {
@@ -176,6 +176,9 @@ class RecurlySubscriptionProcessor extends RecurlyProcessor {
                 "timeframe"(recurlySubscriptionChangeTimeFrame.value)
             }
             "plan_code"(recurlySubscription.planCode)
+            if (recurlySubscription.currency) {
+                "currency"(recurlySubscription.currency)
+            }
             if (recurlySubscription.quantity) {
                 "quantity"(recurlySubscription.quantity ?: "")
             }
@@ -209,34 +212,38 @@ class RecurlySubscriptionProcessor extends RecurlyProcessor {
                     "account_code"(recurlySubscription.accountCode)
                     if (recurlySubscription.billingInfo) {
                         "billing_info"() {
-                            "first_name"(recurlySubscription.billingInfo.firstName)
-                            "last_name"(recurlySubscription.billingInfo.lastName)
-                            if (recurlySubscription.billingInfo.address1) {
-                                "address1"(recurlySubscription.billingInfo.address1 ?: "")
-                            }
-                            if (recurlySubscription.billingInfo.address2) {
-                                "address2"(recurlySubscription.billingInfo.address2 ?: "")
-                            }
-                            if (recurlySubscription.billingInfo.city) {
-                                "city"(recurlySubscription.billingInfo.city ?: "")
-                            }
-                            if (recurlySubscription.billingInfo.state) {
-                                "state"(recurlySubscription.billingInfo.state ?: "")
-                            }
-                            if (recurlySubscription.billingInfo.zip) {
-                                "zip"(recurlySubscription.billingInfo.zip ?: "")
-                            }
-                            if (recurlySubscription.billingInfo.country) {
-                                "country"(recurlySubscription.billingInfo.country ?: "")
-                            }
-                            if (recurlySubscription.billingInfo.ipAddress) {
-                                "ip_address"(recurlySubscription.billingInfo.ipAddress ?: "")
-                            }
-                            "credit_card"() {
-                                "number"(recurlySubscription.billingInfo.creditCard.creditCardNumber)
-                                "verification_value"(recurlySubscription.billingInfo.creditCard.verificationValue)
-                                "year"(recurlySubscription.billingInfo.creditCard.year)
-                                "month"(recurlySubscription.billingInfo.creditCard.month)
+                            if (recurlySubscription.billingInfo.tokenId) {
+                                "token_id"(recurlySubscription.billingInfo.tokenId ?: "")
+                            } else {
+                                "first_name"(recurlySubscription.billingInfo.firstName)
+                                "last_name"(recurlySubscription.billingInfo.lastName)
+                                if (recurlySubscription.billingInfo.address1) {
+                                    "address1"(recurlySubscription.billingInfo.address1 ?: "")
+                                }
+                                if (recurlySubscription.billingInfo.address2) {
+                                    "address2"(recurlySubscription.billingInfo.address2 ?: "")
+                                }
+                                if (recurlySubscription.billingInfo.city) {
+                                    "city"(recurlySubscription.billingInfo.city ?: "")
+                                }
+                                if (recurlySubscription.billingInfo.state) {
+                                    "state"(recurlySubscription.billingInfo.state ?: "")
+                                }
+                                if (recurlySubscription.billingInfo.zip) {
+                                    "zip"(recurlySubscription.billingInfo.zip ?: "")
+                                }
+                                if (recurlySubscription.billingInfo.country) {
+                                    "country"(recurlySubscription.billingInfo.country ?: "")
+                                }
+                                if (recurlySubscription.billingInfo.ipAddress) {
+                                    "ip_address"(recurlySubscription.billingInfo.ipAddress ?: "")
+                                }
+                                "credit_card"() {
+                                    "number"(recurlySubscription.billingInfo.creditCard.creditCardNumber)
+                                    "verification_value"(recurlySubscription.billingInfo.creditCard.verificationValue)
+                                    "year"(recurlySubscription.billingInfo.creditCard.year)
+                                    "month"(recurlySubscription.billingInfo.creditCard.month)
+                                }
                             }
                         }
                     }

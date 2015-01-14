@@ -7,7 +7,7 @@ import grails.plugin.recurly.templates.Response
 
 abstract class RecurlyProcessor extends ConstraintsValidator {
 
-    public String apiKey = Holders.config.grails.plugin.recurly.apiKey
+    public String apiKey = Holders.config.grails.plugin.recurly.privateApiKey
     public String targetUrl
 
     public RESTService restService = new RESTService()
