@@ -45,8 +45,8 @@ grails {
     plugin {
         recurly {
             subDomain = "yourSubDomainHere"
-            apiKey = {RECURLY_API_KEY}
-            privateApiKey = {RECURLY_SECRET_KEY}
+            apiKey = {RECURLY_PRIVATE_API_KEY} // To communicate with Recurly's API v2
+            publicKey = {RECURLY_PUBLIC_KEY}   // To identify your site when using Recurly.js v3.
             webhook {
                 user = "user" // Optional, for push notifications authentication
                 pass = "pass" // Optional, for push notifications authentication
@@ -268,6 +268,11 @@ class RecurlyWebHookService implements RecurlyWebHookListener {
 
 
 # Latest releases
+
+* 2015-01-16 **V2.2.0** : upgrade to Recurly.js v3 + bug fixes in subscriptions processor.
+
+BREAKING: Since V2.2.0, Recurly.js v2 has been deprecated in favor of v3.
+So legacy `privateApiKey` has been removed from config and there is a new `publicKey` to identify your site when using Recurly.js v3.
 
 * 2014-11-24 **V2.1.3** : Grails 2.4 compatibility
 * 2014-05-19 **V2.1.2** : fix failed payment notification web hook bug
