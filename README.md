@@ -269,6 +269,7 @@ class RecurlyWebHookService implements RecurlyWebHookListener {
 
 # Latest releases
 
+* 2015-01-16 **V2.2.1** : fix in billing info processor to ad vat_number, and in subscription processor to enabled account company name update
 * 2015-01-16 **V2.2.0** : upgrade to Recurly.js v3 + bug fixes in subscriptions processor.
 
 BREAKING: Since V2.2.0, Recurly.js v2 has been deprecated in favor of v3.
