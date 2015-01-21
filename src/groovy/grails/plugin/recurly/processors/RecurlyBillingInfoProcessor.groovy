@@ -155,7 +155,7 @@ class RecurlyBillingInfoProcessor extends RecurlyProcessor {
             return
         }
         if (responseData.account['@href'] && responseData.account['@href'] != '') {
-            recurlySubscription.accountCode = responseData.account['@href']?.toString().tokenize('/')?.last()
+            recurlyBillingInfo.accountCode = responseData.account['@href']?.toString().tokenize('/')?.last()
         }
         if (responseData.first_name) {
             recurlyBillingInfo.firstName = responseData.first_name
