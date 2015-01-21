@@ -15,7 +15,9 @@ class RecurlyBillingInfo extends RecurlyRESTResource {
     String zip
     String country
     String ipAddress
+    String ipAddressCountry
     String phone
+    String vatNumber
 
     String tokenId
 
@@ -46,6 +48,6 @@ class RecurlyBillingInfo extends RecurlyRESTResource {
     static String remove(String accountCode) {
         handleResponse(new RecurlyBillingInfoProcessor().delete(accountCode))
     }
-    
+
 
 }

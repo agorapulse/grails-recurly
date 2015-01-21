@@ -224,7 +224,7 @@ class RecurlySubscriptionProcessor extends RecurlyProcessor {
                         "email"(recurlySubscription.account.email ?: "")
                     }
                     if (recurlySubscription.account.companyName) {
-                        "company"(recurlySubscription.account.companyName ?: "")
+                        "company_name"(recurlySubscription.account.companyName ?: "")
                     }
                     if (recurlySubscription.billingInfo) {
                         "billing_info"() {
@@ -274,7 +274,9 @@ class RecurlySubscriptionProcessor extends RecurlyProcessor {
             return
         }
         recurlySubscription.uuid = responseData.uuid
-        recurlySubscription.accountCode = responseData.account['@href']?.toString().tokenize('/')?.last()
+        if (responseData.account['@href'] && responseData.account['@href'] != '') {
+            recurlySubscription.accountCode = responseData.account['@href']?.toString().tokenize('/')?.last()
+        }
         if (responseData.coupon_code) {
             recurlySubscription.couponCode = responseData.coupon_code
         }
@@ -296,7 +298,7 @@ class RecurlySubscriptionProcessor extends RecurlyProcessor {
         if (responseData.plan.plan_code) {
             recurlySubscription.planCode = responseData.plan.plan_code
         }
-        if (responseData.state) {
+        if (responseData.state && responseData.state != '') {
             try {
                 recurlySubscription.state = responseData.state.toString().toUpperCase() as RecurlySubscriptionState
             } catch (Exception e) {

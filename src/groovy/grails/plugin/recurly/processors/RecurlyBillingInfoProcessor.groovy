@@ -28,6 +28,8 @@ class RecurlyBillingInfoProcessor extends RecurlyProcessor {
         checkProperty("zip", MAX_SIZE_20, OPTIONAL_FIELD, CAN_BE_BLANK)
         checkProperty("country", MAX_SIZE_2, OPTIONAL_FIELD, CAN_BE_BLANK)
         checkProperty("ipAddress", MAX_SIZE_20, OPTIONAL_FIELD, CAN_BE_BLANK)
+        checkProperty("ipAddressCountry", MAX_SIZE_2, OPTIONAL_FIELD, CAN_BE_BLANK)
+        checkProperty("vatNumber", MAX_SIZE_50, OPTIONAL_FIELD, CAN_BE_BLANK)
         if (recurlyBillingInfo.creditCard?.creditCardNumber) {
             propertiesWithErrors.putAll(new RecurlyCreditCardProcessor(recurlyBillingInfo.creditCard).errors())
         }
@@ -140,6 +142,9 @@ class RecurlyBillingInfoProcessor extends RecurlyProcessor {
                 if (recurlyBillingInfo.creditCard.month) {
                     "month"(recurlyBillingInfo.creditCard.month)
                 }
+                if (recurlyBillingInfo.vatNumber) {
+                    "vat_number"(recurlyBillingInfo.vatNumber ?: "")
+                }
             }
         }
         return writer.toString()
@@ -149,7 +154,9 @@ class RecurlyBillingInfoProcessor extends RecurlyProcessor {
         if (!responseData){
             return
         }
-        recurlyBillingInfo.accountCode = responseData.account['@href']?.toString().tokenize('/')?.last()
+        if (responseData.account['@href'] && responseData.account['@href'] != '') {
+            recurlySubscription.accountCode = responseData.account['@href']?.toString().tokenize('/')?.last()
+        }
         if (responseData.first_name) {
             recurlyBillingInfo.firstName = responseData.first_name
         }
@@ -179,6 +186,12 @@ class RecurlyBillingInfoProcessor extends RecurlyProcessor {
         }
         if (responseData.ip_address) {
             recurlyBillingInfo.ipAddress = responseData.ip_address
+        }
+        if (responseData.ip_address_country) {
+            recurlyBillingInfo.ipAddressCountry = responseData.ip_address_country
+        }
+        if (responseData.vat_number) {
+            recurlyBillingInfo.vatNumber = responseData.vat_number
         }
         if (!recurlyBillingInfo.creditCard) {
             recurlyBillingInfo.creditCard = new RecurlyCreditCard()
