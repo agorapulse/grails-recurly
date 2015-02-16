@@ -20,9 +20,9 @@ class RecurlyInvoiceProcessor extends RecurlyProcessor {
         this.recurlyInvoice = recurlyInvoice
     }
 
-    public Response<RecurlyInvoice> getInvoiceDetails(Integer invoiceNumber) {
+    public Response<RecurlyInvoice> getInvoiceDetails(String invoiceNumber) {
         Response<RecurlyInvoice> response = new Response<RecurlyInvoice>()
-        this.targetUrl = RecurlyURLBuilder.buildURL(RecurlyUrlActionType.GET_INVOICE_DETAILS, invoiceNumber.toString())
+        this.targetUrl = RecurlyURLBuilder.buildURL(RecurlyUrlActionType.GET_INVOICE_DETAILS, invoiceNumber)
         this.processUsingMethodGET()
         if (httpResponse.status == '200') {
             recurlyInvoice = getInvoiceBeanFromResponse(httpResponse.entity.getData())
@@ -34,9 +34,9 @@ class RecurlyInvoiceProcessor extends RecurlyProcessor {
         return response
     }
 
-    public byte[] getInvoicePdfStream(Integer invoiceNumber, Locale locale) {
+    public byte[] getInvoicePdfStream(String invoiceNumber, Locale locale) {
         def resp
-        this.targetUrl = RecurlyURLBuilder.buildURL(RecurlyUrlActionType.GET_INVOICE_DETAILS, invoiceNumber.toString())
+        this.targetUrl = RecurlyURLBuilder.buildURL(RecurlyUrlActionType.GET_INVOICE_DETAILS, invoiceNumber)
         HTTPBuilder http = new HTTPBuilder(this.targetUrl)
         http.request(Method.GET, ContentType.BINARY) {
             headers = [
@@ -100,7 +100,7 @@ class RecurlyInvoiceProcessor extends RecurlyProcessor {
                 uuid: responseData.uuid,
                 accountCode: responseData.account ? responseData.account['@href']?.toString().tokenize('/')?.last() : '',
                 state: state,
-                invoiceNumber: convertNodeToInteger(responseData.invoice_number),
+                invoiceNumber: "$responseData.invoice_number_prefix$responseData.invoice_number",
                 poNumber: responseData.po_number,
                 vatNumber: responseData.vat_number,
                 subtotalInCents: convertNodeToInteger(responseData.subtotal_in_cents),

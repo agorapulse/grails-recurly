@@ -9,7 +9,7 @@ class RecurlyInvoice extends  RecurlyRESTResource {
     String uuid
     String accountCode
     RecurlyInvoiceState state
-    Integer invoiceNumber
+    String invoiceNumber
     String poNumber
     String vatNumber
     Integer subtotalInCents
@@ -24,7 +24,7 @@ class RecurlyInvoice extends  RecurlyRESTResource {
 
     // STATIC REST METHODS
 
-    static RecurlyInvoice fetch(Integer invoiceNumber) {
+    static RecurlyInvoice fetch(String invoiceNumber) {
         handleResponse(new RecurlyInvoiceProcessor().getInvoiceDetails(invoiceNumber)) as RecurlyInvoice
     }
 
@@ -33,7 +33,7 @@ class RecurlyInvoice extends  RecurlyRESTResource {
         handleResponse(new RecurlyInvoiceProcessor().listInvoices(query)) as List
     }
 
-    static byte[] streamPdf(Integer invoiceNumber, Locale locale) {
+    static byte[] streamPdf(String invoiceNumber, Locale locale) {
         new RecurlyInvoiceProcessor().getInvoicePdfStream(invoiceNumber, locale)
     }
 
