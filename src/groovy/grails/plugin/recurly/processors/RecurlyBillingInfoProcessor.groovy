@@ -130,17 +130,19 @@ class RecurlyBillingInfoProcessor extends RecurlyProcessor {
                 if (recurlyBillingInfo.ipAddress) {
                     "ip_address"(recurlyBillingInfo.ipAddress ?: "")
                 }
-                if (recurlyBillingInfo.creditCard.creditCardNumber) {
-                    "number"(recurlyBillingInfo.creditCard.creditCardNumber)
-                }
-                if (recurlyBillingInfo.creditCard.verificationValue) {
-                    "verification_value"(recurlyBillingInfo.creditCard.verificationValue)
-                }
-                if (recurlyBillingInfo.creditCard.year) {
-                    "year"(recurlyBillingInfo.creditCard.year)
-                }
-                if (recurlyBillingInfo.creditCard.month) {
-                    "month"(recurlyBillingInfo.creditCard.month)
+                if (recurlyBillingInfo.creditCard) {
+                    if (recurlyBillingInfo.creditCard.creditCardNumber) {
+                        "number"(recurlyBillingInfo.creditCard.creditCardNumber)
+                    }
+                    if (recurlyBillingInfo.creditCard.verificationValue) {
+                        "verification_value"(recurlyBillingInfo.creditCard.verificationValue)
+                    }
+                    if (recurlyBillingInfo.creditCard.year) {
+                        "year"(recurlyBillingInfo.creditCard.year)
+                    }
+                    if (recurlyBillingInfo.creditCard.month) {
+                        "month"(recurlyBillingInfo.creditCard.month)
+                    }
                 }
                 if (recurlyBillingInfo.vatNumber) {
                     "vat_number"(recurlyBillingInfo.vatNumber ?: "")
