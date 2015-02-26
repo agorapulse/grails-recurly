@@ -28,7 +28,7 @@ grails.project.dependency.resolution = {
 		}
 		plugins {
 				//here go your plugin dependencies
-				runtime ':recurly:2.2.3'
+				runtime ':recurly:2.2.4'
 		}
 }
 ```
@@ -269,6 +269,7 @@ class RecurlyWebHookService implements RecurlyWebHookListener {
 
 # Latest releases
 
+* 2015-02-26 **V2.2.4** : Fix in BillingInfo processor to handle update for subscriptions made through Paypal
 * 2015-02-16 **V2.2.3** : Recurly invoice methods fixed (invoice number prefix handled)
 * 2015-01-21 **V2.2.2** : minor fix
 * 2015-01-21 **V2.2.1** : fix in billing info processor to add vat_number, and in subscription processor to enabled account company name update
