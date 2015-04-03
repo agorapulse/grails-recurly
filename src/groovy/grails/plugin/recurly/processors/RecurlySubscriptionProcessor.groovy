@@ -187,9 +187,9 @@ class RecurlySubscriptionProcessor extends RecurlyProcessor {
                 "unit_amount_in_cents"(recurlySubscription.unitAmountInCents ?: "")
             }
             if (!recurlySubscription.addOns.isEmpty()) {
-                "add_ons"() {
+                "subscription_add_ons"() {
                     recurlySubscription.addOns.each {addOn ->
-                        "add_on"() {
+                        "subscription_add_on"() {
                             "add_on_code"(addOn.addOnCode)
                             if (addOn.quantity) {
                                 "quantity"(addOn.quantity ?: "")
@@ -335,7 +335,7 @@ class RecurlySubscriptionProcessor extends RecurlyProcessor {
                 recurlySubscription.pendingChanges.activatesAt = convertNodeToDate(responseData.pending_subscription.activates_at)
             }
         }
-        responseData.add_ons?.each {addOn ->
+        responseData.subscription_add_ons?.each {addOn ->
             recurlySubscription.addOns.add(new RecurlySubscriptionAddOn(addOnCode: addOn.add_on_code, quantity: convertNodeToInteger(addOn.quantity), unitAmountInCents: convertNodeToInteger(addOn.unit_amount_in_cents)))
         }
     }
