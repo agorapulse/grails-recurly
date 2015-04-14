@@ -4,6 +4,7 @@ import grails.plugin.recurly.enums.WebHookResponseType
 import grails.plugin.recurly.helpers.WebHookNotification
 import grails.plugin.recurly.notifications.*
 import grails.plugin.recurly.processors.WebHookNotificationProcessor
+import grails.plugins.rest.client.RestBuilder
 import org.codehaus.groovy.grails.commons.GrailsApplication
 
 class RecurlyWebHookController {
@@ -42,19 +43,31 @@ class RecurlyWebHookController {
 
     def acceptNotice() {
         log.debug 'Accepting notice...'
-        String xml
+        String notificationXml
         try {
             StringBuffer stringBuffer = new StringBuffer()
             BufferedReader bufferedReader = request.getReader()
             bufferedReader.eachLine {
                 stringBuffer.append(it)
             }
-            xml = stringBuffer.toString()
+            notificationXml = stringBuffer.toString()
         } catch (Exception e) {
             response.status = 500
             return
         }
-        WebHookNotification webHookNotification = new WebHookNotificationProcessor(xml).process()
+        // Repost xml if required
+        if (config.webhook?.repostUrl) {
+            def rest = new RestBuilder()
+            try {
+                def response = rest.post(config.webhook?.repostUrl){
+                    xml notificationXml
+                }
+            } catch (Exception e) {
+                log.error 'An error occured during webhook notification repost', e
+            }
+        }
+        // Process xml
+        WebHookNotification webHookNotification = new WebHookNotificationProcessor(notificationXml).process()
         if (webHookNotification) {
             switch (webHookNotification.webHookResponseType) {
                 case WebHookResponseType.SUCCESSFUL_PAYMENT_NOTIFICATION:
