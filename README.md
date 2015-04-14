@@ -28,7 +28,7 @@ grails.project.dependency.resolution = {
 		}
 		plugins {
 				//here go your plugin dependencies
-				runtime ':recurly:2.2.5'
+				runtime ':recurly:2.2.6'
 		}
 }
 ```
@@ -50,6 +50,7 @@ grails {
             webhook {
                 user = "user" // Optional, for push notifications authentication
                 pass = "pass" // Optional, for push notifications authentication
+                repostUrl = {REPOST_URL} // Optional, if defined, every push notification received will be resent (useful to use as service like ChartMogul)
             }
         }
     }
@@ -182,6 +183,7 @@ And the implemented methods will act as the handler to a particular event.
 
 The name of the methods are self explanatory to tell what event they will handle.
 
+Note: if required, you can also repost received push notification to another webhook (useful to use as service like ChartMogul), by setting `grails.plugin.recurly.webhook.repostUrl`.
 
 ### Webhook service example
 
