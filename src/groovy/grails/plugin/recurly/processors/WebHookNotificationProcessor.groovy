@@ -2,6 +2,7 @@ package grails.plugin.recurly.processors
 
 import grails.plugin.recurly.RecurlyAccount
 import grails.plugin.recurly.RecurlySubscription
+import grails.plugin.recurly.RecurlySubscriptionAddOn
 import grails.plugin.recurly.RecurlyTransaction
 import grails.plugin.recurly.enums.RecurlySubscriptionState
 import grails.plugin.recurly.enums.WebHookResponseType
@@ -220,6 +221,17 @@ class WebHookNotificationProcessor extends GenericNodeTypeCaster {
         } catch (Exception e) {
             // Ignore
         }
+        List<RecurlySubscriptionAddOn> addOns = []
+        try {
+            NodeList addOnNode = parsedXml.subscription?.subscription_add_ons?.subscription_add_on as NodeList
+            for (int n = 0; n < addOnNode.size(); ++n) {
+                Node addOn = addOnNode.get(n) as Node
+                RecurlySubscriptionAddOn subscriptionAddOn = new RecurlySubscriptionAddOn(addOnCode: addOn.add_on_code?.text(), quantity: convertNodeToInteger(addOn.quantity?.text()), unitAmountInCents: convertNodeToInteger(addOn.unit_amount_in_cents?.text()))
+                addOns.add(subscriptionAddOn)
+            }
+        } catch (Exception e) {
+            // Ignore
+        }
         return new RecurlySubscription(
                 accountCode: parsedXml.account?.account_code?.text(),
                 uuid: parsedXml.subscription?.uuid?.text(),
@@ -233,6 +245,7 @@ class WebHookNotificationProcessor extends GenericNodeTypeCaster {
                 expiresAt: convertNodeToDate(parsedXml.subscription?.expires_at?.text()),
                 currentPeriodStartedAt: convertNodeToDate(parsedXml.subscription?.current_period_started_at?.text()),
                 currentPeriodEndsAt: convertNodeToDate(parsedXml.subscription?.current_period_ends_at?.text()),
+                addOns: addOns,
                 trialStartedAt: convertNodeToDate(parsedXml.subscription?.trial_started_at?.text()),
                 trialEndsAt: convertNodeToDate(parsedXml.subscription?.trial_ends_at?.text())
         )
