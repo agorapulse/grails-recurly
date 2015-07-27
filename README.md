@@ -28,7 +28,7 @@ grails.project.dependency.resolution = {
 		}
 		plugins {
 				//here go your plugin dependencies
-				runtime ':recurly:2.2.7'
+				runtime ':recurly:2.2.8'
 		}
 }
 ```
@@ -271,6 +271,7 @@ class RecurlyWebHookService implements RecurlyWebHookListener {
 
 # Latest releases
 
+* 2015-07-27 **V2.2.8** : Header added for webhook repost (with UTF-8 encoding)
 * 2015-05-26 **V2.2.7** : Fix in WebHookNotificationProcessor to add add-ons to response
 * 2015-04-03 **V2.2.5** : Fix in Subscription processor to handle add-ons correctly
 * 2015-02-26 **V2.2.4** : Fix in BillingInfo processor to handle update for subscriptions made through Paypal
