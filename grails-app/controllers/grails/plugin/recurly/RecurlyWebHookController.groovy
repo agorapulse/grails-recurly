@@ -60,6 +60,7 @@ class RecurlyWebHookController {
             def rest = new RestBuilder()
             try {
                 def response = rest.post(config.webhook?.repostUrl){
+                    header('Content-Type', 'application/xml;charset=UTF-8')
                     xml notificationXml
                 }
             } catch (Exception e) {
