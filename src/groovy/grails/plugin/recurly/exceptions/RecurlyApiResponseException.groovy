@@ -13,7 +13,7 @@ class RecurlyApiResponseException extends Exception {
         super(response.message)
         this.entityType = response.entity.class.toString()
         this.statusCode = response.status.toInteger()
-        this.serverReply = response.errors['SERVER_REPLY']
+        this.serverReply = response.errors['SERVER_REPLY'].error ? response.errors['SERVER_REPLY'].error.toString() : response.errors['SERVER_REPLY']
     }
 
     public String toString(){
