@@ -2,7 +2,7 @@ import grails.plugin.recurly.RecurlyWebHookController
 
 class RecurlyGrailsPlugin {
 
-    def version = "2.2.9"
+    def version = "2.2.10"
     def grailsVersion = "2.0 > *"
     def dependsOn = ["rest": "0.6.1 > *"]
 
