@@ -186,17 +186,15 @@ class RecurlySubscriptionProcessor extends RecurlyProcessor {
             if (recurlySubscription.unitAmountInCents) {
                 "unit_amount_in_cents"(recurlySubscription.unitAmountInCents ?: "")
             }
-            if (!recurlySubscription.addOns.isEmpty()) {
-                "subscription_add_ons"() {
-                    recurlySubscription.addOns.each {addOn ->
-                        "subscription_add_on"() {
-                            "add_on_code"(addOn.addOnCode)
-                            if (addOn.quantity) {
-                                "quantity"(addOn.quantity ?: "")
-                            }
-                            if (addOn.unitAmountInCents) {
-                                "unit_amount_in_cents"(addOn.unitAmountInCents ?: "")
-                            }
+            "subscription_add_ons"() {
+                recurlySubscription.addOns.each {addOn ->
+                    "subscription_add_on"() {
+                        "add_on_code"(addOn.addOnCode)
+                        if (addOn.quantity) {
+                            "quantity"(addOn.quantity ?: "")
+                        }
+                        if (addOn.unitAmountInCents) {
+                            "unit_amount_in_cents"(addOn.unitAmountInCents ?: "")
                         }
                     }
                 }
