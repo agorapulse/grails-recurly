@@ -5,7 +5,7 @@ import grails.plugin.recurly.helpers.WebHookNotification
 import grails.plugin.recurly.notifications.*
 import grails.plugin.recurly.processors.WebHookNotificationProcessor
 import grails.plugins.rest.client.RestBuilder
-import org.codehaus.groovy.grails.commons.GrailsApplication
+import grails.core.GrailsApplication
 
 class RecurlyWebHookController {
 
@@ -51,7 +51,7 @@ class RecurlyWebHookController {
                 stringBuffer.append(it)
             }
             notificationXml = stringBuffer.toString()
-        } catch (Exception e) {
+        } catch (Exception ignored) {
             response.status = 500
             return
         }
@@ -59,7 +59,7 @@ class RecurlyWebHookController {
         if (config.webhook?.repostUrl) {
             def rest = new RestBuilder()
             try {
-                def response = rest.post(config.webhook?.repostUrl){
+                def response = rest.post(config.webhook?.repostUrl?.toString()){
                     header('Content-Type', 'application/xml;charset=UTF-8')
                     xml notificationXml
                 }
