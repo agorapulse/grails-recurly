@@ -68,19 +68,19 @@ dependencies {
     testRuntime "org.seleniumhq.selenium:selenium-htmlunit-driver:2.47.1"
     testRuntime "net.sourceforge.htmlunit:htmlunit:2.18"
 }
+
 grailsPublish {
-    // TODO: Provide values here
-    user = 'user'
-    key = 'key'
-    githubSlug = 'foo/bar'
+    // TODO: Switch to Grails Portal when merged back to AgoraPulse repository
+    userOrg = 'metadata'
+    githubSlug = 'MetadataConsulting/grails-recurly'
     license {
         name = 'Apache-2.0'
     }
-    title = "My Plugin"
-    desc = "Full plugin description"
-    developers = [johndoe:"John Doe"]
-    portalUser = ""
-    portalPassword = ""    
+    title = "Recurly"
+    desc = "Grails 3 Recurly Plugin (Beta)"
+    developers = [musketyr: "Vladimir Orany", benorama: "Benoit Hediard", floernoult: "Florian Ernoult", tammomueller: "Tammo Mueller"]
+    // portalUser = ""
+    // portalPassword = ""
 }
 
 assets {
