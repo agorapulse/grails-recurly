@@ -12,8 +12,8 @@ buildscript {
     }
 }
 
-version "3.0.0"
-group "grails.recurly"
+version "3.0.0-beta-01"
+group "org.grails.plugins"
 
 apply plugin:"eclipse"
 apply plugin:"idea"

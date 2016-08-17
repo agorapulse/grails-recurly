@@ -1,12 +1,11 @@
 package grails.plugin.recurly
 
-import grails.plugin.recurly.RecurlyWebHookController
 import grails.plugins.Plugin
 
 class RecurlyGrailsPlugin extends Plugin {
 
     def grailsVersion = "3.1 > *"
-    def dependsOn = ["rest": "0.6.1 > *"]
+    def dependsOn = ["http-builder-helper": "1.0.2 > *"]
 
     def author = "Kushal Likhi"
     def authorEmail = "kushal.likhi@gmail.com"
@@ -15,7 +14,8 @@ class RecurlyGrailsPlugin extends Plugin {
     def license = "APACHE"
     def developers = [
             [ name: "Kushal Likhi", email: "kushal.likhi@gmail.com" ],
-            [ name: "Benoit Hediard", email: "ben@benorama.com" ]
+            [ name: "Benoit Hediard", email: "ben@benorama.com" ],
+            [ name: "Vladimir Orany", email: "vladimir@orany.cz" ]
     ]
 
     def documentation = "https://github.com/agorapulse/grails-recurly"
