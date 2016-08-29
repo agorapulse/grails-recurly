@@ -108,8 +108,8 @@ class RecurlyService {
      * @param recurlySubscriptionPlan
      * @return RecurlyPlan
      */
-    public Response<RecurlyPlan> deleteSubscriptionPlan(RecurlyPlan recurlySubscriptionPlan) {
-        return new RecurlyPlanProcessor(recurlySubscriptionPlan).delete()
+    public Response<String> deleteSubscriptionPlan(RecurlyPlan recurlySubscriptionPlan) {
+        return new RecurlyPlanProcessor(recurlySubscriptionPlan).delete(recurlySubscriptionPlan.planCode)
     }
 
     /**

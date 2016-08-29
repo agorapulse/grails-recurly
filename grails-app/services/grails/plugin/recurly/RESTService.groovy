@@ -3,6 +3,7 @@ package grails.plugin.recurly
 import groovyx.net.http.HttpResponseException
 import groovyx.net.http.HttpResponseDecorator
 import grails.plugin.recurly.templates.Response
+import groovyx.net.http.RESTClient
 
 class RESTService {
 
@@ -14,7 +15,7 @@ class RESTService {
         String authenticationDigest = apiKey.bytes.encodeBase64().toString()
 
         try {
-            withRest(uri: url) {
+            new RESTClient(url).with {
                 httpResponse.entity = post(body: data, contentType: contentType, headers: ["Accept": acceptType, "Authorization": authenticationDigest])
                 httpResponse.message = "Response Generated via URL: ${url}"
                 httpResponse.status = httpResponse.entity.status
@@ -34,7 +35,7 @@ class RESTService {
         String authenticationDigest = apiKey.bytes.encodeBase64().toString()
 
         try {
-            withRest(uri: url) {
+            new RESTClient(url).with {
                 httpResponse.entity = put(body: data, contentType: contentType, headers: ["Accept": acceptType, "Authorization": authenticationDigest])
                 httpResponse.message = "Responce Generated via URL: ${url}"
                 httpResponse.status = httpResponse.entity.status
@@ -54,7 +55,7 @@ class RESTService {
         String authenticationDigest = apiKey.bytes.encodeBase64().toString()
 
         try {
-            withRest(uri: url) {
+            new RESTClient(url).with {
                 httpResponse.entity = delete(headers: ["Accept": acceptType, "Authorization": authenticationDigest])
                 httpResponse.message = "Responce Generated via URL: ${url}"
                 httpResponse.status = httpResponse.entity.status
@@ -74,7 +75,7 @@ class RESTService {
         String authenticationDigest = apiKey.bytes.encodeBase64().toString()
 
         try {
-            withRest(uri: url) {
+            new RESTClient(url).with {
                 httpResponse.entity = get(headers: ["Accept": acceptType, "Authorization": authenticationDigest])
                 httpResponse.message = "Responce Generated via URL: ${url}"
                 httpResponse.status = httpResponse.entity.status
