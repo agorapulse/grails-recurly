@@ -17,9 +17,15 @@ Recurly offers enterprise-class subscription billing and recurring billing manag
 Declare the plugin dependency in the _build.gradle_ file, as shown here:
 
 ```groovy
+repositories {
+    ...
+    maven { url "http://dl.bintray.com/agorapulse/plugins" } // TEMP, to remove once the plugin is officially released
+    ...
+}
+
 dependencies {
     ...
-    compile "org.grails.plugins:recurly:3.0.0"
+    compile "org.grails.plugins:recurly:3.0.0-beta4"
 }
 ```
 

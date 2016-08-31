@@ -11,7 +11,7 @@ buildscript {
     }
 }
 
-version "3.0.0-beta4-SNAPSHOT"
+version "3.0.0-beta4"
 group "org.grails.plugins"
 
 apply plugin:"eclipse"
@@ -65,6 +65,13 @@ dependencies {
 }
 
 grailsPublish {
+    userOrg = 'agorapulse'
+    githubSlug = "agorapulse/grails-$project.name"
+    license {
+        name = 'Apache-2.0'
+    }
+    title = 'recurly'
+    desc = 'Grails Recurly plugin'
     developers = [musketyr: "Vladimir Orany", benorama:"Benoit Hediard"]
     issueTrackerUrl = "http://github.com/agorapulse/grails-${project.name}/issues"
     vcsUrl = "http://github.com/agorapulse/grails-${project.name}"
