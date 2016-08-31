@@ -1,12 +1,21 @@
-Thumbs.db
-.DS_Store
-.gradle
+# GRAILS files
+application-DEVELOPMENT.yml
+
+# GRADLE files
 build/
-classes/
-.idea
-*.iml
-*.ipr
-*.iws
+.gradle/
+
+# IDE files
+.classpath
+.idea/
 .project
 .settings
-.classpath
+/*.launch
+/*.tmproj
+
+*.log
+*.zip
+*.iml
+/out
+plugin.xml
+*.sha1

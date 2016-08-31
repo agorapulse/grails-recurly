@@ -14,22 +14,12 @@ Recurly offers enterprise-class subscription billing and recurring billing manag
 
 # Installation
 
-Declare the plugin dependency in the BuildConfig.groovvy file, as shown here:
+Declare the plugin dependency in the _build.gradle_ file, as shown here:
 
 ```groovy
-grails.project.dependency.resolution = {
-		inherits("global") { }
-		log "info"
-		repositories {
-				//your repositories
-		}
-		dependencies {
-				//your dependencies
-		}
-		plugins {
-				//here go your plugin dependencies
-				runtime ':recurly:2.2.11'
-		}
+dependencies {
+    ...
+    compile "org.grails.plugins:recurly:3.0.0"
 }
 ```
 
@@ -38,19 +28,19 @@ grails.project.dependency.resolution = {
 
 Create a [Recurly](https://recurly.com) account, in order to get your own credentials.
 
-Add your _apiKey_  and _privateKey_ to your _grails-app/conf/Config.groovy_:
+Add your _apiKey_  and _privateKey_ to your _grails-app/conf/application.yml_:
 
 ```groovy
-grails {
-    plugin {
-        recurly {
-            subDomain = "yourSubDomainHere"
-            apiKey = {RECURLY_PRIVATE_API_KEY} // To communicate with Recurly's API v2
-            publicKey = {RECURLY_PUBLIC_KEY}   // To identify your site when using Recurly.js v3.
-            webhook {
-                user = "user" // Optional, for push notifications authentication
-                pass = "pass" // Optional, for push notifications authentication
-                repostUrl = {REPOST_URL} // Optional, if defined, every push notification received will be resent (useful to use as service like ChartMogul)
+grails:
+    plugin:
+        recurly:
+            subDomain: yourSubDomainHere
+            apiKey: RECURLY_PRIVATE_API_KEY // To communicate with Recurly's API v2
+            publicKey: RECURLY_PUBLIC_KEY   // To identify your site when using Recurly.js v3.
+            webhook:
+                user: username // Optional, for push notifications authentication
+                pass: password // Optional, for push notifications authentication
+                repostUrl: REPOST_URL // Optional, if defined, every push notification received will be resent (useful to use as service like ChartMogul)
             }
         }
     }
