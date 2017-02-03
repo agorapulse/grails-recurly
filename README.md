@@ -25,7 +25,7 @@ repositories {
 
 dependencies {
     ...
-    compile "org.grails.plugins:recurly:3.0.0-beta4"
+    compile "org.grails.plugins:recurly:3.0.0-beta5"
 }
 ```
 
@@ -168,7 +168,7 @@ This Plugin has built-in mechanism to accept, parse and process the notification
 
 Implementing handler is a **VERY SIMPLE** process. All you have to do is:
 
-1. Create a service, ex. _RecurlyWebHookService_
+1. Create a service named _RecurlyWebHookService_
 
 2. Implement the interface _RecurlyWebHookListener_ by adding all the interface methods (your IDE will do that for you :) )
 
@@ -267,6 +267,7 @@ class RecurlyWebHookService implements RecurlyWebHookListener {
 
 # Latest releases
 
+* 2017-02-03 **V3.0.0-beta5** : WebHook controller logic fixed, added interceptor and url mapping + handlerBean renamed to match the webhook service name
 * 2016-04-18 **V2.2.11** : API errors fully returned in RecurlyApiResponseException
 * 2015-10-07 **V2.2.10** : Fix in Subscription processor to allow removing add-ons
 * 2015-09-01 **V2.2.9** : Server reply updated with Customer error only in exceptions
