@@ -15,20 +15,12 @@ class RecurlyGrailsPlugin extends Plugin {
     def developers = [
             [ name: "Kushal Likhi", email: "kushal.likhi@gmail.com" ],
             [ name: "Benoit Hediard", email: "ben@benorama.com" ],
+            [ name: "Florian Ernoult", email: "floernoult@gmail.com" ],
             [ name: "Vladimir Orany", email: "vladimir@orany.cz" ]
     ]
 
     def documentation = "https://github.com/agorapulse/grails-recurly"
     def issueManagement = [ system: "github", url: "https://github.com/agorapulse/grails-recurly/issues" ]
     def scm = [  url: "https://github.com/agorapulse/grails-recurly" ]
-
-    def doWithApplicationContext = { applicationContext ->
-        application.serviceClasses.each {service ->
-            if (service.getStaticPropertyValue("recurlyWebHook", Boolean.class)) {
-                String beanName = service.getName().replaceFirst(/^\w/, service.getName().charAt(0).toLowerCase().toString()) + "Service"
-                RecurlyWebHookController.handlerBean = applicationContext.getBean(beanName)
-            }
-        }
-    }
 
 }

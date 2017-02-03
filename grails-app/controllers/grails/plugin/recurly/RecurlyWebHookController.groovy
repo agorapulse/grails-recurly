@@ -9,20 +9,15 @@ import grails.core.GrailsApplication
 
 class RecurlyWebHookController {
 
-    static handlerBean
+    static recurlyWebHookService
     static defaultAction = 'acceptNotice'
 
     GrailsApplication grailsApplication
 
-    def beforeInterceptor = {
-        if (!handlerBean) {
-            log.warn 'No webhook handler defined in the application (RecurlyWebHookService must be created in your app and implement RecurlyWebHookListener)'
-            response.status = 500
-            render 'Handler Not Defined For the Application'
-            return false
-        }
+    def acceptNotice() {
+        log.debug 'Accepting notice...'
 
-        if (config.webhook?.user) {
+        if (config?.webhook?.user) {
             def authString = request.getHeader('Authorization')
             if (!authString){
                 response.status = 401
@@ -39,10 +34,7 @@ class RecurlyWebHookController {
                 return false
             }
         }
-    }
 
-    def acceptNotice() {
-        log.debug 'Accepting notice...'
         String notificationXml
         try {
             StringBuffer stringBuffer = new StringBuffer()
@@ -72,34 +64,34 @@ class RecurlyWebHookController {
         if (webHookNotification) {
             switch (webHookNotification.webHookResponseType) {
                 case WebHookResponseType.SUCCESSFUL_PAYMENT_NOTIFICATION:
-                    handlerBean.successfulPaymentNotificationHandler(webHookNotification as RecurlySuccessfulPaymentWebHookNotification)
+                    recurlyWebHookService.successfulPaymentNotificationHandler(webHookNotification as RecurlySuccessfulPaymentWebHookNotification)
                     break
                 case WebHookResponseType.SUCCESSFUL_REFUND_NOTIFICATION:
-                    handlerBean.successfulRefundNotificationHandler(webHookNotification as RecurlySuccessfulRefundWebHookNotification)
+                    recurlyWebHookService.successfulRefundNotificationHandler(webHookNotification as RecurlySuccessfulRefundWebHookNotification)
                     break
                 case WebHookResponseType.VOID_PAYMENT_NOTIFICATION:
-                    handlerBean.voidPaymentNotificationHandler(webHookNotification as RecurlyVoidPaymentWebHookNotification)
+                    recurlyWebHookService.voidPaymentNotificationHandler(webHookNotification as RecurlyVoidPaymentWebHookNotification)
                     break
                 case WebHookResponseType.FAILED_PAYMENT_NOTIFICATION:
-                    handlerBean.failedPaymentNotificationHandler(webHookNotification as RecurlyFailedPaymentWebHookNotification)
+                    recurlyWebHookService.failedPaymentNotificationHandler(webHookNotification as RecurlyFailedPaymentWebHookNotification)
                     break
                 case WebHookResponseType.CANCELED_SUBSCRIPTION_NOTIFICATION:
-                    handlerBean.cancelledSubscriptionNotificationHandler(webHookNotification as RecurlyCanceledSubscriptionWebHookNotification)
+                    recurlyWebHookService.cancelledSubscriptionNotificationHandler(webHookNotification as RecurlyCanceledSubscriptionWebHookNotification)
                     break
                 case WebHookResponseType.RENEWED_SUBSCRIPTION_NOTIFICATION:
-                    handlerBean.renewedSubscriptionNotificationHandler(webHookNotification as RecurlyRenewedSubscriptionWebHookNotification)
+                    recurlyWebHookService.renewedSubscriptionNotificationHandler(webHookNotification as RecurlyRenewedSubscriptionWebHookNotification)
                     break
                 case WebHookResponseType.NEW_SUBSCRIPTION_NOTIFICATION:
-                    handlerBean.newSubscriptionNotificationHandler(webHookNotification as RecurlyNewSubscriptionWebHookNotification)
+                    recurlyWebHookService.newSubscriptionNotificationHandler(webHookNotification as RecurlyNewSubscriptionWebHookNotification)
                     break
                 case WebHookResponseType.EXPIRED_SUBSCRIPTION_NOTIFICATION:
-                    handlerBean.expiredSubscriptionNotificationHandler(webHookNotification as RecurlyExpiredSubscriptionWebHookNotification)
+                    recurlyWebHookService.expiredSubscriptionNotificationHandler(webHookNotification as RecurlyExpiredSubscriptionWebHookNotification)
                     break
                 case WebHookResponseType.UPDATED_SUBSCRIPTION_NOTIFICATION:
-                    handlerBean.updatedSubscriptionNotificationHandler(webHookNotification as RecurlyUpdatedSubscriptionWebHookNotification)
+                    recurlyWebHookService.updatedSubscriptionNotificationHandler(webHookNotification as RecurlyUpdatedSubscriptionWebHookNotification)
                     break
                 case WebHookResponseType.REACTIVATED_ACCOUNT_NOTIFICATION:
-                    handlerBean.reactivatedAccountNotificationHandler(webHookNotification as RecurlyReactivatedAccountWebHookNotification)
+                    recurlyWebHookService.reactivatedAccountNotificationHandler(webHookNotification as RecurlyReactivatedAccountWebHookNotification)
             }
             response.status = 201
             render 'Data parsed and accepted'
