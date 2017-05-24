@@ -4,7 +4,6 @@ import grails.plugin.recurly.enums.WebHookResponseType
 import grails.plugin.recurly.helpers.WebHookNotification
 import grails.plugin.recurly.notifications.*
 import grails.plugin.recurly.processors.WebHookNotificationProcessor
-import grails.plugins.rest.client.RestBuilder
 import grails.core.GrailsApplication
 
 class RecurlyWebHookController {
@@ -46,18 +45,6 @@ class RecurlyWebHookController {
         } catch (Exception ignored) {
             response.status = 500
             return
-        }
-        // Repost xml if required
-        if (config.webhook?.repostUrl) {
-            def rest = new RestBuilder()
-            try {
-                def response = rest.post(config.webhook?.repostUrl?.toString()){
-                    header('Content-Type', 'application/xml;charset=UTF-8')
-                    xml notificationXml
-                }
-            } catch (Exception e) {
-                log.error 'An error occured during webhook notification repost', e
-            }
         }
         // Process xml
         WebHookNotification webHookNotification = new WebHookNotificationProcessor(notificationXml).process()

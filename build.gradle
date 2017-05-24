@@ -11,7 +11,7 @@ buildscript {
     }
 }
 
-version "3.0.0-beta5"
+version "3.0.0-beta6-SNAPSHOT"
 group "org.grails.plugins"
 
 apply plugin:"eclipse"
@@ -58,8 +58,6 @@ dependencies {
     compile'org.apache.httpcomponents:httpcore:4.3.2'
     compile'org.apache.httpcomponents:httpclient:4.3.2'
     compile'org.apache.httpcomponents:httpmime:4.3.3'
-
-    compile 'org.grails:grails-datastore-rest-client:5.0.10.RELEASE'
 
     compile "org.grails.plugins:http-builder-helper:1.0.2"
 }
