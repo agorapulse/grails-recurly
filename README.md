@@ -25,7 +25,7 @@ repositories {
 
 dependencies {
     ...
-    compile "org.grails.plugins:recurly:3.0.0"
+    compile "org.grails.plugins:recurly:3.0.1"
 }
 ```
 
@@ -268,6 +268,7 @@ class RecurlyWebHookService implements RecurlyWebHookListener {
 
 # Latest releases
 
+* 2017-07-21 **V3.0.1** : Required API headers added for invoices download
 * 2017-07-21 **V3.0.0** : Required API headers added + Grails upgraded to 3.2.11
 * 2017-02-03 **V3.0.0-beta5** : WebHook controller logic fixed, added interceptor and url mapping + handlerBean renamed to match the webhook service name
 * 2016-04-18 **V2.2.11** : API errors fully returned in RecurlyApiResponseException
