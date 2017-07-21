@@ -25,7 +25,7 @@ repositories {
 
 dependencies {
     ...
-    compile "org.grails.plugins:recurly:3.0.0-beta5"
+    compile "org.grails.plugins:recurly:3.0.0"
 }
 ```
 
@@ -42,6 +42,7 @@ grails:
         recurly:
             subDomain: yourSubDomainHere
             apiKey: RECURLY_PRIVATE_API_KEY // To communicate with Recurly's API v2
+            apiVersion: 2.7
             publicKey: RECURLY_PUBLIC_KEY   // To identify your site when using Recurly.js v3.
             webhook:
                 user: username // Optional, for push notifications authentication
@@ -267,6 +268,7 @@ class RecurlyWebHookService implements RecurlyWebHookListener {
 
 # Latest releases
 
+* 2017-07-21 **V3.0.0** : Required API headers added + Grails upgraded to 3.2.11
 * 2017-02-03 **V3.0.0-beta5** : WebHook controller logic fixed, added interceptor and url mapping + handlerBean renamed to match the webhook service name
 * 2016-04-18 **V2.2.11** : API errors fully returned in RecurlyApiResponseException
 * 2015-10-07 **V2.2.10** : Fix in Subscription processor to allow removing add-ons

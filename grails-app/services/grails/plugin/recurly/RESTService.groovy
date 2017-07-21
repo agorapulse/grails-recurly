@@ -46,7 +46,7 @@ class RESTService {
     public Response<HttpResponseDecorator> getResponseUsingMethodPUT(String url,
                                                                      String data,
                                                                      String apiKey,
-                                                                     String apiVersion,
+                                                                     String apiVersion = API_VERSION,
                                                                      String contentType = "application/xml; charset=utf-8",
                                                                      String acceptType = "application/xml") {
 
@@ -79,7 +79,7 @@ class RESTService {
 
     public Response<HttpResponseDecorator> getResponseUsingMethodDELETE(String url,
                                                                         String apiKey,
-                                                                        String apiVersion,
+                                                                        String apiVersion = API_VERSION,
                                                                         String acceptType = "application/xml") {
 
         Response<HttpResponseDecorator> httpResponse = new Response<HttpResponseDecorator>()
@@ -106,7 +106,7 @@ class RESTService {
 
     public Response<HttpResponseDecorator> getResponseUsingMethodGET(String url,
                                                                      String apiKey,
-                                                                     String apiVersion,
+                                                                     String apiVersion = API_VERSION,
                                                                      String contentType = "application/xml; charset=utf-8",
                                                                      String acceptType = "application/xml") {
 
