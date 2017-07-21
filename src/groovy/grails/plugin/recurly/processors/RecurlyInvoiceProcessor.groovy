@@ -42,7 +42,7 @@ class RecurlyInvoiceProcessor extends RecurlyProcessor {
             headers = [
                     'Accept': 'application/pdf',
                     'Accept-Language': locale.toString().replace('_', '-'),
-                    'Authorization': apiKey.bytes.encodeBase64().toString()
+                    'Authorization': "Basic ${apiKey.bytes.encodeBase64().toString()}"
             ]
             response.success = { response, InputStream inputStream  ->
                 resp = inputStream.bytes
