@@ -11,7 +11,7 @@ buildscript {
     }
 }
 
-version "3.0.1"
+version "4.0.0"
 group "org.grails.plugins"
 
 apply plugin:"eclipse"
@@ -44,22 +44,15 @@ dependencies {
     compile "org.springframework.boot:spring-boot-starter-tomcat"
     compile "org.grails:grails-dependencies"
     compile "org.grails:grails-web-boot"
-    compile "org.grails.plugins:cache"
-    compile "org.grails.plugins:scaffolding"
-    console "org.grails:grails-console"
+    compile "org.grails.plugins:events"
     profile "org.grails.profiles:web-plugin"
     provided "org.grails:grails-plugin-services"
-    provided "org.grails:grails-plugin-domain-class"
-    testCompile "org.grails:grails-plugin-testing"
-    testCompile "org.grails.plugins:geb"
-    testRuntime "org.seleniumhq.selenium:selenium-htmlunit-driver:2.47.1"
-    testRuntime "net.sourceforge.htmlunit:htmlunit:2.18"
 
-    compile'org.apache.httpcomponents:httpcore:4.3.2'
-    compile'org.apache.httpcomponents:httpclient:4.3.2'
-    compile'org.apache.httpcomponents:httpmime:4.3.3'
+    testCompile "org.grails:grails-web-testing-support:1.1.5"
+    testCompile "com.agorapulse:gru-grails:0.7.1"
 
-    compile "org.grails.plugins:http-builder-helper:1.0.2"
+    // official Recurly client
+    compile group: 'com.ning.billing', name: 'recurly-java-library', version: '0.24.0'
 }
 
 grailsPublish {

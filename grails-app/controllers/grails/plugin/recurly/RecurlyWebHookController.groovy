@@ -1,17 +1,19 @@
 package grails.plugin.recurly
 
-import grails.plugin.recurly.enums.WebHookResponseType
-import grails.plugin.recurly.helpers.WebHookNotification
-import grails.plugin.recurly.notifications.*
-import grails.plugin.recurly.processors.WebHookNotificationProcessor
+import com.ning.billing.recurly.model.push.Notification
 import grails.core.GrailsApplication
+import groovy.util.logging.Slf4j
 
+import static com.ning.billing.recurly.model.push.Notification.detect
+import static com.ning.billing.recurly.model.push.Notification.read
+
+@Slf4j
 class RecurlyWebHookController {
 
-    static recurlyWebHookService
     static defaultAction = 'acceptNotice'
 
     GrailsApplication grailsApplication
+    RecurlyPushNotificationService recurlyPushNotificationService
 
     def acceptNotice() {
         log.debug 'Accepting notice...'
@@ -46,46 +48,18 @@ class RecurlyWebHookController {
             response.status = 500
             return
         }
-        // Process xml
-        WebHookNotification webHookNotification = new WebHookNotificationProcessor(notificationXml).process()
-        if (webHookNotification) {
-            switch (webHookNotification.webHookResponseType) {
-                case WebHookResponseType.SUCCESSFUL_PAYMENT_NOTIFICATION:
-                    recurlyWebHookService.successfulPaymentNotificationHandler(webHookNotification as RecurlySuccessfulPaymentWebHookNotification)
-                    break
-                case WebHookResponseType.SUCCESSFUL_REFUND_NOTIFICATION:
-                    recurlyWebHookService.successfulRefundNotificationHandler(webHookNotification as RecurlySuccessfulRefundWebHookNotification)
-                    break
-                case WebHookResponseType.VOID_PAYMENT_NOTIFICATION:
-                    recurlyWebHookService.voidPaymentNotificationHandler(webHookNotification as RecurlyVoidPaymentWebHookNotification)
-                    break
-                case WebHookResponseType.FAILED_PAYMENT_NOTIFICATION:
-                    recurlyWebHookService.failedPaymentNotificationHandler(webHookNotification as RecurlyFailedPaymentWebHookNotification)
-                    break
-                case WebHookResponseType.CANCELED_SUBSCRIPTION_NOTIFICATION:
-                    recurlyWebHookService.cancelledSubscriptionNotificationHandler(webHookNotification as RecurlyCanceledSubscriptionWebHookNotification)
-                    break
-                case WebHookResponseType.RENEWED_SUBSCRIPTION_NOTIFICATION:
-                    recurlyWebHookService.renewedSubscriptionNotificationHandler(webHookNotification as RecurlyRenewedSubscriptionWebHookNotification)
-                    break
-                case WebHookResponseType.NEW_SUBSCRIPTION_NOTIFICATION:
-                    recurlyWebHookService.newSubscriptionNotificationHandler(webHookNotification as RecurlyNewSubscriptionWebHookNotification)
-                    break
-                case WebHookResponseType.EXPIRED_SUBSCRIPTION_NOTIFICATION:
-                    recurlyWebHookService.expiredSubscriptionNotificationHandler(webHookNotification as RecurlyExpiredSubscriptionWebHookNotification)
-                    break
-                case WebHookResponseType.UPDATED_SUBSCRIPTION_NOTIFICATION:
-                    recurlyWebHookService.updatedSubscriptionNotificationHandler(webHookNotification as RecurlyUpdatedSubscriptionWebHookNotification)
-                    break
-                case WebHookResponseType.REACTIVATED_ACCOUNT_NOTIFICATION:
-                    recurlyWebHookService.reactivatedAccountNotificationHandler(webHookNotification as RecurlyReactivatedAccountWebHookNotification)
-            }
-            response.status = 201
-            render 'Data parsed and accepted'
-        } else {
-            response.status = 200
-            render 'This notification is not processed by the application, but notification was accepted'
+
+
+        if (!notificationXml) {
+            response.status = 400
+            render 'Missing Payload'
+            return false
         }
+
+        recurlyPushNotificationService.dispatchNotification(read(notificationXml, detect(notificationXml).javaType) as Notification)
+
+        response.status = 201
+        render 'Data parsed and accepted'
     }
 
     // PRIVATE
