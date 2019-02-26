@@ -39,7 +39,10 @@ class RecurlyGrailsPlugin extends Plugin {
         }
 
         return { ->
-            recurlyClient(RecurlyClient, apiKey, subDomain)
+            recurlyClient(RecurlyClient, apiKey, subDomain) { bean ->
+                bean.initMethod = 'open'
+                bean.destroyMethod = 'close'
+            }
         }
     }
 }

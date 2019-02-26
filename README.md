@@ -24,7 +24,7 @@ repositories {
 
 dependencies {
     ...
-    compile "org.grails.plugins:recurly:4.0.0"
+    compile "org.grails.plugins:recurly:4.0.1"
 }
 ```
 
@@ -141,6 +141,7 @@ class RecurlyPaymentsService {
 
 # Latest releases
 
+* 2019-02-21 **V4.0.0** : Properly opening and closing the client
 * 2019-02-21 **V4.0.0** : BREAKING: Complete rewrite to use official Java client, Grails events and Grails 3.3.x. See [V3 README](README_3.x.md) for 3.x version reference.
 * 2017-07-21 **V3.0.1** : Required API headers added for invoices download
 * 2017-07-21 **V3.0.0** : Required API headers added + Grails upgraded to 3.2.11
