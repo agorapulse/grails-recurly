@@ -1,6 +1,7 @@
 package grails.plugin.recurly
 
 import com.ning.billing.recurly.RecurlyClient
+import grails.events.EventPublisher
 import grails.plugins.Plugin
 import groovy.transform.CompileDynamic
 import groovy.transform.CompileStatic
@@ -43,6 +44,7 @@ class RecurlyGrailsPlugin extends Plugin {
                 bean.initMethod = 'open'
                 bean.destroyMethod = 'close'
             }
+            recurlyPushNotificationService(DefaultRecurlyPushNotificationService)
         }
     }
 }
