@@ -11,7 +11,7 @@ buildscript {
     }
 }
 
-version "4.0.2"
+version "4.0.3"
 group "org.grails.plugins"
 
 apply plugin:"eclipse"
@@ -52,7 +52,7 @@ dependencies {
     testCompile "com.agorapulse:gru-grails:0.7.1"
 
     // official Recurly client
-    compile group: 'com.ning.billing', name: 'recurly-java-library', version: '0.24.0'
+    compile group: 'com.ning.billing', name: 'recurly-java-library', version: '0.28.0'
 }
 
 grailsPublish {
