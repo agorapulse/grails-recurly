@@ -45,6 +45,18 @@ class RecurlyWebHookControllerSpec extends Specification implements ControllerUn
             }
     }
 
+    void 'post invalid web hook payload'() {
+        expect:
+            gru.test {
+                post '/recurlyWebHook', {
+                    content 'invalidTypeNotification.xml', 'application/xml'
+                }
+                expect {
+                    status BAD_REQUEST
+                }
+            }
+    }
+
     void 'endpoint can be secured'() {
         given:
             config.grails.plugin.recurly.webhook.user = 'Richard'

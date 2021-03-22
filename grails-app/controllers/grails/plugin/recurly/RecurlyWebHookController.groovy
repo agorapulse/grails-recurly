@@ -56,7 +56,14 @@ class RecurlyWebHookController {
             return false
         }
 
-        recurlyPushNotificationService.dispatchNotification(read(notificationXml, detect(notificationXml).javaType) as Notification)
+        Notification.Type notificationType = detect(notificationXml)
+        if (!notificationType) {
+            response.status = 400
+            render 'Unsupported notification type'
+            return false
+        }
+
+        recurlyPushNotificationService.dispatchNotification(read(notificationXml, notificationType.javaType) as Notification)
 
         response.status = 201
         render 'Data parsed and accepted'
