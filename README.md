@@ -3,6 +3,11 @@ Recurly Grails Plugin
 
 # Introduction
 
+IMPORTANT: Project retirement
+-------------------------------
+
+**This project is retired. As Micronaut become core of the Grails starting at Grails 4, please, use [Micronaut Recurly](https://agorapulse.github.io/micronaut-recurly) instead.**
+
 The **Recurly Plugin** allows you to integrate [Recurly](https://recurly.com) subscription billing in your [Grails](http://grails.org) application.
 
 Recurly offers enterprise-class subscription billing and recurring billing management for thousands of companies worldwide.
